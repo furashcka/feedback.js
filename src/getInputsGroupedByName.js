@@ -9,7 +9,7 @@ module.exports = function( form ) {
     helper.forEach( inputs, function( item ) {
         var name = item.getAttribute( 'name' );
         
-        if( name.trim() == '' ) return;
+        if( name.trim() === '' ) return;
 
         if( !( name in groups ) ) {
             groups[ name ] = [];
