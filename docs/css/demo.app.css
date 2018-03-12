@@ -1,0 +1,23 @@
+*
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.input-grop {
+    margin-bottom: 15px;
+}
+
+.error {
+    margin-bottom: 15px;
+    color: #E74040;
+}
+
+form
+{
+    width: 960px;
+    margin: 20px auto;
+}
