@@ -18,7 +18,7 @@ module.exports = function() {
 
 
 function _detectAjaxFn( self ) {
-    if( self.options.polyfillAjaxIframe === true || window.FormData === undefined ) return 'iframe'
+    if( self.options.polyfillAjaxIframe === true || window.FormData === undefined ) return 'iframe';
 
     return 'XMLHttpRequest_2_0';
 }
