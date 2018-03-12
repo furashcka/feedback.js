@@ -50,7 +50,7 @@ module.exports = function( array ) {
     var i = 0;
 
     helper.forEach( array, function( item ) {
-        obj[ i ] = item;
+        obj[ i++ ] = item;
     });
 
     return obj;
