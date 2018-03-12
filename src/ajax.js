@@ -86,7 +86,7 @@ function _iframe( self ) {
 }
 
 function _createIframe( self ) {
-    var iframeName = 'feedback-iframe-ajax-' + guid();
+    var iframeName = 'feedback-polyfill-ajax-iframe-' + helper.guid();
     var iframe = document.createElement( 'iframe' );
 
     iframe.name = iframeName;
@@ -99,14 +99,4 @@ function _createIframe( self ) {
     document.body.appendChild( iframe );
 
     return iframe;
-}
-
-function guid() {
-    function s4() {
-        return Math.floor( (1 + Math.random()) * 0x10000 )
-            .toString( 16 )
-            .substring( 1 );
-    }
-
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
