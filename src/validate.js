@@ -2,9 +2,9 @@ var helper = require( './helper.js' );
 
 
 
-module.exports = function( ignoreEverySchemaItemsExcept ) {
+module.exports = function( validateOnlySchemaItems ) {
     var self = this;
-    var schema = _resolveSchema( self, self.options.schema, ignoreEverySchemaItemsExcept );
+    var schema = _resolveSchema( self, self.options.schema, validateOnlySchemaItems );
     var firstInvalidInput = null;
 
     self.options.validate.before.call( null );
@@ -39,11 +39,11 @@ module.exports = function( ignoreEverySchemaItemsExcept ) {
     return firstInvalidInput === null;
 };
 
-function _resolveSchema( self, schema, ignoreEverySchemaItemsExcept ) {
-    if( helper.isArray( ignoreEverySchemaItemsExcept ) ) {
+function _resolveSchema( self, schema, validateOnlySchemaItems ) {
+    if( helper.isArray( validateOnlySchemaItems ) ) {
         schema = {};
 
-        helper.forEach( ignoreEverySchemaItemsExcept, function( key ) {
+        helper.forEach( validateOnlySchemaItems, function( key ) {
             schema[ key ] = self.options.schema[ key ];
         });
     }
