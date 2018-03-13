@@ -48,7 +48,7 @@ function _XMLHttpRequest_2_0( self ) {
         }
 
         self.options.ajax.after();
-        _resetForm( self )
+        _resetForm( self );
     };
 
     xhr.open( self.options.ajax.method, self.options.ajax.url );
