@@ -48,6 +48,7 @@ function _XMLHttpRequest_2_0( self ) {
         }
 
         self.options.ajax.after();
+        _resetForm( self )
     };
 
     xhr.open( self.options.ajax.method, self.options.ajax.url );
@@ -79,6 +80,7 @@ function _iframe( self ) {
             });
 
             self.options.ajax.after();
+            _resetForm( self );
         };
     }
 
@@ -99,4 +101,9 @@ function _createIframe( self ) {
     document.body.appendChild( iframe );
 
     return iframe;
+}
+
+function _resetForm( self ) {
+    if( !self.options.resetFormAfterAjax ) return;
+    self.form.reset();
 }
