@@ -5,7 +5,7 @@ var helper = require( './helper.js' );
 
 
 module.exports = function( form, options ) {
-    exceptions.checkIncludeValidatorJs();
+    exceptions.checkDependencies();
     exceptions.firstArgumentMustBeFormElement( form );
 
     var self = this;

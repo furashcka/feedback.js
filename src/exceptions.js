@@ -4,7 +4,7 @@ module.exports = {
             throw 'First argument must be a form element!';
         }
     },
-    checkIncludeValidatorJs: function() {
+    checkDependencies: function() {
         if( !window.validator ) {
             throw 'Please include validator.js. You can download from https://github.com/chriso/validator.js';
         }
