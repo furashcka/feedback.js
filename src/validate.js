@@ -1,7 +1,5 @@
 var helper = require( './helper.js' );
 
-
-
 module.exports = function( validateOnlySchemaItems ) {
     var self = this;
     var schema = _resolveSchema( self, self.options.schema, validateOnlySchemaItems );

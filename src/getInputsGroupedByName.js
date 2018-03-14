@@ -1,7 +1,5 @@
 var helper = require( './helper.js' );
 
-
-
 module.exports = function( form ) {
     var inputs = form.querySelectorAll( 'input, textarea, select' );
     var groups = {};
