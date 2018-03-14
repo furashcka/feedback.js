@@ -23,7 +23,10 @@ function _detectAjaxFn( self ) {
         isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
         return 'iframe';
     }
-    if( cantUseFormData && !hasFileType ) return 'XMLHttpRequest_1_0';
+    if( cantUseFormData ) {
+        hasFileType && logger.showWarningWhenIgnoringInputWithFileType();
+        return 'XMLHttpRequest_1_0';
+    }
 
     return 'XMLHttpRequest_2_0';
 }
