@@ -1,4 +1,4 @@
-var exceptions = require( './exceptions.js' );
+var logger = require( './logger.js' );
 var helper = require( './helper.js' );
 var resetForm = require( './resetForm.js' );
 var ajaxFnList = {
@@ -20,7 +20,7 @@ function _detectAjaxFn( self ) {
     var isAutoUsePolyfill = ( hasFileType && self.options.polyfillAjaxIframe === 'auto' ) && cantUseFormData;
 
     if( self.options.polyfillAjaxIframe === true || isAutoUsePolyfill ) {
-        isAutoUsePolyfill && exceptions.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
+        isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
         return 'iframe';
     }
     if( cantUseFormData && !hasFileType ) return 'XMLHttpRequest_1_0';
