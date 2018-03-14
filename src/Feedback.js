@@ -2,8 +2,6 @@ var exceptions = require( './exceptions.js' );
 var getInputsGroupedByName = require( './getInputsGroupedByName.js' );
 var helper = require( './helper.js' );
 
-
-
 module.exports = function( form, options ) {
     exceptions.checkDependencies();
     exceptions.firstArgumentMustBeFormElement( form );
@@ -11,6 +9,7 @@ module.exports = function( form, options ) {
     var self = this;
 
     self.form = form;
+    self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
     self.options = {
         polyfillAjaxIframe: 'auto',
