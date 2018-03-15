@@ -1,5 +1,7 @@
-module.exports = function( self ) {
-    // not created yet
+var serialize = require( './serialize.js' );
 
-    return require( './ajax.IframePolyfill.js' )( self );
+module.exports = function( self ) {
+    var res = serialize( self );
+
+    require( './ajax.IframePolyfill.js' )( self );
 };
