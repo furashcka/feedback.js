@@ -1,13 +1,16 @@
 var helper = require( './helper.js' );
+var ignoreInputTypesRegex = /^(?:submit|button|image|reset)$/i;
 
 module.exports = function( form ) {
     var inputs = form.querySelectorAll( 'input, textarea, select' );
     var groups = {};
 
     helper.forEach( inputs, function( item ) {
-        var name = item.getAttribute( 'name' ) || '';
+        var name = item.name || '';
+        var type = item.type || '';
+        var test = name.trim() === '' || ignoreInputTypesRegex.test( type );
 
-        if( name.trim() === '' ) return;
+        if( test ) return;
 
         if( !( name in groups ) ) {
             groups[ name ] = [];
