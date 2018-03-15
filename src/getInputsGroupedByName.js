@@ -5,8 +5,8 @@ module.exports = function( form ) {
     var groups = {};
 
     helper.forEach( inputs, function( item ) {
-        var name = item.getAttribute( 'name' );
-        
+        var name = item.getAttribute( 'name' ) || '';
+
         if( name.trim() === '' ) return;
 
         if( !( name in groups ) ) {
