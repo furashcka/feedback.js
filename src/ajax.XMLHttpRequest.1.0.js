@@ -19,13 +19,13 @@ module.exports = function( self ) {
 
         if( xhr.status === 200 ) {
             self.options.ajax.success({
-                type: 'ajax.2_0',
+                type: 'ajax.1_0',
                 xhr: xhr
             });
         }
         else {
             self.options.ajax.error({
-                type: 'ajax.2_0',
+                type: 'ajax.1_0',
                 xhr: xhr
             });
         }
