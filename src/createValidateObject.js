@@ -28,8 +28,6 @@ var prototype = {
     }
 };
 
-
-
 helper.forEach( window.validator, function( api, key ) {
     if( key in ignoreApi ) return;
 
@@ -42,8 +40,6 @@ helper.forEach( window.validator, function( api, key ) {
         return window.validator[ key ].apply( null, args );
     };
 });
-
-
 
 module.exports = function( array ) {
     var obj = Object.create( prototype );
