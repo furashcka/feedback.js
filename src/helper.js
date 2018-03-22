@@ -4,7 +4,8 @@ module.exports = {
     isArray: _isArray,
     isBoolean: _isBoolean,
     isObject: _isObject,
-    guid: _guid
+    guid: _guid,
+    cantUseFormData: _cantUseFormData
 };
 
 function _extend() {
@@ -69,4 +70,8 @@ function _guid() {
     }
 
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+function _cantUseFormData() {
+    return window.FormData === undefined;
 }

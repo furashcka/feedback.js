@@ -1,10 +1,8 @@
 var logger = require( './logger.js' );
 var helper = require( './helper.js' );
-var resetForm = require( './resetForm.js' );
 var ajaxFnList = {
-    XMLHttpRequest_2_0: require( './ajax.XMLHttpRequest.2.0.js' ),
-    XMLHttpRequest_1_0: require( './ajax.XMLHttpRequest.1.0.js' ),
-    iframe: require( './ajax.IframePolyfill.js' )
+    iframe: require( './ajax.IframePolyfill.js' ),
+    XMLHttpRequest: require( './ajax.XMLHttpRequest.js' )
 };
 
 module.exports = function() {
@@ -16,19 +14,17 @@ module.exports = function() {
 
 function _detectAjaxFn( self ) {
     var hasFileType = _formHasInputWithFileType( self );
-    var cantUseFormData = window.FormData === undefined;
-    var isAutoUsePolyfill = ( hasFileType && self.options.polyfillAjaxIframe === 'auto' ) && cantUseFormData;
+    var isAutoUsePolyfill = ( hasFileType && self.options.polyfillAjaxIframe === 'auto' ) && helper.cantUseFormData();
 
     if( self.options.polyfillAjaxIframe === true || isAutoUsePolyfill ) {
         isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
         return 'iframe';
     }
-    if( cantUseFormData ) {
-        hasFileType && logger.showWarningWhenIgnoringInputWithFileType();
-        return 'XMLHttpRequest_1_0';
+    if( helper.cantUseFormData() && hasFileType ) {
+        logger.showWarningWhenIgnoringInputWithFileType();
     }
 
-    return 'XMLHttpRequest_2_0';
+    return 'XMLHttpRequest';
 }
 
 function _formHasInputWithFileType( self ) {
