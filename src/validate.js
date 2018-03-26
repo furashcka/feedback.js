@@ -1,4 +1,4 @@
-var helper = require( './helper.js' );
+var helper = require( 'helper' );
 
 module.exports = function( validateOnlySchemaItems ) {
     var self = this;

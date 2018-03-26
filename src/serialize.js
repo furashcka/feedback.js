@@ -1,4 +1,4 @@
-var helper = require( './helper.js' );
+var helper = require( 'helper' );
 var handlersByType = {
     text: _text,
     hidden: _text,

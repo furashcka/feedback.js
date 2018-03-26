@@ -1,6 +1,6 @@
-var helper = require( './helper.js' );
-var resetForm = require( './resetForm.js' );
-var serialize = require( './serialize.js' );
+var helper = require( 'helper' );
+var resetForm = require( 'resetForm' );
+var serialize = require( 'serialize' );
 
 module.exports = function( self ) {
     var method = self.options.ajax.method.toUpperCase();

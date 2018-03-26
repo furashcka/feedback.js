@@ -1,8 +1,8 @@
-var logger = require( './logger.js' );
-var helper = require( './helper.js' );
+var logger = require( 'logger' );
+var helper = require( 'helper' );
 var ajaxFnList = {
-    iframe: require( './ajax.IframePolyfill.js' ),
-    XMLHttpRequest: require( './ajax.XMLHttpRequest.js' )
+    iframe: require( 'ajax.IframePolyfill' ),
+    XMLHttpRequest: require( 'ajax.XMLHttpRequest' )
 };
 
 module.exports = function() {

@@ -1,5 +1,5 @@
-var helper = require( './helper.js' );
-var resetForm = require( './resetForm.js' );
+var helper = require( 'helper' );
+var resetForm = require( 'resetForm' );
 
 module.exports = function( self ) {
     if( self.iframe === null ) {
