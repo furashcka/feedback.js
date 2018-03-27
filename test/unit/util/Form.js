@@ -41,6 +41,10 @@ module.exports.prototype.log = function() {
     console.log( this.getFormEl() );
 };
 
+module.exports.prototype.clear = function() {
+    this.$form.html( '' );
+};
+
 function _addOption( $parent, attr ) {
     var $el = $( '<option />', attr );
     $parent.append( $el );
