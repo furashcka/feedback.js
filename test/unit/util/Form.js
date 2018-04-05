@@ -45,6 +45,10 @@ module.exports.prototype.clear = function() {
     this.$form.html( '' );
 };
 
+module.exports.prototype.getUrl = function() {
+    return this.$form.attr( 'action' );
+};
+
 function _addOption( $parent, attr ) {
     var $el = $( '<option />', attr );
     $parent.append( $el );
