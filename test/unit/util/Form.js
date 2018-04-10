@@ -9,8 +9,6 @@ module.exports = function() {
             left: -999999
         }
     });
-
-    $( 'body' ).append( this.$form );
 };
 
 module.exports.prototype.addInput = function( attr ) {
@@ -58,6 +56,10 @@ module.exports.prototype.clear = function() {
 
 module.exports.prototype.getUrl = function() {
     return this.$form.attr( 'action' );
+};
+
+module.exports.prototype.addToDocument = function() {
+    $( 'body' ).append( this.$form );
 };
 
 function _addOption( $parent, attr ) {
