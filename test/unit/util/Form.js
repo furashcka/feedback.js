@@ -2,8 +2,15 @@ module.exports = function() {
     this.lastAddedElement = null;
     this.$form = $( '<form />', {
         method: 'post',
-        action: 'https://httpbin.org/post'
+        action: 'https://httpbin.org/post',
+        css: {
+            position: 'fixed',
+            top: -999999,
+            left: -999999
+        }
     });
+
+    $( 'body' ).append( this.$form );
 };
 
 module.exports.prototype.addInput = function( attr ) {
