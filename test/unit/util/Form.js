@@ -37,6 +37,10 @@ module.exports.prototype.getFormEl = function() {
     return this.$form.get( 0 );
 };
 
+module.exports.prototype.getInputEl = function( name ) {
+    return this.$form.find( '[name="' + name + '"]' ).get( 0 );
+};
+
 module.exports.prototype.log = function() {
     console.log( this.getFormEl() );
 };
