@@ -35,6 +35,7 @@ module.exports = function( form, options ) {
     };
     self.options = helper.extend( true, self.options, options || {} );
 
+    _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
     self.update();
 
     if( self.options.fireValidateAndAjaxWhenSubmit === true ) {
@@ -66,6 +67,8 @@ module.exports.prototype.ajax = function( ajax ) {
     }
 
     this.options.ajax = helper.extend( this.options.ajax, ajax || {} );
+
+    _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
 };
 
 module.exports.prototype.update = function() {
@@ -74,3 +77,8 @@ module.exports.prototype.update = function() {
     this.inputsGroupedByName = getInputsGroupedByName( this.form );
     this.inputsGroupedByName = addValidateApi( this.inputsGroupedByName );
 };
+
+function _updateFormAttributes( form, action, method ) {
+    form.setAttribute( 'action', action );
+    form.setAttribute( 'method', method );
+}
