@@ -19,7 +19,7 @@ module.exports = function( form, options ) {
         resetFormAfterAjax: true,
         schema: {},
         ajax: {
-            url: form.getAttribute( 'action' ) || '/',
+            url: form.getAttribute( 'action' ) || location.href,
             method: form.getAttribute( 'method' ) || 'POST',
             before: function() {},
             after: function() {},
