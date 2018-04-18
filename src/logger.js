@@ -18,7 +18,7 @@ module.exports = {
 };
 
 function _warn( text ) {
-    if( typeof console.warn === 'function' ) {
+    if( console.warn ) {
         console.warn( text );
     }
 }
