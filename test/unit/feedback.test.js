@@ -2,9 +2,13 @@ var Form = require( 'util/Form' );
 var Feedback = require( 'Feedback' );
 
 module.exports = function() {
-    var form = new Form();
     var feedback = null;
+    var test = {};
+    var form = new Form();
 
+    form.addToDocument(); // if don't do this we get warning, need for options testing
+
+    _init();
     _reinitFeedback();
 
     it( 'error test: new Feedback() dependencies not included', function() {
@@ -157,11 +161,242 @@ module.exports = function() {
         });
     });
 
-    function _reinitFeedback() {
-        feedback = new Feedback( form.getFormEl() );
+    describe( 'test options', function() {
+        beforeEach(function() { jasmine.Ajax.install() });
+        afterEach(function() { jasmine.Ajax.uninstall() });
+
+        it( 'polyfillAjaxIframe = auto', function() {
+            test.polyfillAjaxIframe({
+                polyfillAjaxIframe: 'auto'
+            });
+        });
+
+        it( 'polyfillAjaxIframe = true', function() {
+            test.polyfillAjaxIframe({
+                polyfillAjaxIframe: true
+            });
+        });
+
+        it( 'polyfillAjaxIframe = false', function() {
+            test.polyfillAjaxIframe({
+                polyfillAjaxIframe: false
+            });
+        });
+
+        it( 'focusIncorrectInput = true', function() {
+            test.focusIncorrectInput({
+                toggle: 'on'
+            });
+        });
+
+        it( 'focusIncorrectInput = false', function() {
+            test.focusIncorrectInput({
+                toggle: 'off'
+            });
+        });
+
+        it( 'fireSchemaByTurn = true', function() {
+            test.fireSchemaByTurn({
+                toggle: 'on'
+            });
+        });
+
+        it( 'fireSchemaByTurn = false', function() {
+            test.fireSchemaByTurn({
+                toggle: 'off'
+            });
+        });
+
+        it( 'fireValidateAndAjaxWhenSubmit = true', function() {
+            test.fireValidateAndAjaxWhenSubmit({
+                toggle: 'on'
+            });
+        });
+
+        it( 'fireValidateAndAjaxWhenSubmit = false', function() {
+            test.fireValidateAndAjaxWhenSubmit({
+                toggle: 'off'
+            });
+        });
+
+        it( 'resetFormAfterAjax = true', function() {
+            test.resetFormAfterAjax({
+                toggle: 'on'
+            });
+        });
+
+        it( 'resetFormAfterAjax = false', function() {
+            test.resetFormAfterAjax({
+                toggle: 'off'
+            });
+        });
+    });
+
+    function _init() {
+        test.polyfillAjaxIframe = function( options, addInputsCallback ) {
+            var url = './fake-url/'; //for prevent error: ...cross-origin frame.
+            var ajaxType = null;
+            var cantUseFormData = window.FormData === undefined;
+            var hasFile = null;
+
+            _addInputs( addInputsCallback );
+            _reinitFeedback( options );
+
+            hasFile = _formHasInputWithFileType( form.getFormEl() );
+
+            feedback.ajax({
+                url: url,
+                method: 'POST',
+                success: function( e ) {
+                    ajaxType = e.type;
+                }
+            });
+            feedback.ajax();
+
+            if( jasmine.Ajax.requests.mostRecent() ) {
+                jasmine.Ajax.requests.mostRecent().respondWith({
+                    'status': 200
+                });
+            }
+            else {
+                feedback.iframe.onload();
+            }
+
+            if( options.polyfillAjaxIframe === 'auto' ) {
+                if( !cantUseFormData ) {
+                    expect( ajaxType ).toBe( 'ajax.2.0' );
+                }
+                else {
+                    if( hasFile ) {
+                        expect( ajaxType ).toBe( 'ajax.iframe' );
+                    }
+                    else {
+                        expect( ajaxType ).toBe( 'ajax.1.0' );
+                    }
+                }
+            }
+            else if( options.polyfillAjaxIframe === true ) {
+                expect( ajaxType ).toBe( 'ajax.iframe' );
+            }
+            else {
+                expect([ 'ajax.1.0', 'ajax.2.0' ]).toContain( ajaxType );
+            }
+        };
+
+        test.focusIncorrectInput = function( options ) {
+            var inputEl = null;
+            var bool = options.toggle === 'on';
+
+            _addInputs();
+            _reinitFeedback({
+                focusIncorrectInput: bool
+            });
+
+            inputEl = form.getInputEl( 'age' );
+            spyOn( inputEl, 'focus' );
+
+            feedback.schema({
+                age: function() { return 'Error'; }
+            });
+            feedback.validate();
+
+            if( bool ) {
+                expect( inputEl.focus ).toHaveBeenCalled();
+            }
+            else {
+                expect( inputEl.focus ).not.toHaveBeenCalled();
+            }
+        };
+
+        test.fireSchemaByTurn = function( options ) {
+            var count = 0;
+            var bool = options.toggle === 'on';
+
+            _addInputs();
+            _reinitFeedback({
+                fireSchemaByTurn: bool
+            });
+
+            feedback.schema({
+                age: function() { return 'Error'; },
+                phone: function() { return 'Error'; }
+            });
+            feedback.validate({
+                error: function() { count++; }
+            });
+            feedback.validate();
+
+            expect( count ).toEqual( bool ? 1 : 2 );
+        };
+
+        test.fireValidateAndAjaxWhenSubmit = function( options ) {
+            var bool = options.toggle === 'on';
+            var callback = {
+                validate: jasmine.createSpy( 'success' ),
+                ajax: jasmine.createSpy( 'success' )
+            };
+
+            _addInputs();
+            _reinitFeedback({
+                fireValidateAndAjaxWhenSubmit: bool
+            });
+
+            feedback.validate({
+                before: function() {
+                    callback.validate();
+                }
+            });
+            feedback.ajax({
+                before: function() {
+                    callback.ajax();
+                }
+            });
+
+            form.getInputEl( 'submit-name' ).click();
+
+            if( bool ) {
+                expect( callback.validate ).toHaveBeenCalled();
+                expect( callback.ajax ).toHaveBeenCalled();
+            }
+            else {
+                expect( callback.validate ).not.toHaveBeenCalled();
+                expect( callback.ajax ).not.toHaveBeenCalled();
+            }
+        };
+
+        test.resetFormAfterAjax = function( options ) {
+            var bool = options.toggle === 'on';
+
+            spyOn( form.getFormEl(), 'reset' );
+
+            _addInputs();
+            _reinitFeedback({
+                resetFormAfterAjax: bool
+            });
+
+            feedback.ajax();
+            jasmine.Ajax.requests.mostRecent().respondWith({
+                'status': 200
+            });
+
+            if( bool ) {
+                expect( form.getFormEl().reset ).toHaveBeenCalled();
+            }
+            else {
+                expect( form.getFormEl().reset ).not.toHaveBeenCalled();
+            }
+        };
     }
 
-    function _addInputs() {
+    function _reinitFeedback( options ) {
+        feedback = new Feedback( form.getFormEl(), options || {} );
+    }
+
+    function _formHasInputWithFileType( form ) {
+        form.querySelectorAll( 'input[type="file"]' ).length > 0;
+    }
+
+    function _addInputs( addInputsCallback ) {
         form.clear();
         form.addInput({
             name: 'age',
@@ -173,5 +408,12 @@ module.exports = function() {
             type: 'tel',
             value: '7777-7777'
         });
+
+        form.addInput({
+            name: 'submit-name',
+            type: 'submit'
+        });
+
+        addInputsCallback && addInputsCallback();
     }
 };
