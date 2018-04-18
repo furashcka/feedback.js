@@ -13,7 +13,7 @@ module.exports = function( self ) {
             self.options.ajax.success({
                 type: 'ajax.iframe',
                 xhr: {
-                    responseText: innerDoc.body.innerHTML
+                    responseText: String( innerDoc.body && innerDoc.body.innerHTML )
                 }
             });
 
