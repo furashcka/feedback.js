@@ -171,6 +171,12 @@ module.exports = function() {
             });
         });
 
+        it( 'polyfillAjaxIframe = auto; wwith input, type attribute equals file', function() {
+            test.polyfillAjaxIframe({
+                polyfillAjaxIframe: 'auto'
+            }, _addAvatarInput );
+        });
+
         it( 'polyfillAjaxIframe = true', function() {
             test.polyfillAjaxIframe({
                 polyfillAjaxIframe: true
@@ -181,6 +187,12 @@ module.exports = function() {
             test.polyfillAjaxIframe({
                 polyfillAjaxIframe: false
             });
+        });
+
+        it( 'polyfillAjaxIframe = false; with input, type attribute equals file', function() {
+            test.polyfillAjaxIframe({
+                polyfillAjaxIframe: false
+            }, _addAvatarInput );
         });
 
         it( 'focusIncorrectInput = true', function() {
@@ -393,7 +405,7 @@ module.exports = function() {
     }
 
     function _formHasInputWithFileType( form ) {
-        form.querySelectorAll( 'input[type="file"]' ).length > 0;
+        return form.querySelectorAll( 'input[type="file"]' ).length > 0;
     }
 
     function _addInputs( addInputsCallback ) {
@@ -415,5 +427,12 @@ module.exports = function() {
         });
 
         addInputsCallback && addInputsCallback();
+    }
+
+    function _addAvatarInput() {
+        form.addInput({
+            name: 'avatar',
+            type: 'file'
+        });
     }
 };
