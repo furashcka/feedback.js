@@ -171,7 +171,7 @@ module.exports = function() {
             });
         });
 
-        it( 'polyfillAjaxIframe = auto; wwith input, type attribute equals file', function() {
+        it( 'polyfillAjaxIframe = auto; with input, type attribute equals file', function() {
             test.polyfillAjaxIframe({
                 polyfillAjaxIframe: 'auto'
             }, _addAvatarInput );
