@@ -35,7 +35,7 @@ module.exports = function( form, options ) {
     };
     self.options = helper.extend( true, self.options, options || {} );
 
-    _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
+    _updateFormAttributes( self.form, self.options.ajax.url, self.options.ajax.method );
     self.update();
 
     if( self.options.fireValidateAndAjaxWhenSubmit === true ) {
