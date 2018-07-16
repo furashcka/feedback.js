@@ -167,7 +167,7 @@ module.exports = function() {
             expect( callback.after ).toHaveBeenCalled();
             expect( callback.success ).toHaveBeenCalled();
             expect( callback.error ).toHaveBeenCalled();
-            expect( jasmine.Ajax.requests.mostRecent().url ).toBe( 'localhost?' );
+            expect( jasmine.Ajax.requests.mostRecent().url ).toBe( 'localhost' );
             expect( jasmine.Ajax.requests.mostRecent().method ).toBe( 'GET' );
         });
     });
