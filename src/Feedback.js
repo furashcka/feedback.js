@@ -20,7 +20,7 @@ module.exports = function( form, options ) {
         ajax: {
             url: form.getAttribute( 'action' ) || location.href,
             method: form.getAttribute( 'method' ) || 'POST',
-            polyfillAjaxIframe: 'auto',
+            iframePolyfill: 'auto',
             before: function() {},
             after: function() {},
             success: function() {},

@@ -176,33 +176,43 @@ module.exports = function() {
         beforeEach(function() { jasmine.Ajax.install() });
         afterEach(function() { jasmine.Ajax.uninstall() });
 
-        it( 'polyfillAjaxIframe = auto', function() {
-            test.polyfillAjaxIframe({
-                polyfillAjaxIframe: 'auto'
+        it( 'iframePolyfill = auto', function() {
+            test.iframePolyfill({
+                ajax: {
+                    iframePolyfill: 'auto'
+                }
             });
         });
 
-        it( 'polyfillAjaxIframe = auto; with input, type attribute equals file', function() {
-            test.polyfillAjaxIframe({
-                polyfillAjaxIframe: 'auto'
+        it( 'iframePolyfill = auto; with input, type attribute equals file', function() {
+            test.iframePolyfill({
+                ajax: {
+                    iframePolyfill: 'auto'
+                }
             }, _addAvatarInput );
         });
 
-        it( 'polyfillAjaxIframe = true', function() {
-            test.polyfillAjaxIframe({
-                polyfillAjaxIframe: true
+        it( 'iframePolyfill = true', function() {
+            test.iframePolyfill({
+                ajax: {
+                    iframePolyfill: true
+                }
             });
         });
 
-        it( 'polyfillAjaxIframe = false', function() {
-            test.polyfillAjaxIframe({
-                polyfillAjaxIframe: false
+        it( 'iframePolyfill = false', function() {
+            test.iframePolyfill({
+                ajax: {
+                    iframePolyfill: false
+                }
             });
         });
 
-        it( 'polyfillAjaxIframe = false; with input, type attribute equals file', function() {
-            test.polyfillAjaxIframe({
-                polyfillAjaxIframe: false
+        it( 'iframePolyfill = false; with input, type attribute equals file', function() {
+            test.iframePolyfill({
+                ajax: {
+                    iframePolyfill: false
+                }
             }, _addAvatarInput );
         });
 
@@ -256,7 +266,7 @@ module.exports = function() {
     });
 
     function _init() {
-        test.polyfillAjaxIframe = function( options, addInputsCallback ) {
+        test.iframePolyfill = function( options, addInputsCallback ) {
             var url = './fake-url/'; //for prevent error: ...cross-origin frame.
             var ajaxType = null;
             var cantUseFormData = window.FormData === undefined;
@@ -285,7 +295,7 @@ module.exports = function() {
                 feedback.iframe.onload();
             }
 
-            if( options.polyfillAjaxIframe === 'auto' ) {
+            if( options.ajax.iframePolyfill === 'auto' ) {
                 if( !cantUseFormData ) {
                     expect( ajaxType ).toBe( 'ajax.2.0' );
                 }
@@ -298,7 +308,7 @@ module.exports = function() {
                     }
                 }
             }
-            else if( options.polyfillAjaxIframe === true ) {
+            else if( options.ajax.iframePolyfill === true ) {
                 expect( ajaxType ).toBe( 'ajax.iframe' );
             }
             else {
