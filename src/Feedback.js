@@ -82,6 +82,10 @@ module.exports.prototype.update = function() {
     this.inputsGroupedByName = addValidateApi( this.inputsGroupedByName );
 };
 
+module.exports.prototype.fireValidateError = function() {
+
+};
+
 module.exports.prototype.resetForm = function() {
     require( 'resetForm' )( this );
 };
@@ -91,6 +95,12 @@ module.exports.prototype.destroy = function( variableNameFromScope ) {
 
     return null;
 };
+
+/*
+    API destroy call example
+    var feedback = new Feedback( form );
+    feedback = feedback.destroy();
+*/
 
 function _updateFormAttributes( form, action, method ) {
     form.setAttribute( 'action', action );
