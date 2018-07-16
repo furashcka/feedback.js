@@ -55,6 +55,8 @@ module.exports = function( form, options ) {
 
 module.exports.prototype.schema = function( schema ) {
     this.options.schema = schema;
+
+    return this;
 };
 
 module.exports.prototype.validate = function( validate ) {
@@ -63,6 +65,8 @@ module.exports.prototype.validate = function( validate ) {
     }
 
     this.options.validate = helper.extend( this.options.validate, validate || {} );
+
+    return this;
 };
 
 module.exports.prototype.ajax = function( ajax ) {
@@ -73,6 +77,8 @@ module.exports.prototype.ajax = function( ajax ) {
     this.options.ajax = helper.extend( this.options.ajax, ajax || {} );
 
     _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
+
+    return this;
 };
 
 module.exports.prototype.update = function() {
@@ -80,14 +86,20 @@ module.exports.prototype.update = function() {
 
     this.inputsGroupedByName = getInputsGroupedByName( this.form );
     this.inputsGroupedByName = addValidateApi( this.inputsGroupedByName );
+
+    return this;
 };
 
 module.exports.prototype.fireValidateError = function( message ) {
     this.options.validate.error.call( null, message );
+
+    return this;
 };
 
 module.exports.prototype.resetForm = function() {
     require( 'resetForm' )( this );
+
+    return this;
 };
 
 module.exports.prototype.destroy = function( variableNameFromScope ) {
