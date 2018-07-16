@@ -11,6 +11,7 @@ module.exports = function( form, options ) {
     self.form = form;
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
+    self.submitFn = null;
     self.options = {
         focusIncorrectInput: true,
         fireSchemaByTurn: true,
@@ -39,13 +40,15 @@ module.exports = function( form, options ) {
     self.update();
 
     if( self.options.fireValidateAndAjaxWhenSubmit === true ) {
-        self.form.addEventListener( 'submit', function( e ) {
+        self.submitFn = function( e ) {
             e.preventDefault();
 
             if( self.validate() === true ) {
                 self.ajax();
             }
-        });
+        };
+
+        self.form.addEventListener( 'submit', self.submitFn );
     }
 };
 
@@ -80,6 +83,12 @@ module.exports.prototype.update = function() {
 
 module.exports.prototype.resetForm = function() {
     require( 'resetForm' )( this );
+};
+
+module.exports.prototype.destroy = function( variableNameFromScope ) {
+    this.form.removeEventListener( 'submit', this.submitFn );
+
+    return null;
 };
 
 function _updateFormAttributes( form, action, method ) {
