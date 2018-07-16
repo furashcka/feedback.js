@@ -30,13 +30,14 @@ module.exports = function() {
         expect( feedback ).toEqual( obj );
     });
 
-    it( 'must have API "ajax, schema, update, validate"', function() {
+    it( 'must have API "ajax, schema, update, validate, resetForm"', function() {
         var fn = jasmine.any( Function );
 
         expect( feedback.ajax ).toEqual( fn );
         expect( feedback.schema ).toEqual( fn );
         expect( feedback.update ).toEqual( fn );
         expect( feedback.validate ).toEqual( fn );
+        expect( feedback.resetForm ).toEqual( fn );
     });
 
     it( 'test API "update"', function() {
@@ -61,6 +62,16 @@ module.exports = function() {
         });
 
         expect( feedback.options.schema.age ).toEqual( fn );
+    });
+
+    it( 'test API "resetForm"', function() {
+        _reinitFeedback();
+        _addInputs();
+
+        form.getInputEl( 'age' ).value = 24;
+        feedback.resetForm();
+
+        expect( form.getInputEl( 'age' ).value ).toBe( '' );
     });
 
     describe( 'test API "validate"', function() {
