@@ -82,8 +82,8 @@ module.exports.prototype.update = function() {
     this.inputsGroupedByName = addValidateApi( this.inputsGroupedByName );
 };
 
-module.exports.prototype.fireValidateError = function() {
-
+module.exports.prototype.fireValidateError = function( message ) {
+    this.options.validate.error.call( null, message );
 };
 
 module.exports.prototype.resetForm = function() {
