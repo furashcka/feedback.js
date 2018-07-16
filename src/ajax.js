@@ -14,9 +14,9 @@ module.exports = function() {
 
 function _detectAjaxFn( self ) {
     var hasFileType = _formHasInputWithFileType( self );
-    var isAutoUsePolyfill = ( hasFileType && self.options.polyfillAjaxIframe === 'auto' ) && helper.cantUseFormData();
+    var isAutoUsePolyfill = ( hasFileType && self.options.ajax.polyfillAjaxIframe === 'auto' ) && helper.cantUseFormData();
 
-    if( self.options.polyfillAjaxIframe === true || isAutoUsePolyfill ) {
+    if( self.options.ajax.polyfillAjaxIframe === true || isAutoUsePolyfill ) {
         isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
         return 'iframe';
     }

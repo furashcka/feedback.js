@@ -12,7 +12,6 @@ module.exports = function( form, options ) {
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
     self.options = {
-        polyfillAjaxIframe: 'auto',
         focusIncorrectInput: true,
         fireSchemaByTurn: true,
         fireValidateAndAjaxWhenSubmit: true,
@@ -21,6 +20,7 @@ module.exports = function( form, options ) {
         ajax: {
             url: form.getAttribute( 'action' ) || location.href,
             method: form.getAttribute( 'method' ) || 'POST',
+            polyfillAjaxIframe: 'auto',
             before: function() {},
             after: function() {},
             success: function() {},
