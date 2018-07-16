@@ -43,7 +43,7 @@ module.exports = function() {
         expect( feedback ).toEqual( obj );
     });
 
-    it( 'must have API "ajax, schema, update, validate, resetForm, destroy"', function() {
+    it( 'must have API "ajax, schema, update, validate, resetForm, fireValidateError, destroy"', function() {
         var fn = jasmine.any( Function );
 
         expect( feedback.ajax ).toEqual( fn );
@@ -51,6 +51,7 @@ module.exports = function() {
         expect( feedback.update ).toEqual( fn );
         expect( feedback.validate ).toEqual( fn );
         expect( feedback.resetForm ).toEqual( fn );
+        expect( feedback.fireValidateError ).toEqual( fn );
         expect( feedback.destroy ).toEqual( fn );
     });
 
@@ -86,6 +87,19 @@ module.exports = function() {
         feedback.resetForm();
 
         expect( form.getInputEl( 'age' ).value ).toBe( '' );
+    });
+
+    it( 'test API "fireValidateError"', function() {
+        var errorFn = jasmine.createSpy( 'success' );
+
+        _reinitFeedback({
+            validate: {
+                error: errorFn
+            }
+        });
+        feedback.fireValidateError( 'error' );
+
+        expect( errorFn ).toHaveBeenCalled();
     });
 
     it( 'test API "destroy"', function() {
