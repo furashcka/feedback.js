@@ -78,6 +78,10 @@ module.exports.prototype.update = function() {
     this.inputsGroupedByName = addValidateApi( this.inputsGroupedByName );
 };
 
+module.exports.prototype.resetForm = function() {
+    require( 'resetForm' )( this );
+};
+
 function _updateFormAttributes( form, action, method ) {
     form.setAttribute( 'action', action );
     form.setAttribute( 'method', method );
