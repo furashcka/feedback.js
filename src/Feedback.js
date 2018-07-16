@@ -5,6 +5,7 @@ var helper = require( 'helper' );
 module.exports = function( form, options ) {
     logger.checkDependencies();
     logger.firstArgumentMustBeFormElement( form );
+    logger.incorrectSubmitButtonName( form );
 
     var self = this;
 

@@ -4,6 +4,13 @@ module.exports = {
             throw 'First argument must be a form element!';
         }
     },
+    incorrectSubmitButtonName: function( el ) {
+        var hasElementWithSubmitName = el.querySelector( '[name="submit"]' );
+
+        if( hasElementWithSubmitName ) {
+            throw 'Element with attribute name = submit not allowed';
+        }
+    },
     checkDependencies: function() {
         if( !window.validator ) {
             throw 'Please include validator.js. You can download from https://github.com/chriso/validator.js';
