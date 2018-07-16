@@ -30,7 +30,7 @@ module.exports = function() {
         expect( feedback ).toEqual( obj );
     });
 
-    it( 'must have API "ajax, schema, update, validate, resetForm"', function() {
+    it( 'must have API "ajax, schema, update, validate, resetForm, destroy"', function() {
         var fn = jasmine.any( Function );
 
         expect( feedback.ajax ).toEqual( fn );
@@ -38,6 +38,7 @@ module.exports = function() {
         expect( feedback.update ).toEqual( fn );
         expect( feedback.validate ).toEqual( fn );
         expect( feedback.resetForm ).toEqual( fn );
+        expect( feedback.destroy ).toEqual( fn );
     });
 
     it( 'test API "update"', function() {
@@ -72,6 +73,15 @@ module.exports = function() {
         feedback.resetForm();
 
         expect( form.getInputEl( 'age' ).value ).toBe( '' );
+    });
+
+    it( 'test API "destroy"', function() {
+        _reinitFeedback();
+        _addInputs();
+
+        feedback = feedback.destroy();
+
+        expect( feedback ).toBe( null );
     });
 
     describe( 'test API "validate"', function() {
@@ -422,6 +432,7 @@ module.exports = function() {
     }
 
     function _reinitFeedback( options ) {
+        feedback = feedback && feedback.destroy();
         feedback = new Feedback( form.getFormEl(), options || {} );
     }
 
