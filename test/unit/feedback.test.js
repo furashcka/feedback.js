@@ -24,6 +24,19 @@ module.exports = function() {
         expect(function() { new Feedback() }).toThrow();
     });
 
+    it( 'error test: new Feedback() element with attribute name = submit not allowed', function() {
+        _reinitFeedback();
+        _addInputs(function() {
+            form.addInput({
+                name: 'submit',
+                type: 'submit'
+            });
+        });
+        _addInputs(); //remove input written above
+
+        expect(function() { new Feedback() }).toThrow();
+    });
+
     it( 'new Feedback() must return object', function() {
         var obj = jasmine.any( Object );
 
