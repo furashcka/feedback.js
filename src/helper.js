@@ -41,10 +41,13 @@ function _extend() {
 }
 
 function _forEach( obj, fn ) {
-    for( var key in obj ) {
-        if( !Object.prototype.hasOwnProperty.call( obj, key ) ) continue;
+    var keys = Object.keys( obj );
+    var len = 'length' in obj ? obj.length : keys.length;
 
-        var res = fn.call( obj[ key ], obj[ key ], key );
+    for( var i = 0; i < len; i++ ) {
+        var key = keys[ i ];
+        var val = obj[ key ];
+        var res = fn.call( val, val, key );
 
         if( res === false ) break;
     }
