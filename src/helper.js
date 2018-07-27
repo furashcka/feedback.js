@@ -11,7 +11,8 @@ module.exports = {
 };
 
 function _addClass( el, className ) {
-    var classNames = el.getAttribute( 'class' ).split( ' ' );
+    var classAttr = el.getAttribute( 'class' ) || '';
+    var classNames = classAttr.split( ' ' );
     var searchIndex = classNames.indexOf( className );
 
     classNames.push( className );
@@ -23,7 +24,8 @@ function _addClass( el, className ) {
 }
 
 function _removeClass( el, className ) {
-    var classNames = el.getAttribute( 'class' ).split( ' ' );
+    var classAttr = el.getAttribute( 'class' ) || '';
+    var classNames = classAttr.split( ' ' );
     var searchIndex = classNames.indexOf( className );
 
     if( searchIndex > -1 ) {
