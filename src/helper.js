@@ -19,7 +19,7 @@ function _addClass( el, className ) {
 
     if( searchIndex === -1 ) {
         classNames = classNames.join( ' ' );
-        el.setAttribute( 'class', classNames );
+        el.setAttribute( 'class', classNames.trim() );
     }
 }
 
@@ -33,7 +33,7 @@ function _removeClass( el, className ) {
 
         classNames = classNames.join( ' ' );
 
-        el.setAttribute( 'class', classNames );
+        el.setAttribute( 'class', classNames.trim() );
     }
 }
 
