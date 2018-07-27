@@ -207,6 +207,22 @@ module.exports = function() {
             expect( jasmine.Ajax.requests.mostRecent().url ).toBe( 'localhost' );
             expect( jasmine.Ajax.requests.mostRecent().method ).toBe( 'GET' );
         });
+
+        it( 'test adding and removing loadingClass', function() {
+            _reinitFeedback();
+            form.clear();
+
+            feedback.update();
+            feedback.ajax();
+
+            expect( form.getFormEl().className.trim() ).toBe( '--loading' );
+
+            jasmine.Ajax.requests.mostRecent().respondWith({
+                'status': 200
+            });
+
+            expect( form.getFormEl().className.trim() ).toBe( '' );
+        });
     });
 
     describe( 'test options', function() {
