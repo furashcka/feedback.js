@@ -24,6 +24,7 @@ module.exports = function( self ) {
         }
     }
 
+    helper.addClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.before();
 
     xhr.onreadystatechange = function() {
@@ -42,6 +43,7 @@ module.exports = function( self ) {
             });
         }
 
+        helper.removeClass( self.form, self.options.ajax.loadingClass );
         self.options.ajax.after();
         resetForm( self );
     };

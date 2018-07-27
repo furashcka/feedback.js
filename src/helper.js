@@ -1,4 +1,6 @@
 module.exports = {
+    addClass: _addClass,
+    removeClass: _removeClass,
     extend: _extend,
     forEach: _forEach,
     isArray: _isArray,
@@ -7,6 +9,31 @@ module.exports = {
     guid: _guid,
     cantUseFormData: _cantUseFormData
 };
+
+function _addClass( el, className ) {
+    var classNames = el.getAttribute( 'class' ).split( ' ' );
+    var searchIndex = classNames.indexOf( className );
+
+    classNames.push( className );
+
+    if( searchIndex === -1 ) {
+        classNames = classNames.join( ' ' );
+        el.setAttribute( 'class', classNames );
+    }
+}
+
+function _removeClass( el, className ) {
+    var classNames = el.getAttribute( 'class' ).split( ' ' );
+    var searchIndex = classNames.indexOf( className );
+
+    if( searchIndex > -1 ) {
+        classNames.splice( searchIndex, 1 );
+
+        classNames = classNames.join( ' ' );
+
+        el.setAttribute( 'class', classNames );
+    }
+}
 
 function _extend() {
     var extended = {};

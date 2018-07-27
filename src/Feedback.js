@@ -20,6 +20,7 @@ module.exports = function( form, options ) {
         resetFormAfterAjax: true,
         schema: {},
         ajax: {
+            loadingClass: '--loading',
             url: form.getAttribute( 'action' ) || location.href,
             method: form.getAttribute( 'method' ) || 'POST',
             iframePolyfill: 'auto',
