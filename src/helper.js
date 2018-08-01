@@ -7,8 +7,15 @@ module.exports = {
     isBoolean: _isBoolean,
     isObject: _isObject,
     guid: _guid,
-    cantUseFormData: _cantUseFormData
+    cantUseFormData: _cantUseFormData,
+    canUseProgressEvent: function() { return canUseProgressEvent },
 };
+
+var canUseProgressEvent = (function() {
+    var xhr = new XMLHttpRequest();
+
+    return 'upload' in xhr && 'onprogress' in xhr.upload;
+})();
 
 function _addClass( el, className ) {
     var classAttr = el.getAttribute( 'class' ) || '';

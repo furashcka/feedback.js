@@ -20,6 +20,7 @@ module.exports = function( self ) {
 
             helper.removeClass( self.form, self.options.ajax.loadingClass );
             self.options.ajax.after();
+            _fakeProgressEventForOldBrowser( self );
             resetForm( self );
         };
     }
@@ -41,4 +42,8 @@ function _createIframe( self ) {
     document.body.appendChild( iframe );
 
     return iframe;
+}
+
+function _fakeProgressEventForOldBrowser( self ) {
+    !helper.canUseProgressEvent() && self.options.ajax.progress.call( self.form, 100 );
 }

@@ -27,7 +27,8 @@ module.exports = function( form, options ) {
             before: function() {},
             after: function() {},
             success: function() {},
-            error: function() {}
+            error: function() {},
+            progress: function() {}
         },
         validate: {
             before: function() {},

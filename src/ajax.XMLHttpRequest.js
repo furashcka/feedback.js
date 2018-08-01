@@ -27,6 +27,8 @@ module.exports = function( self ) {
     helper.addClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.before();
 
+    _onprogress( self, xhr );
+
     xhr.onreadystatechange = function() {
         if( xhr.readyState !== 4 ) return;
 
@@ -45,6 +47,7 @@ module.exports = function( self ) {
 
         helper.removeClass( self.form, self.options.ajax.loadingClass );
         self.options.ajax.after();
+        _fakeProgressEventForOldBrowser( self );
         resetForm( self );
     };
 
@@ -64,4 +67,18 @@ function _makeSerializationURL( self ) {
     }
 
     return self.options.ajax.url + delimiter + data;
+}
+
+function _onprogress( self, xhr ) {
+    if( !helper.canUseProgressEvent() ) return;
+
+    xhr.upload.onprogress = function( e ) {
+        var percent = Math.round( e.loaded / e.total * 100 );
+
+        self.options.ajax.progress.call( self.form, percent );
+    };
+}
+
+function _fakeProgressEventForOldBrowser( self ) {
+    !helper.canUseProgressEvent() && self.options.ajax.progress.call( self.form, 100 );
 }
