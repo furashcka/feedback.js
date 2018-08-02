@@ -223,6 +223,31 @@ module.exports = function() {
 
             expect( form.getFormEl().className.trim() ).toBe( '' );
         });
+
+        it( 'test onprogress event', function() {
+            var success = jasmine.createSpy( 'success' );
+
+            _reinitFeedback();
+            form.clear();
+
+            feedback.update();
+            feedback.ajax({
+                progress: function() {
+                    success();
+                }
+            });
+            feedback.ajax();
+            jasmine.Ajax.requests.mostRecent().respondWith({
+                'status': 200
+            });
+
+            jasmine.Ajax.requests.mostRecent().upload.onprogress({
+                loaded: 100,
+                total: 100
+            });
+
+            expect( success ).toHaveBeenCalled();
+        });
     });
 
     describe( 'test options', function() {
