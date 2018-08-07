@@ -5,7 +5,7 @@ module.exports = function( validateOnlySchemaItems ) {
     var schema = _resolveSchema( self, self.options.schema, validateOnlySchemaItems );
     var firstInvalidInput = null;
 
-    self.options.validate.before.call( null );
+    self.options.validate.before.call( helper.getEmptyObj() );
 
     helper.forEach( schema, function( item, key ) {
         if( !( key in self.inputsGroupedByName ) ) return;
@@ -25,14 +25,14 @@ module.exports = function( validateOnlySchemaItems ) {
         }
     });
 
-    self.options.validate.after.call( null );
+    self.options.validate.after.call( helper.getEmptyObj() );
 
     if( firstInvalidInput !== null && self.options.focusIncorrectInput === true ) {
         firstInvalidInput.focus();
     }
 
     if( firstInvalidInput === null ) {
-        self.options.validate.success.call( null );
+        self.options.validate.success.call( helper.getEmptyObj() );
     }
 
     return firstInvalidInput === null;

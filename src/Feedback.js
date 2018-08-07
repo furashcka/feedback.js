@@ -93,7 +93,7 @@ module.exports.prototype.update = function() {
 };
 
 module.exports.prototype.fireValidateError = function( message, element ) {
-    this.options.validate.error.call( element, message );
+    this.options.validate.error.call( element || helper.getEmptyObj(), message );
 
     return this;
 };
