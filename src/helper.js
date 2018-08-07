@@ -7,6 +7,7 @@ module.exports = {
     isBoolean: _isBoolean,
     isObject: _isObject,
     guid: _guid,
+    getEmptyObj: _getEmptyObj,
     cantUseFormData: _cantUseFormData,
     canUseProgressEvent: function() { return canUseProgressEvent },
 };
@@ -113,4 +114,8 @@ function _guid() {
 
 function _cantUseFormData() {
     return window.FormData === undefined;
+}
+
+function _getEmptyObj() {
+    return Object.create( null );
 }
