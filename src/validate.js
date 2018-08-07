@@ -11,6 +11,7 @@ module.exports = function( validateOnlySchemaItems ) {
         if( !( key in self.inputsGroupedByName ) ) return;
 
         var inputsGroup = self.inputsGroupedByName[ key ];
+        var inputsArr = _inputsGroup2Array( inputsGroup );
         var errorMessage = item.call( inputsGroup );
 
         if( typeof errorMessage !== 'undefined' ) {
@@ -18,7 +19,7 @@ module.exports = function( validateOnlySchemaItems ) {
                 firstInvalidInput = inputsGroup.get();
             }
 
-            self.options.validate.error.call( inputsGroup, errorMessage );
+            self.options.validate.error.call( inputsArr, errorMessage );
 
             return !self.options.fireSchemaByTurn;
         }
@@ -48,3 +49,13 @@ function _resolveSchema( self, schema, validateOnlySchemaItems ) {
 
     return schema;
 };
+
+function _inputsGroup2Array( inputsGroup ) {
+    var arr = [];
+
+    helper.forEach( inputsGroup, function( input ) {
+        arr.push( input );
+    });
+
+    return arr;
+}

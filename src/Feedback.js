@@ -92,8 +92,8 @@ module.exports.prototype.update = function() {
     return this;
 };
 
-module.exports.prototype.fireValidateError = function( message ) {
-    this.options.validate.error.call( null, message );
+module.exports.prototype.fireValidateError = function( message, element ) {
+    this.options.validate.error.call( element, message );
 
     return this;
 };
