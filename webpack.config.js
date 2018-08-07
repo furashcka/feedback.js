@@ -1,9 +1,11 @@
-const path = require('path');
+var path = require( 'path' );
+var webpack = require( 'webpack' );
 
 module.exports = {
     watch: true,
     entry: {
         'dist/Feedback.js': './src/Feedback.js',
+        'dist/Feedback.min.js': './src/Feedback.js',
         'test/dist/unit.js': './test/unit/unit.js',
     },
     output: {
@@ -14,5 +16,11 @@ module.exports = {
     },
     resolve: {
         modules: [ './src', './test/unit' ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            include: /\.min\.js$/,
+            minimize: true
+        })
+    ]
 };
