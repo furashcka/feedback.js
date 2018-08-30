@@ -19,7 +19,7 @@ module.exports = function( validateOnlySchemaItems ) {
                 firstInvalidInput = inputsGroup.get();
             }
 
-            self.options.validate.error.call( inputsArr, errorMessage );
+            self.options.validate.error.call( helper.getEmptyObj(), errorMessage, inputsArr );
 
             return !self.options.fireSchemaByTurn;
         }
