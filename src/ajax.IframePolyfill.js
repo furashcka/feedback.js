@@ -18,6 +18,7 @@ module.exports = function( self ) {
                 }
             });
 
+            self.options.ajax.progress.call( self.form, 100 );
             helper.removeClass( self.form, self.options.ajax.loadingClass );
             self.options.ajax.after();
             _fakeProgressEventForOldBrowser( self );
