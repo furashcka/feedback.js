@@ -248,6 +248,25 @@ module.exports = function() {
 
             expect( success ).toHaveBeenCalled();
         });
+
+        it( 'test onprogress event for iframePolyfill', function() {
+            var success = jasmine.createSpy( 'success' );
+
+            _reinitFeedback();
+            form.clear();
+
+            feedback.update();
+            feedback.ajax({
+                iframePolyfill: true,
+                progress: function() {
+                    success();
+                }
+            });
+            feedback.ajax();
+            feedback.iframe.onload();
+
+            expect( success ).toHaveBeenCalled();
+        });
     });
 
     describe( 'test options', function() {
