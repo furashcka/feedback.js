@@ -1,0 +1,39 @@
+form {
+    position: relative;
+    padding: 15px;
+}
+
+form.form--loading .preloader {
+    display: block;
+}
+
+.error {
+    display: none;
+    color: #F44336;
+}
+
+.preloader {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.7);
+    z-index: 9;
+}
+
+.preloader__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.preloader__white {
+    border-color: #fff;
+}
