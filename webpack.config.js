@@ -4,8 +4,8 @@ var webpack = require( 'webpack' );
 module.exports = {
     watch: true,
     entry: {
-        'dist/Feedback.js': './src/Feedback.js',
-        'dist/Feedback.min.js': './src/Feedback.js',
+        'dist/feedback.js': './src/Feedback.js',
+        'dist/feedback.min.js': './src/Feedback.js',
         'test/dist/unit.js': './test/unit/unit.js',
     },
     output: {
