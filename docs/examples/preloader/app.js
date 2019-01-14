@@ -15,7 +15,7 @@
                 return 'please, select file';
             }
 
-            if( type !== 'png' || type !== 'jpeg' || type !== 'jpg' ) {
+            if( type !== 'png' && type !== 'jpeg' && type !== 'jpg' ) {
                 return 'unsupported file format';
             }
         }
