@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo - BASIC feedback.js</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <form action="//httpbin.org/post" id="msg-form">
+        <div class="error"></div>
+        <div class="input-field">
+            <input type="text" class="validate" name="name" id="first-name">
+            <label for="first-name">First Name</label>
+        </div>
+        <div class="input-field">
+            <input type="text" class="validate" name="email" id="email">
+            <label for="email">Email Address</label>
+        </div>
+        <button class="waves-effect waves-light btn-small">Submit</button>
+    </form>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script src="../../../dist/Feedback.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <title>feedback.js documentation</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav class="grey">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo right">feedback.js</a>
+                    <a href="#" data-target="mobile-menu" class="sidenav-trigger">
+                        <i class="small material-icons menu">menu</i>
+                    </a>
+
+                    <ul class="left hide-on-med-and-down" data-parent-sidenav>
+                        <li>
+                            <a href="#home">Home</a>
+                        </li>
+                        <li>
+                            <a href="#quick-start">Quick start</a>
+                        </li>
+                        <li>
+                            <a href="#options-events">Options & Events</a>
+                        </li>
+                        <li>
+                            <a href="#api">API</a>
+                        </li>
+                        <li>
+                            <a href="#demos">Demos</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/furashcka/feedback.js">GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <ul class="sidenav" id="mobile-menu"></ul>
+
+    <div class="container" id="home">
+        <div class="row">
+            <h2 class="header">About</h2>
+
+            <p>feedback.js it's simple library with beautiful API for validation and sending forms.</p>
+            <h5>Why use feedback.js?</h5>
+
+            <ol>
+                <li>You don't need thinking about browser supporting, supports ie9+</li>
+                <li>You can sending data with files, if browser not supports FormData feedback.js sends form to iframe</li>
+                <li>Very simple API</li>
+                <li>Convenient validation - <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a></li>
+                <li>Your code becomes more understandable and takes up less space</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container" id="quick-start">
+        <div class="row">
+            <h2 class="header">Quick start</h2>
+        </div>
+
+        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-0">HTML</a>
+        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-1">JS</a>
+        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-2">RESULT</a>
+
+        <pre data-content="0-0" data-content-selected><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;feedback.js&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;//httpbin.org/post&quot; method=&quot;POST&quot;&gt;
+        &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;email&quot; name=&quot;email&quot;&gt;&lt;br&gt;
+        &lt;button&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;js/Feedback.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </code></pre>
+
+        <pre data-content="0-1"><code class="language-javascript">
+var el = document.querySelector( 'form' );
+var feedback = new Feedback( el );
+
+feedback.schema({
+    name: function() {
+        if( this.isEmpty() ) {
+            return 'Please, write your name.';
+        }
+    },
+    email: function() {
+        if( !this.isEmail() ) {
+            return 'Email is not correct!';
+        }
+    }
+});
+
+feedback.validate({
+    error: function( input, msg ) {
+        alert( msg );
+    }
+});
+
+feedback.ajax({
+    success: function( e ) {
+        alert( 'form submitted!' );
+    }
+});
+
+/* or */
+
+feedback
+    .schema(/* ... */)
+    .validate(/* ... */)
+    .ajax(/* ... */);
+    </code></pre>
+
+        <iframe src="./examples/0/" height="210" data-content="0-2"></iframe>
+    </div>
+
+    <div class="container" id="options-events">
+        <div class="row">
+            <h2 class="header">Options and Events</h2>
+            <a class="waves-effect waves-light btn-small" href="#options-events">default options</a>
+            <pre><code class="language-javascript">
+var el = document.querySelector( 'form' );
+var opts = {
+    focusIncorrectInput: true,
+    fireSchemaByTurn: true,
+    fireValidateAndAjaxWhenSubmit: true,
+    resetFormAfterAjax: true,
+    schema: {},
+    ajax: {
+        loadingClass: '--loading',
+        url: el.getAttribute( 'action' ) || location.href,
+        method: el.getAttribute( 'method' ) || 'POST',
+        iframePolyfill: 'auto',
+        before: function() {},
+        after: function() {},
+        success: function() {},
+        error: function() {},
+        progress: function() {}
+    },
+    validate: {
+        before: function() {},
+        after: function() {},
+        success: function() {},
+        error: function() {}
+    }
+}
+
+var feedback = new Feedback( el, opts );
+            </code></pre>
+
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h4>focusIncorrectInput</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true:</b> set focus in incorrect input<br>
+                    <b>false:</b> nothing happens
+                    <br><br>
+                    Type: boolean<br>
+                    Default: true
+                </li>
+
+                <li class="collection-header">
+                    <h4>fireSchemaByTurn</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true</b>: if you want to show the first error found and stop validating<br>
+                    <b>false</b>: if you want to show all errors at once
+                    <br><br>
+                    Type: boolean<br>
+                    Default: true
+                </li>
+
+                <li class="collection-header">
+                    <h4>fireValidateAndAjaxWhenSubmit</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true:</b> when form sending, checks all errors and send form by AJAX<br>
+                    <b>false:</b> nothing happens, form send by default
+                    <br><br>
+                    Type: boolean<br>
+                    Default: true
+                </li>
+
+                <li class="collection-header">
+                    <h4>resetFormAfterAjax</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true</b>: calls <b>form.reset();</b> after successful send<br>
+                    <b>false</b>: nothing happens
+
+                    <br><br>
+                    Type: boolean<br>
+                    Default: true
+                </li>
+
+                <li class="collection-header">
+                    <h4>schema</h4>
+                </li>
+                <li class="collection-item">
+                    {key: value} - object with all logics for validations inputs, key it's name attribute <b>&lt;input name="email"&gt;</b> or other form element, value it's function, calls when fires <a href="#api-validate"><b>validate</b></a> API
+                    <pre><code class="language-javascript">
+var feedback = new Feedback( el, {
+    schema: {
+        email: function() {
+            if( !this.isEmail() ) {
+                return 'Email is not correct!';
+            }
+        }
+    }
+});
+
+//is recommended use API:
+var feedback = new Feedback( el );
+feedback.schema({
+    email: function() {
+        if( !this.isEmail() ) {
+            return 'Email is not correct!';
+        }
+    }
+});
+                    </code></pre>
+                    <b>this</b> - it's array with API from <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a> and: <b>get</b> - returns form element by index, if index empty, returns first element. This API list ignored: <b>version</b>, <b>blacklist</b>, <b>escape</b>, <b>unescape</b>, <b>ltrim</b>, <b>normalizeEmail</b>, <b>rtrim</b>, <b>stripLow</b>, <b>toBoolean</b>, <b>toDate</b>, <b>toFloat</b>, <b>toInt</b>, <b>trim</b>, <b>whitelist</b>, you can use it without <strong>feedback.js: <b>console.log( validator.version );</b></strong><br><br>
+                    Type: Object<br>
+                    Default: empty object
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax</h4>
+                </li>
+                <li class="collection-item">
+                    object for setting AJAX options:
+                    <pre><code class="language-javascript">
+var feedback = new Feedback( el, {
+    ajax: {
+        url: '//httpbin.org/post',
+        method: 'post'
+    }
+});
+
+//is recommended use API:
+var feedback = new Feedback( el );
+feedback.ajax({
+    url: '//httpbin.org/post',
+    method: 'post'
+});
+                    </code></pre>
+                    <br><br>
+                    Type: object<br>
+                    Default: object
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.loadingClass</h4>
+                </li>
+                <li class="collection-item">
+                    adds class to form element when sends data
+                    <br><br>
+                    Type: string<br>
+                    Default: --loading
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.url</h4>
+                </li>
+                <li class="collection-item">
+                    URL address to which the request is sent
+                    <br><br>
+                    Type: string<br>
+                    Default: <b>action</b> attribute from form element or location.href (if empty <b>action</b> attribute)
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.method</h4>
+                </li>
+                <li class="collection-item">
+                    
+                    <br><br>
+                    Type: string<br>
+                    Default: <b>method</b> attribute from form element or 'POST' (if empty <b>method</b> attribute)
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.iframePolyfill</h4>
+                </li>
+                <li class="collection-item">
+                    <b>auto</b>: 1) browser supports XMLHttpRequest v2.0, feedback.js sends files and strings together, 2) browser supports only XMLHttpRequest v1.0, feedback.js sends only strings, XMLHttpRequest v1.0 will be uses if form element don't have any inputs with type=file 3) need send files and strings together, but browser don't support XMLHttpRequest v2.0, feedback.js sends to iframe and show warning to console<br>
+                    <b>true</b>: feedback.js sends strings and files always to iframe<br>
+                    <b>false</b>: uses XMLHttpRequest v2.0 or XMLHttpRequest v1.0, if browser not support XMLHttpRequest v2.0 and form element have any inputs with type=file, feedback.js sends only strings and show warning to console
+                    <br><br>
+                    Type: string or boolean<br>
+                    Default: auto
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.before</h4>
+                </li>
+                <li class="collection-item">
+                    calls before sending by AJAX
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.after</h4>
+                </li>
+                <li class="collection-item">
+                    calls after sending by AJAX
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+                
+                <li class="collection-header">
+                    <h4>ajax.success</h4>
+                </li>
+                <li class="collection-item">
+                    calls if the request succeeds, arguments: <b>ajax.type</b> (String) - 'ajax.2.0 or ajax.1.0 or iframe'; <b>xhr</b> (XMLHttpRequest object)
+                    <pre><code class="language-javascript">
+feedback.ajax({
+    success: function( type, xhr ) {
+        switch( type ) {
+            case 'ajax.1.0':
+                console.log( '1.0', xhr );
+                break;
+            case 'ajax.2.0':
+                console.log( '2.0', xhr );
+                break;
+            case 'iframe':
+                console.log( 'iframe', xhr );
+                break;
+        }
+    }
+});
+                    </code></pre>
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.error</h4>
+                </li>
+                <li class="collection-item">
+                    calls if the request fails, arguments: <b>ajax.type</b> (String) - 'ajax.2.0 or ajax.1.0'; <b>xhr</b> (XMLHttpRequest object), not calls if uses iframe
+<pre><code class="language-javascript">
+feedback.ajax({
+    error: function( type, xhr ) {
+        switch( type ) {
+            case 'ajax.1.0':
+                console.log( '1.0', xhr );
+                break;
+            case 'ajax.2.0':
+                console.log( '2.0', xhr );
+                break;
+        }
+    }
+});
+                    </code></pre>
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.progress</h4>
+                </li>
+                <li class="collection-item">
+                    calls periodically with information when an <b>XMLHttpRequest</b> before success completely, <b>this</b> in function it's form element, arguments: <b>percent</b> (Number)
+                    <pre><code class="language-javascript">
+feedback.ajax({
+    progress: function( percent ) {
+        console.log( 'progress - ' + percent + '%' );
+    }
+});
+                    </code></pre>
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header" id="api-validate">
+                    <h4>validate</h4>
+                </li>
+                <li class="collection-item">
+                    object with validation events:
+                                        <pre><code class="language-javascript">
+var feedback = new Feedback( el, {
+    validate: {
+        error: function( err, inputsArray ) {}
+    }
+});
+
+//is recommended use API:
+var feedback = new Feedback( el );
+feedback.validate({
+    error: function( err, inputsArray ) {}
+});
+                    </code></pre>
+                    <br><br>
+                    Type: object<br>
+                    Default: object
+                </li>
+
+                <li class="collection-header">
+                    <h4>validate.before</h4>
+                </li>
+                <li class="collection-item">
+                    calls before validating
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header">
+                    <h4>validate.after</h4>
+                </li>
+                <li class="collection-item">
+                    calls after validating
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header">
+                    <h4>validate.success</h4>
+                </li>
+                <li class="collection-item">
+                    calls, if validation successful
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+
+                <li class="collection-header" id="validate-error">
+                    <h4>validate.error</h4>
+                </li>
+                <li class="collection-item">
+                    calls, if validation has errors, arguments: <b>errorMessage</b> (String); <b>inputsArr</b> (Array) - inputs grouped by name
+                    <pre><code class="language-javascript">
+feedback.validate({
+    error: function( errorMessage, inputsArr ) {
+        var err = '&lt;p&gt;' + errorMessage + '&lt;/p&gt;';
+        var el = inputsArr[ 0 ];
+
+        el.insertAdjacentHTML( 'beforebegin', err );
+        //or with jQuery
+        $( el ).before( err );
+    }
+});
+                    </code></pre>
+                    <br><br>
+                    Type: function<br>
+                    Default: empty function
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container" id="api">
+        <div class="row">
+            <h2 class="header">API</h2>
+            <pre><code class="language-javascript">
+//you can do:
+feedback
+    .schema( /* ... */ )
+    .validate( /* ... */ )
+    .ajax( /* ... */ )
+    /* ... other API */;
+
+//or
+
+feedback.schema( /* ... */ );
+feedback.validate( /* ... */ );
+feedback.ajax( /* ... */ );
+            </code></pre>
+
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h4>schema</h4>
+                </li>
+                <li class="collection-item">
+                    function for updating <a href="#options-events">options.schema</a>
+
+                    <pre><code class="language-javascript">
+feedback.schema({ /* ... */ });
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax</h4>
+                </li>
+                <li class="collection-item">
+                    function for updating <a href="#options-events">options.ajax</a> and <br>
+                    updating:
+                    <pre><code class="language-javascript">
+feedback.ajax({ /* ... */ });
+                    </code></pre>
+                    sending:
+                    <pre><code class="language-javascript">
+feedback.ajax();
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>validate</h4>
+                </li>
+                <li class="collection-item">
+                    function for updating <a href="#options-events">options.validate</a> and validating; returns boolean<br>
+                    updating:
+                    <pre><code class="language-javascript">
+feedback.validate({ /* ... */ });
+                    </code></pre>
+                    validating:
+                    <pre><code class="language-javascript">
+if( feedback.validate() === true ) { /* ... */ }
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>update</h4>
+                </li>
+                <li class="collection-item">
+                    if your form is dynamical you need call <b>update</b> when your form changed
+                    <pre><code class="language-javascript">
+feedback.update();
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>fireValidateError</h4>
+                </li>
+                <li class="collection-item">
+                    call <a href="#validate-error">validate.error</a> event
+                    <pre><code class="language-javascript">
+var el = form.querySelector( 'input[name="email"]' );
+feedback.fireValidateError( 'Error: wrong email!', [el] );
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>resetForm</h4>
+                </li>
+                <li class="collection-item">
+                    reset form by default
+                    <pre><code class="language-javascript">
+feedback.resetForm();
+                    </code></pre>
+                </li>
+
+                <li class="collection-header">
+                    <h4>destroy</h4>
+                </li>
+                <li class="collection-item">
+                    remove all events and return null for clearing variable
+                    <pre><code class="language-javascript">
+feedback = feedback.destroy();
+console.log( feedback ); //null
+                    </code></pre>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container" id="demos">
+        <div class="row">
+            <h2 class="header">Examples</h2>
+
+            <a href="#" class="waves-effect waves-light btn-small" data-example="0">BASIC</a>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-javascript.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-json.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-css.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
+    <script src="../dist/Feedback.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
