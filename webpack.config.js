@@ -21,6 +21,10 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
             minimize: true
-        })
+        }),
+        new webpack.BannerPlugin([
+            'license: MIT',
+            'https://furashcka.github.io/feedback.js/docs/'
+        ].join( '\n' ))
     ]
 };
