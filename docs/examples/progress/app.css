@@ -1,0 +1,19 @@
+form {
+    position: relative;
+    padding: 15px;
+}
+
+.error {
+    display: none;
+    color: #F44336;
+}
+
+.progress {
+    display: none;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding-bottom: 15px;
+}

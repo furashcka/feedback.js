@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo - PROGRESS feedback.js</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <h5 class="loading">Loading... response from httpbin.org</h5>
+
+    <form action="//httpbin.org/post" id="msg-form">
+        <div class="progress">
+            <div class="determinate"></div>
+        </div>
+
+        <div class="error"></div>
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" name="first">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="first file">
+            </div>
+        </div>
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" name="second">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="second file">
+            </div>
+        </div>
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" name="third">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="third file">
+            </div>
+        </div>
+
+        <button class="waves-effect waves-light btn-small">Submit</button>
+    </form>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script src="../../../dist/feedback.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
