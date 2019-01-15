@@ -71,10 +71,12 @@
         </div>
 
         <div class="demonstration-block">
-            <button class="waves-effect waves-light btn-small" data-src="examples/base/index.html">HTML</button>
-            <button class="waves-effect waves-light btn-small" data-src="examples/base/app.css">CSS</button>
-            <button class="waves-effect waves-light btn-small" data-src="examples/base/app.js">JS</button>
-            <button class="waves-effect waves-light btn-small">RESULT</button>
+            <div class="demonstration-block__btns">
+                <button class="waves-effect waves-light btn-small" data-src="examples/base/index.html">HTML</button>
+                <button class="waves-effect waves-light btn-small" data-src="examples/base/app.css">CSS</button>
+                <button class="waves-effect waves-light btn-small" data-src="examples/base/app.js">JS</button>
+                <button class="waves-effect waves-light btn-small">RESULT</button>
+            </div>
 
             <div class="progress demonstration-block__preloader">
                 <div class="indeterminate"></div>
@@ -539,19 +541,23 @@ console.log( feedback ); //null
     <div class="container" id="demos">
         <div class="row">
             <h2 class="header">Examples</h2>
-
-            <button class="waves-effect waves-light btn-small" data-example="base">BASIC</button>
-            <button class="waves-effect waves-light btn-small" data-example="preloader">PRELOADER</button>
-            <button class="waves-effect waves-light btn-small" data-example="progress">PROGRESS</button>
+            
+            <div class="btn-examples">
+                <button class="waves-effect waves-light btn-small" data-example="base">BASIC</button>
+                <button class="waves-effect waves-light btn-small" data-example="preloader">PRELOADER</button>
+                <button class="waves-effect waves-light btn-small" data-example="progress">PROGRESS</button>
+            </div>
         </div>
     </div>
 
     <template id="demonstration-block-template">
         <div class="demonstration-block">
-            <button class="waves-effect waves-light btn-small" data-src="{{src}}/index.html">HTML</button>
-            <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.css">CSS</button>
-            <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.js">JS</button>
-            <button class="waves-effect waves-light btn-small">RESULT</button>
+            <div class="demonstration-block__btns">
+                <button class="waves-effect waves-light btn-small" data-src="{{src}}/index.html">HTML</button>
+                <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.css">CSS</button>
+                <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.js">JS</button>
+                <button class="waves-effect waves-light btn-small">RESULT</button>
+            </div>
 
             <div class="progress demonstration-block__preloader">
                 <div class="indeterminate"></div>

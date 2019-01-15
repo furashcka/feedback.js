@@ -11,6 +11,9 @@ $(function() {
 
     $el.sidenav.html( $el.dataParentSidenav.html() );
     $el.sidenav.sidenav();
+    $el.sidenav.find( 'a' ).on( 'click', function() {
+        $el.sidenav.sidenav( 'close' );
+    });
     $el.smothScrollContent.scrollSpy({
         scrollOffset: 80
     });

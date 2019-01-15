@@ -47,7 +47,6 @@ iframe {
 }
 
 
-.demonstration-block {}
 
 .demonstration-block__preloader {
     display: none;
@@ -60,4 +59,30 @@ iframe {
 .demonstration-block__iframe iframe {
     margin-left: -15px;
     width: calc( 100% + 30px );
+}
+
+
+
+.btn-examples,
+.demonstration-block__btns {
+    font-size: 0;
+}
+
+.btn-examples button,
+.demonstration-block__btns button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 1000px) {
+    .fancybox-content .demonstration-block {
+        width: calc( 100vw - 60px );
+    }
+}
+
+@media (max-width: 600px) {
+    .collection-header h4 {
+        font-size: 16px;
+        font-weight: bold;
+    }
 }
