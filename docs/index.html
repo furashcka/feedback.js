@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
         <nav class="grey">
             <div class="container">
                 <div class="nav-wrapper">
-                    <a href="#!" class="brand-logo right">feedback.js</a>
+                    <a href="https://github.com/furashcka/feedback.js" class="brand-logo right">feedback.js</a>
                     <a href="#" data-target="mobile-menu" class="sidenav-trigger">
                         <i class="small material-icons menu">menu</i>
                     </a>
@@ -69,69 +70,21 @@
             <h2 class="header">Quick start</h2>
         </div>
 
-        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-0">HTML</a>
-        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-1">JS</a>
-        <a href="#" class="waves-effect waves-light btn-small" data-trigger-content="0-2">RESULT</a>
+        <div class="demonstration-block">
+            <button class="waves-effect waves-light btn-small" data-src="examples/base/index.html">HTML</button>
+            <button class="waves-effect waves-light btn-small" data-src="examples/base/app.css">CSS</button>
+            <button class="waves-effect waves-light btn-small" data-src="examples/base/app.js">JS</button>
+            <button class="waves-effect waves-light btn-small">RESULT</button>
 
-        <pre data-content="0-0" data-content-selected><code class="language-markup">
-&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;feedback.js&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;form action=&quot;//httpbin.org/post&quot; method=&quot;POST&quot;&gt;
-        &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt;
-        &lt;input type=&quot;email&quot; name=&quot;email&quot;&gt;&lt;br&gt;
-        &lt;button&gt;Submit&lt;/button&gt;
-    &lt;/form&gt;
-
-    &lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;js/Feedback.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-        </code></pre>
-
-        <pre data-content="0-1"><code class="language-javascript">
-var el = document.querySelector( 'form' );
-var feedback = new Feedback( el );
-
-feedback.schema({
-    name: function() {
-        if( this.isEmpty() ) {
-            return 'Please, write your name.';
-        }
-    },
-    email: function() {
-        if( !this.isEmail() ) {
-            return 'Email is not correct!';
-        }
-    }
-});
-
-feedback.validate({
-    error: function( input, msg ) {
-        alert( msg );
-    }
-});
-
-feedback.ajax({
-    success: function( e ) {
-        alert( 'form submitted!' );
-    }
-});
-
-/* or */
-
-feedback
-    .schema(/* ... */)
-    .validate(/* ... */)
-    .ajax(/* ... */);
-    </code></pre>
-
-        <iframe src="./examples/0/" height="210" data-content="0-2"></iframe>
+            <div class="progress demonstration-block__preloader">
+                <div class="indeterminate"></div>
+            </div>
+            
+            <div class="demonstration-block__code"></div>
+            <div class="demonstration-block__iframe">
+                <iframe src="examples/base/" frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
 
     <div class="container" id="options-events">
@@ -218,7 +171,7 @@ var feedback = new Feedback( el, opts );
                     <h4>schema</h4>
                 </li>
                 <li class="collection-item">
-                    {key: value} - object with all logics for validations inputs, key it's name attribute <b>&lt;input name="email"&gt;</b> or other form element, value it's function, calls when fires <a href="#api-validate"><b>validate</b></a> API
+                    {key: value} - object with all logics for validations inputs, key it's name attribute <b>&lt;input name="email"&gt;</b> or other form element, value it's function, calls when fires <b><a href="#api-validate">validate</a></b> API
                     <pre><code class="language-javascript">
 var feedback = new Feedback( el, {
     schema: {
@@ -587,10 +540,28 @@ console.log( feedback ); //null
         <div class="row">
             <h2 class="header">Examples</h2>
 
-            <a href="#" class="waves-effect waves-light btn-small" data-example="0">BASIC</a>
-            <a href="#" class="waves-effect waves-light btn-small" data-example="preloader">PRELOADER</a>
+            <button class="waves-effect waves-light btn-small" data-example="base">BASIC</button>
+            <button class="waves-effect waves-light btn-small" data-example="preloader">PRELOADER</button>
         </div>
     </div>
+
+    <template id="demonstration-block-template">
+        <div class="demonstration-block">
+            <button class="waves-effect waves-light btn-small" data-src="{{src}}/index.html">HTML</button>
+            <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.css">CSS</button>
+            <button class="waves-effect waves-light btn-small" data-src="{{src}}/app.js">JS</button>
+            <button class="waves-effect waves-light btn-small">RESULT</button>
+
+            <div class="progress demonstration-block__preloader">
+                <div class="indeterminate"></div>
+            </div>
+            
+            <div class="demonstration-block__code"></div>
+            <div class="demonstration-block__iframe">
+                <iframe src="{{src}}" frameborder="0"></iframe>
+            </div>
+        </div>
+    </template>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
@@ -600,6 +571,7 @@ console.log( feedback ); //null
     <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-json.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-css.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js"></script>
     <script src="../dist/feedback.js"></script>
     <script src="js/app.js"></script>
 </body>

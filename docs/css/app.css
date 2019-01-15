@@ -1,3 +1,7 @@
+template {
+    display: none;
+}
+
 pre[class*=language-] {
     border-radius: 2px;
     padding-top: 0;
@@ -16,20 +20,14 @@ iframe {
     max-height: calc( 100vh - 130px );
 }
 
-.modal-content pre[class*=language-] {
-    display: inline-block;
-    margin-right: 15px;
-    max-height: 100000%;
-    min-width: 100%;
+
+
+.fancybox-content {
+    padding: 15px;
 }
 
-.modal-content iframe {
-    margin-left: -15px;
-    width: calc(100% + 30px);
-}
-
-.modal-content .btn-close {
-    display: none;
+.fancybox-content .demonstration-block {
+    width: 960px;
 }
 
 
@@ -49,11 +47,17 @@ iframe {
 }
 
 
+.demonstration-block {}
 
-[data-content] {
+.demonstration-block__preloader {
     display: none;
 }
 
-[data-content-selected] {
-    display: block;
+.demonstration-block__iframe {
+    overflow: hidden;
+}
+
+.demonstration-block__iframe iframe {
+    margin-left: -15px;
+    width: calc( 100% + 30px );
 }
