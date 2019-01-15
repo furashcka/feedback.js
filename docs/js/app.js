@@ -3,6 +3,7 @@ $(function() {
     var $el = {
         body: $( 'body' ),
         sidenav: $( '.sidenav' ),
+        smothScrollContent: $( '[id]' ),
         dataParentSidenav: $( '[data-parent-sidenav]' ),
         switchContent: $( '[data-content]' ),
         triggerContent: $( '[data-trigger-content]' ),
@@ -124,6 +125,10 @@ $(function() {
                 Prism.highlightElement( app.modal.getEl().find( 'code' ).get( 0 ) );
             }
         });
+    });
+
+    $el.smothScrollContent.scrollSpy({
+        scrollOffset: 80
     });
 });
 
