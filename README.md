@@ -1,0 +1,1 @@
+documantations and demos [here](https://furashcka.github.io/feedback.js/docs/)
