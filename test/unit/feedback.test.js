@@ -174,7 +174,7 @@ module.exports = function() {
 
             feedback.update();
             feedback.ajax({
-                url: 'localhost',
+                url: location.href,
                 method: 'GET',
                 before: function() {
                     callback.before();
@@ -204,7 +204,7 @@ module.exports = function() {
             expect( callback.after ).toHaveBeenCalled();
             expect( callback.success ).toHaveBeenCalled();
             expect( callback.error ).toHaveBeenCalled();
-            expect( jasmine.Ajax.requests.mostRecent().url ).toBe( 'localhost' );
+            expect( jasmine.Ajax.requests.mostRecent().url ).toBe( location.href );
             expect( jasmine.Ajax.requests.mostRecent().method ).toBe( 'GET' );
         });
 
