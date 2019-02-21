@@ -68,6 +68,7 @@ $(function() {
             src: '<div>' + opts.html + '</div>',
             type: 'html',
             smallBtn: false,
+            autoFocus: false,
             touch: {
                 vertical: false,
                 momentum: false
