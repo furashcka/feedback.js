@@ -87,6 +87,7 @@ $(function() {
             code: $elBlock.find( '.demonstration-block__code' ),
             iframe: $elBlock.find( '.demonstration-block__iframe iframe' )
         };
+        var iframeSrc = $el.iframe.data( 'src' );
 
         $el.iframe.on( 'load', function() {
             var $body = $el.iframe.contents().find( 'body' );
@@ -102,6 +103,8 @@ $(function() {
                 }
             }, 200 );
         });
+
+        $el.iframe.attr( 'src', iframeSrc );
 
         $el.btn.on( 'click', function() {
             var text = this.innerText.toLowerCase();
