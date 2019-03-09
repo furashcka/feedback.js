@@ -25,8 +25,6 @@ module.exports = function( validateOnlySchemaItems ) {
         }
     });
 
-    self.options.validate.after.call( helper.getEmptyObj() );
-
     if( firstInvalidInput !== null && self.options.focusIncorrectInput === true ) {
         firstInvalidInput.focus();
     }
@@ -34,6 +32,8 @@ module.exports = function( validateOnlySchemaItems ) {
     if( firstInvalidInput === null ) {
         self.options.validate.success.call( helper.getEmptyObj() );
     }
+
+    self.options.validate.after.call( helper.getEmptyObj() );
 
     return firstInvalidInput === null;
 };
