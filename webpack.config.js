@@ -19,6 +19,12 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
+            include: /\.js$/,
+            beautify: true,
+            mangle : false,
+            compress : false
+        }),
+        new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
             minimize: true
         }),
