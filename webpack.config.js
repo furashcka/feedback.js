@@ -3,6 +3,7 @@ var webpack = require( 'webpack' );
 
 module.exports = {
     watch: true,
+    devtool: 'source-map',
     entry: {
         'dist/feedback.js': './src/Feedback.js',
         'dist/feedback.min.js': './src/Feedback.js',
@@ -25,7 +26,8 @@ module.exports = {
             include: /\.js$/,
             beautify: true,
             mangle : false,
-            compress : false
+            compress : false,
+            sourceMap: true
         }),
         new webpack.optimize.UglifyJsPlugin({
             include: /\.min\.js$/,
