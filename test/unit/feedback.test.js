@@ -11,15 +11,6 @@ module.exports = function() {
     _init();
     _reinitFeedback();
 
-    it( 'error test: new Feedback() dependencies not included', function() {
-        var validator = window.validator;
-        delete window.validator;
-
-        expect(function() { new Feedback() }).toThrow();
-
-        window.validator = validator;
-    });
-
     it( 'error test: new Feedback() first argument must be a form element', function() {
         expect(function() { new Feedback() }).toThrow();
     });
@@ -362,6 +353,235 @@ module.exports = function() {
         });
     });
 
+    describe( 'validation functions', function() {
+        var res = null;
+
+        it( 'get', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'login',
+                    value: 'furashcka'
+                },
+                fn: function() {
+                    res = this.get().value;
+                },
+                expect: function() {
+                    expect( res ).toBe( 'furashcka' );
+                }
+            });
+        });
+
+        it( 'contains', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'about',
+                    value: 'i am web developer'
+                },
+                fn: function() {
+                    res = this.contains( 'web' );
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'equals', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'password',
+                    value: '1q2w3e4r5t'
+                },
+                fn: function() {
+                    res = this.equals( '1q2w3e4r5t' );
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isAlpha', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'user',
+                    value: 'jony'
+                },
+                fn: function() {
+                    res = this.isAlpha( 'en-US' );
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isAlphanumeric', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'user',
+                    value: 'jony123'
+                },
+                fn: function() {
+                    res = this.isAlphanumeric( 'en-US' );
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isCreditCard', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'card',
+                    value: '4111 1111 1111 1111'
+                },
+                fn: function() {
+                    res = this.isCreditCard();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isEmail', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'email',
+                    value: 'furashcka@gmail.com'
+                },
+                fn: function() {
+                    res = this.isEmail();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isEmpty', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'email',
+                    value: ' '
+                },
+                fn: function() {
+                    res = this.isEmpty();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isFloat', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'price',
+                    value: '5.99'
+                },
+                fn: function() {
+                    res = this.isFloat();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isIn', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'sex',
+                    value: 'male'
+                },
+                fn: function() {
+                    res = this.isIn([ 'male', 'female' ]);
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isInt', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'age',
+                    value: '26'
+                },
+                fn: function() {
+                    res = this.isInt();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isMobilePhone', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'tel',
+                    value: '+77777777777'
+                },
+                fn: function() {
+                    res = this.isMobilePhone();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isNumeric', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'numbers',
+                    value: '77777777777'
+                },
+                fn: function() {
+                    res = this.isNumeric();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'isURL', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'blog',
+                    value: 'https://f-cka.com/'
+                },
+                fn: function() {
+                    res = this.isURL();
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+
+        it( 'matches', function() {
+            test.validationFunctions({
+                input: {
+                    name: 'name',
+                    value: 'Evgeny Krylov'
+                },
+                fn: function() {
+                    res = this.matches( /[A-Za-z]/g );
+                },
+                expect: function() {
+                    expect( res ).toBe( true );
+                }
+            });
+        });
+    });
+
     function _init() {
         test.iframePolyfill = function( options, addInputsCallback ) {
             var url = './fake-url/'; //for prevent error: ...cross-origin frame.
@@ -516,6 +736,26 @@ module.exports = function() {
                 expect( form.getFormEl().reset ).not.toHaveBeenCalled();
             }
         };
+
+        test.validationFunctions = function( options ) {
+            var schema = {};
+            schema[ options.input.name ] = options.fn;
+
+            _reinitFeedback();
+
+            form.clear();
+            form.addInput({
+                name: options.input.name,
+                type: 'text',
+                value: options.input.value
+            });
+
+            feedback.schema( schema );
+            feedback.update();
+            feedback.validate();
+
+            options.expect();
+        }
     }
 
     function _reinitFeedback( options ) {
