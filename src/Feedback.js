@@ -3,7 +3,6 @@ var getInputsGroupedByName = require( 'getInputsGroupedByName' );
 var helper = require( 'helper' );
 
 module.exports = function( form, options ) {
-    logger.checkDependencies();
     logger.firstArgumentMustBeFormElement( form );
     logger.incorrectSubmitButtonName( form );
 

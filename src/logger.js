@@ -11,11 +11,6 @@ module.exports = {
             throw 'Element with attribute name = submit not allowed';
         }
     },
-    checkDependencies: function() {
-        if( !window.validator ) {
-            throw 'Please include validator.js. You can download from https://github.com/chriso/validator.js';
-        }
-    },
     showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill: function() {
         _warn('You can\'t use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.');
     },

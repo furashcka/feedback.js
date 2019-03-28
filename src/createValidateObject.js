@@ -1,45 +1,55 @@
 var helper = require( 'helper' );
-var ignoreApi = {
-    version: '',
-    blacklist: '',
-    escape: '',
-    unescape: '',
-    ltrim: '',
-    normalizeEmail: '',
-    rtrim: '',
-    stripLow: '',
-    toBoolean: '',
-    toDate: '',
-    toFloat: '',
-    toInt: '',
-    trim: '',
-    whitelist: '',
-    isEmpty: ''
-};
 var prototype = {
     get: function( index ) {
         if( index === -1 ) return this[ this.length - 1 ];
 
         return this[ index || 0 ];
     },
+    contains: function( seed ) {
+        return require( 'node_modules/validator/lib/contains' )( this.get().value, seed );
+    },
+    equals: function( comparison ) {
+        return require( 'node_modules/validator/lib/equals' )( this.get().value, comparison );
+    },
+    isAlpha: function( locale ) {
+        return require( 'node_modules/validator/lib/isAlpha' ).default( this.get().value, locale );
+    },
+    isAlphanumeric: function( locale ) {
+        return require( 'node_modules/validator/lib/isAlphanumeric' ).default( this.get().value, locale );
+    },
+    isCreditCard: function() {
+        return require( 'node_modules/validator/lib/isCreditCard' )( this.get().value );
+    },
+    isEmail: function( options ) {
+        return require( 'node_modules/validator/lib/isEmail' )( this.get().value, options );
+    },
     isEmpty: function() {
-        var val = this.get().value.trim();
-        return window.validator.isEmpty( val );
+        return require( 'node_modules/validator/lib/isEmpty' )( this.get().value, {
+            ignore_whitespace: true
+        });
+    },
+    isFloat: function() {
+        return require( 'node_modules/validator/lib/isFloat' ).default( this.get().value );
+    },
+    isIn: function( values ) {
+        return require( 'node_modules/validator/lib/isIn' ).default( this.get().value, values );
+    },
+    isInt: function( options ) {
+        return require( 'node_modules/validator/lib/isInt' ).default( this.get().value, options );
+    },
+    isMobilePhone: function( options ) {
+        return require( 'node_modules/validator/lib/isMobilePhone' ).default( this.get().value, options );
+    },
+    isNumeric: function( options ) {
+        return require( 'node_modules/validator/lib/isNumeric' ).default( this.get().value, options );
+    },
+    isURL: function( options ) {
+        return require( 'node_modules/validator/lib/isURL' ).default( this.get().value, options );
+    },
+    matches: function( pattern, modifiers ) {
+        return require( 'node_modules/validator/lib/matches' ).default( this.get().value, pattern, modifiers );
     }
 };
-
-helper.forEach( window.validator, function( api, key ) {
-    if( key in ignoreApi ) return;
-
-    prototype[ key ] = function() {
-        var value = this.get().value;
-        var args = Array.prototype.splice.call( arguments, 0, arguments.length );
-
-        args = [ value ].concat( args );
-
-        return window.validator[ key ].apply( null, args );
-    };
-});
 
 module.exports = function( array ) {
     var obj = Object.create( prototype );
