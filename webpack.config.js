@@ -9,13 +9,16 @@ module.exports = {
         'test/dist/unit.js': './test/unit/unit.js',
     },
     output: {
-        path: path.resolve(__dirname, ''),
+        path: path.resolve( __dirname, '' ),
         filename: '[name]',
         library: 'Feedback',
         libraryTarget: 'umd'
     },
     resolve: {
-        modules: [ './src', './test/unit' ]
+        modules: [ './src', './test/unit' ],
+        alias: {
+            'node_modules': path.join( __dirname, 'node_modules' )
+        }
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
