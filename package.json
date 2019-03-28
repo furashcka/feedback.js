@@ -7,11 +7,10 @@
     "doc": "docs",
     "test": "test"
   },
-  "dependencies": {
-    "validator": "^10.11.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "validator": "^10.11.0"
   },
   "scripts": {
     "webpack": "webpack"
