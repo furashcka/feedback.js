@@ -62,8 +62,9 @@
                 <li>You don't need thinking about browser supporting, supports ie9+</li>
                 <li>You can sending data with files, if browser not supports FormData feedback.js sends form to iframe</li>
                 <li>Very simple API</li>
-                <li>Convenient validation - <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a></li>
+                <li>Convenient validation</li>
                 <li>Your code becomes more understandable and takes up less space</li>
+                <li>Without dependencies</li>
             </ol>
         </div>
     </div>
@@ -71,10 +72,9 @@
     <div class="container" id="installation">
         <div class="row">
             <h2 class="header">Installation</h2>
-            <p>Include <b>feedback.min.js</b> use cdn (<b>validator.min.js</b> is dependency)</p>
+            <p>Include <b>feedback.min.js</b> use cdn</p>
             <pre><code class="language-markup">
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/chriso/validator.js@10.11.0/validator.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.0.1/dist/feedback.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.0/dist/feedback.min.js&quot;&gt;&lt;/script&gt;
             </code></pre>
             <p>Install via NPM</p>
             <pre><code class="language-markup">
@@ -219,11 +219,27 @@ feedback.schema({
     }
 });
                     </code></pre>
-                    <b>this</b> - it's array with API from <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a> and: <b>get</b> - returns form element by index, if index empty, returns first element. This API list ignored: <b>version</b>, <b>blacklist</b>, <b>escape</b>, <b>unescape</b>, <b>ltrim</b>, <b>normalizeEmail</b>, <b>rtrim</b>, <b>stripLow</b>, <b>toBoolean</b>, <b>toDate</b>, <b>toFloat</b>, <b>toInt</b>, <b>trim</b>, <b>whitelist</b>, you can use it without <strong>feedback.js: <b>console.log( validator.version );</b></strong><br><br>
+                    <b>this</b> - it's array of inputs grouped by name with API from <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a><br><br>
+                    <b>get -</b> returns input element by index; if index empty returns first element; if index -1 returns last element<br>
+                    <b>equals -</b> check if the string matches the comparison<br>
+                    <b>isAlpha -</b> check if the string contains only letters (a-zA-Z)<br>
+                    <b>isAlphanumeric -</b> check if the string contains only letters and numbers<br>
+                    <b>isCreditCard -</b> check if the string is a credit card<br>
+                    <b>isEmail -</b> check if the string is an email<br>
+                    <b>isEmpty -</b> check if the string has a length of zero<br>
+                    <b>isFloat -</b> check if the string is a float<br>
+                    <b>isIn -</b> check if the string is in a array of allowed values<br>
+                    <b>isInt -</b> check if the string is an integer<br>
+                    <b>isMobilePhone -</b> check if the string is a mobile phone number<br>
+                    <b>isNumeric -</b> check if the string contains only numbers<br>
+                    <b>isURL -</b> check if the string is an URL<br>
+                    <b>matches -</b> check if string matches the pattern
+                    <br><br>
+                    read more about each can be <a href="https://github.com/chriso/validator.js" target="_blank">here</a>
+                    <br><br>
                     Type: Object<br>
                     Default: empty object
                 </li>
-
                 <li class="collection-header">
                     <h4>ajax</h4>
                 </li>
