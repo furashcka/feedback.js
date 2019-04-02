@@ -74,6 +74,16 @@ iframe {
     margin-bottom: 5px;
 }
 
+@media (max-width: 1200px) {
+    .hide-on-med-and-down {
+        display: none !important;
+    }
+
+    .sidenav-trigger {
+        display: block !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .fancybox-content .demonstration-block {
         width: calc( 100vw - 60px );
