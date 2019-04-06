@@ -9,14 +9,33 @@ module.exports = function( self ) {
         self.options.ajax.before();
 
         self.iframe.onload = function() {
-            var innerDoc = this.contentDocument || this.contentWindow.document;
+            var innerDoc, responseText, error = false;
 
-            self.options.ajax.success({
-                type: 'ajax.iframe',
-                xhr: {
-                    responseText: String( innerDoc.body && innerDoc.body.innerHTML )
-                }
-            });
+            try {
+                innerDoc = this.contentDocument || this.contentWindow.document;
+                responseText = String( innerDoc.body && innerDoc.body.innerHTML );
+            }
+            catch( e ) {
+                error = e;
+                console.error( e );
+            }
+
+            if( error === false ) {
+                self.options.ajax.success({
+                    type: 'ajax.iframe',
+                    xhr: {
+                        responseText: responseText
+                    }
+                });
+            }
+            else {
+                self.options.ajax.error({
+                    type: 'ajax.iframe',
+                    xhr: {
+                        statusText: ''
+                    }
+                });
+            }
 
             self.options.ajax.progress.call( self.form, 100 );
             helper.removeClass( self.form, self.options.ajax.loadingClass );
