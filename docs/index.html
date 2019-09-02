@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <title>feedback.js documentation</title>
     
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.css">
@@ -17,15 +17,15 @@
             <div class="container">
                 <div class="nav-wrapper">
                     <a href="https://github.com/furashcka/feedback.js" class="brand-logo right">feedback.js</a>
-                    <a href="#" data-target="mobile-menu" class="sidenav-trigger">
+                    <div class="sidenav-trigger">
                         <i class="small material-icons menu">menu</i>
-                    </a>
+                    </div>
 
-                    <ul class="left hide-on-med-and-down" data-parent-sidenav>
+                    <ul class="left hide-on-med-and-down desktop-menu">
                         <li>
                             <a href="#home">Home</a>
                         </li>
-                        <li>
+                        <li data-link="installation">
                             <a href="#installation">Installation</a>
                         </li>
                         <li>
@@ -40,7 +40,7 @@
                         <li>
                             <a href="#demos">Demos</a>
                         </li>
-                        <li>
+                        <li data-link="github">
                             <a href="https://github.com/furashcka/feedback.js">GitHub</a>
                         </li>
                     </ul>
@@ -49,7 +49,8 @@
         </nav>
     </div>
 
-    <ul class="sidenav" id="mobile-menu"></ul>
+    <ul class="sidenav mobile-menu"></ul>
+    <div class="sidenav-overlay"></div>
 
     <div class="container" id="home">
         <div class="row">
@@ -590,7 +591,7 @@ console.log( feedback ); //null
         </div>
     </div>
 
-    <template id="demonstration-block-template">
+    <script type="template/text" id="demonstration-block-template">
         <div class="demonstration-block">
             <div class="demonstration-block__btns">
                 <button class="waves-effect waves-light btn-small" data-src="{{src}}/index.html">HTML</button>
@@ -608,10 +609,11 @@ console.log( feedback ); //null
                 <iframe data-src="{{src}}" frameborder="0"></iframe>
             </div>
         </div>
-    </template>
+    </script>
+
+
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/validator/10.4.0/validator.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-javascript.min.js"></script>

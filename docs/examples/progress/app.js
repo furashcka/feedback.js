@@ -73,19 +73,7 @@
             $el.progress.find( '.determinate' ).css( 'width', percent + '%' );
         },
         success: function( e ) {
-            var res = null;
-            var json = JSON.parse( e.xhr.responseText );
-            
-            json.files[ 'first' ] = json.files[ 'first' ].substring( 0, 50 ) + '...';
-            json.files[ 'second' ] = json.files[ 'second' ].substring( 0, 50 ) + '...';
-            json.files[ 'third' ] = json.files[ 'third' ].substring( 0, 50 ) + '...';
-            res = {
-                xhr: {
-                    responseText: JSON.stringify( json, null, 4 )
-                }
-            };
-
-            parent.$( 'body' ).trigger( 'feedback.response', res );
+            parent.$( 'body' ).trigger( 'feedback.response', e );
         }
     });
 
@@ -97,7 +85,3 @@
         return type;
     }
 })();
-
-$(function() {
-    M.updateTextFields();
-});

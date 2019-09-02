@@ -2,25 +2,17 @@ $(function() {
     var app = window.app = window.app || {};
     var $el = {
         body: $( 'body' ),
-        sidenav: $( '.sidenav' ),
-        smothScrollContent: $( '[id]' ),
-        dataParentSidenav: $( '[data-parent-sidenav]' ),
         demonstrationBlock: $( '.demonstration-block' ),
         exampleBtns: $( 'button[data-example]' )
     };
 
-    $el.sidenav.html( $el.dataParentSidenav.html() );
-    $el.sidenav.sidenav();
-    $el.sidenav.find( 'a' ).on( 'click', function() {
-        $el.sidenav.sidenav( 'close' );
-    });
-    $el.smothScrollContent.scrollSpy({
-        scrollOffset: 80
-    });
+    app.initSmoothScroll();
+    app.initMobileMenu();
     app.initDemonstrationBlock( $el.demonstrationBlock, 'html' );
 
     $el.exampleBtns.on( 'click', function() {
-        var src = 'examples/' + $( this ).data( 'example' ) + '/';
+        var partURL = $( this ).data( 'example' );
+        var src = _resolveSrc( partURL );
         var html = $( '#demonstration-block-template' ).html().replace( /{{src}}/g, src );
 
         app.modal({
@@ -34,13 +26,13 @@ $(function() {
     });
 
     $el.body.on( 'feedback.response', function() {
-        var responseText = arguments[ 1 ].xhr.responseText;
+        var responseText = JSON.parse( arguments[ 1 ].xhr.responseText );
         var html = [
-            '<h4>Response from httpbin.org</h4>',
+            '<h4>Response from f-cka.com</h4>',
             '<pre>',
                 '<code class="language-json">\n',
-                    responseText,
-                '\n</code>',
+                    JSON.stringify( responseText, null, 4),
+                '\n\n</code>',
             '</pre>'
         ].join( '' );
 
@@ -54,12 +46,61 @@ $(function() {
             }
         });
     });
+
+    function _resolveSrc( partURL ) {
+        var origin = window.location.protocol + '//' + window.location.hostname + ( window.location.port ? ':' + window.location.port : '' );
+        var pathname = location.pathname.substring( 0, location.pathname.lastIndexOf( '/' ) ) + '/';
+        var src = origin + pathname + 'examples/' + partURL + '/';
+
+        return src;
+    }
 });
 
 (function() {
     var app = window.app = window.app || {};
     var $el = {
-        body: $( 'body' )
+        body: $( 'body' ),
+        triggerMenu: $( '.sidenav-trigger' ),
+        desktopMenu: $( '.desktop-menu' ),
+        mobileMenu: $( '.mobile-menu' ),
+        sidenavOverlay: $( '.sidenav-overlay' )
+    };
+
+    app.initSmoothScroll = function() {
+        var offset = 80;
+
+        $el.body.on( 'click', 'a[href^="#"]', function( e ) {
+            var id = this.getAttribute( 'href' );
+            var scrollTop = 0;
+
+            if( id != '#' ) {
+                scrollTop = $( id ).offset().top - offset;
+            }
+
+
+            $( 'html, body' ).animate({
+                scrollTop: scrollTop
+            });
+
+            e.preventDefault();
+        });
+    };
+
+    app.initMobileMenu = function() {
+        $el.mobileMenu.html( $el.desktopMenu.html() );
+        $el.mobileMenu.show();
+
+        $el.mobileMenu.find( 'a' ).on( 'click', function() {
+            $el.sidenavOverlay.trigger( 'click' );
+        });
+
+        $el.triggerMenu.on( 'click', function() {
+            $el.mobileMenu.add( $el.sidenavOverlay ).toggleClass( 'show' );
+        });
+
+        $el.sidenavOverlay.on( 'click', function() {
+            $el.mobileMenu.add( $el.sidenavOverlay ).removeClass( 'show' );
+        });
     };
 
     app.modal = function( opts ) {
@@ -172,6 +213,6 @@ $(function() {
                  .replace( />/g, '&gt;' )
                  .replace( /"/g, '&quot;' )
                  .replace( /'/g, '&#039;' );
-         }
+        }
     };
 })();

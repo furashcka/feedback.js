@@ -1,3 +1,5 @@
+var feedbackList = [];
+
 module.exports = {
     addClass: _addClass,
     removeClass: _removeClass,
@@ -8,8 +10,16 @@ module.exports = {
     isObject: _isObject,
     guid: _guid,
     getEmptyObj: _getEmptyObj,
+    makeSerializationURL: _makeSerializationURL,
     cantUseFormData: _cantUseFormData,
+    hostnameFromStr: _hostnameFromStr,
     canUseProgressEvent: function() { return canUseProgressEvent },
+    addFeedback2List: function( obj ) {
+        feedbackList.push( obj );
+    },
+    getFeedbackList: function() {
+        return feedbackList;
+    }
 };
 
 var canUseProgressEvent = (function() {
@@ -118,4 +128,32 @@ function _cantUseFormData() {
 
 function _getEmptyObj() {
     return Object.create( null );
+}
+
+function _makeSerializationURL( obj ) {
+    var regex = /\?/g;
+    var hasVariables = regex.test( obj.url );
+    var delimiter = hasVariables === true ? '&' : '?';
+
+    if( obj.serializedString === '' ) {
+        delimiter = '';
+    }
+
+    return obj.url + delimiter + obj.serializedString;
+}
+
+function _hostnameFromStr(url) {
+    var hostname;
+
+    if ( url.indexOf( '//' ) > -1 ) {
+        hostname = url.split( '/' )[ 2 ];
+    }
+    else {
+        hostname = url.split( '/' )[ 0 ];
+    }
+
+    hostname = hostname.split( ':' )[ 0 ];
+    hostname = hostname.split( '?' )[ 0 ];
+
+    return hostname;
 }

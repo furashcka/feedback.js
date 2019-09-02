@@ -33,7 +33,3 @@
         }
     });
 })();
-
-$(function() {
-    M.updateTextFields();
-});

@@ -30,6 +30,33 @@ iframe {
     width: 960px;
 }
 
+.sidenav-trigger {
+    display: none;
+    margin-left: 0 !important;
+}
+
+.side-nav {
+    z-index: 99999999;
+}
+
+.desktop-menu {
+    display: block !important;
+}
+
+.mobile-menu {
+    display: none;
+    width: 200px;
+    left: -100%;
+
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
 
 
 #home ol {
@@ -74,19 +101,35 @@ iframe {
     margin-bottom: 5px;
 }
 
-@media (max-width: 1200px) {
-    .hide-on-med-and-down {
-        display: none !important;
-    }
-
-    .sidenav-trigger {
-        display: block !important;
+@media (max-width: 1140px) {
+    .desktop-menu li[data-link="github"],
+    .desktop-menu li[data-link="installation"] {
+        display: none;
     }
 }
 
 @media (max-width: 1000px) {
     .fancybox-content .demonstration-block {
         width: calc( 100vw - 60px );
+    }
+}
+
+@media (max-width: 750px) {
+    .desktop-menu {
+        display: none !important;
+    }
+
+    .sidenav-trigger {
+        display: block !important;
+    }
+
+    .mobile-menu.show {
+        left: 0;
+    }
+
+    .sidenav-overlay.show {
+        display: block;
+        opacity: 1;
     }
 }
 

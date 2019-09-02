@@ -11,7 +11,10 @@ module.exports = function( self ) {
     var xhr = new XMLHttpRequest();
 
     if( method === 'GET' ) {
-        url = _makeSerializationURL( self );
+        url = helper.makeSerializationURL({
+            url: self.options.ajax.url,
+            serializedString: serialize( self )
+        });
     }
     else {
         if( helper.cantUseFormData() ) {
@@ -55,19 +58,6 @@ module.exports = function( self ) {
     setRequestHeader && xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
     xhr.send( data );
 };
-
-function _makeSerializationURL( self ) {
-    var regex = /\?/g;
-    var hasVariables = regex.test( self.options.ajax.url );
-    var delimiter = hasVariables === true ? '&' : '?';
-    var data = serialize( self );
-
-    if( data === '' ) {
-        delimiter = '';
-    }
-
-    return self.options.ajax.url + delimiter + data;
-}
 
 function _onprogress( self, xhr ) {
     if( !helper.canUseProgressEvent() ) return;

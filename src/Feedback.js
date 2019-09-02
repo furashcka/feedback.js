@@ -8,6 +8,8 @@ module.exports = function( form, options ) {
 
     var self = this;
 
+    helper.addFeedback2List( self );
+
     self.form = form;
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
@@ -23,6 +25,8 @@ module.exports = function( form, options ) {
             url: form.getAttribute( 'action' ) || location.href,
             method: form.getAttribute( 'method' ) || 'POST',
             iframePolyfill: 'auto',
+            iframeTimeout: 0,
+            iframePostMessage: false,
             before: function() {},
             after: function() {},
             success: function() {},
@@ -103,7 +107,7 @@ module.exports.prototype.resetForm = function() {
     return this;
 };
 
-module.exports.prototype.destroy = function( variableNameFromScope ) {
+module.exports.prototype.destroy = function() {
     this.form.removeEventListener( 'submit', this.submitFn );
 
     return null;

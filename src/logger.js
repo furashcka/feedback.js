@@ -16,6 +16,12 @@ module.exports = {
     },
     showWarningWhenIgnoringInputWithFileType: function() {
         _warn( 'Ignoring inputs with file type, because used XMLHttpRequest 1.0' );
+    },
+    youMustReturnTextInPostMessage: function() {
+        throw 'You must return text in post message';
+    },
+    youNeedUsePostMessage: function() {
+        _warn( 'You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/' );
     }
 };
 
