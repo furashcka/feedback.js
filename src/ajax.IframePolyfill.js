@@ -19,7 +19,15 @@ module.exports = function( self ) {
                 }
                 catch( e ) {
                     logger.youNeedUsePostMessage();
-                    throw e;
+
+                    //need for async test in ie9
+                    if( window.feedbackIframePolyfillThrowDisabled ) {
+                        console.error( e );
+                        return false;
+                    }
+                    else {
+                        throw e;
+                    }
                 }
 
                 self.options.ajax.success({
