@@ -13,9 +13,7 @@ module.exports = function( self ) {
             self.iframe.onload = function() {
                 var innerDoc, responseText;
 
-                if( self.iframe === null ) {
-                    return false;
-                }
+                if( !self.iframe ) return;
 
                 try {
                     innerDoc = self.iframe.contentDocument || self.iframe.contentWindow.document;
