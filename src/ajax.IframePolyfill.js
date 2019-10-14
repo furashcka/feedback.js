@@ -13,6 +13,10 @@ module.exports = function( self ) {
             self.iframe.onload = function() {
                 var innerDoc, responseText;
 
+                if( self.iframe === null ) {
+                    return false;
+                }
+
                 try {
                     innerDoc = self.iframe.contentDocument || self.iframe.contentWindow.document;
                     responseText = String( innerDoc.body && innerDoc.body.innerHTML );
