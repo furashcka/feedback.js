@@ -19,6 +19,9 @@ module.exports = {
     },
     getFeedbackList: function() {
         return feedbackList;
+    },
+    isUnitTestingNow: function() {
+        return Boolean( window.jasmine && window.jasmine.isUnitTestingNow );
     }
 };
 

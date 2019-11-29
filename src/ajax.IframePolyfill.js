@@ -22,8 +22,7 @@ module.exports = function( self ) {
                 catch( e ) {
                     logger.youNeedUsePostMessage();
 
-                    //need for async test in ie9 (Jasmine)
-                    if( window.feedbackIframePolyfillThrowDisabled ) {
+                    if( helper.isUnitTestingNow() ) {
                         console.error( e );
                         return false;
                     }
@@ -85,7 +84,18 @@ window.addEventListener( 'message', function( e ) {
     isCantReadResponse = helper.isObject( e.data ) || e.data === '[object Object]'; //ie9 e.data = [object Object]
 
     if( isCantReadResponse ) {
-        logger.youMustReturnTextInPostMessage();
+        try {
+            logger.youMustReturnTextInPostMessage();
+        }
+        catch( e ) {
+            if( helper.isUnitTestingNow() ) {
+                console.error( e );
+                return false;
+            }
+            else {
+                throw e;
+            }
+        }
     }
 
     window.clearTimeout( self.iframe.timeoutLink );
