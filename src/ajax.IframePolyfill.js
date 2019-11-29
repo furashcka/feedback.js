@@ -22,7 +22,7 @@ module.exports = function( self ) {
                 catch( e ) {
                     logger.youNeedUsePostMessage();
 
-                    //need for async test in ie9
+                    //need for async test in ie9 (Jasmine)
                     if( window.feedbackIframePolyfillThrowDisabled ) {
                         console.error( e );
                         return false;
