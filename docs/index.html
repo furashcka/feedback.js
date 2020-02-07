@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <title>feedback.js documentation</title>
-    
+
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
@@ -131,6 +131,8 @@ var opts = {
         url: el.getAttribute( 'action' ) || location.href,
         method: el.getAttribute( 'method' ) || 'POST',
         iframePolyfill: 'auto',
+        iframePostMessage: false,
+        iframeTimeout: 0,
         before: function() {},
         after: function() {},
         success: function() {},
@@ -309,6 +311,28 @@ feedback.ajax({
                 </li>
 
                 <li class="collection-header">
+                    <h4>ajax.iframePostMessage</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true</b>: waits until call <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage" target="_blank">Window.postMessage()</a> from iframe for response from server and after call ajax.success<br>
+                    <b>false:</b> nothing happens
+                    <br><br>
+                    Type: boolean<br>
+                    Default: false
+                </li>
+
+                <li class="collection-header">
+                    <h4>ajax.iframeTimeout</h4>
+                </li>
+                <li class="collection-item">
+                    <b>1000 (or more)</b>: waits 1000 (or more) milliseconds for iframe.load event, if iframe.load event not called until 1000 (or more) milliseconds, calls ajax.error<br>
+                    <b>0:</b> waits endlessly
+                    <br><br>
+                    Type: number<br>
+                    Default: 0
+                </li>
+
+                <li class="collection-header">
                     <h4>ajax.before</h4>
                 </li>
                 <li class="collection-item">
@@ -332,7 +356,7 @@ feedback.ajax({
                     <h4>ajax.success</h4>
                 </li>
                 <li class="collection-item">
-                    calls if the request succeeds, arguments: <b>ajax.type</b> (String) - 'ajax.2.0 or ajax.1.0 or iframe'; <b>xhr</b> (XMLHttpRequest object)
+                    calls if the request succeeds, arguments: <b>type</b> (String) - 'ajax.2.0 or ajax.1.0 or iframe'; <b>xhr</b> (XMLHttpRequest object)
                     <pre><code class="language-javascript">
 feedback.ajax({
     success: function( type, xhr ) {
@@ -359,7 +383,7 @@ feedback.ajax({
                     <h4>ajax.error</h4>
                 </li>
                 <li class="collection-item">
-                    calls if the request fails, arguments: <b>ajax.type</b> (String) - 'ajax.2.0 or ajax.1.0'; <b>xhr</b> (XMLHttpRequest object), not calls if uses iframe
+                    calls if the request fails, arguments: <b>type</b> (String) - 'ajax.2.0 or ajax.1.0'; <b>xhr</b> (XMLHttpRequest object), not calls if uses iframe
 <pre><code class="language-javascript">
 feedback.ajax({
     error: function( type, xhr ) {

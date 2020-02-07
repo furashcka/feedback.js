@@ -58,6 +58,8 @@
     });
 
     feedback.ajax({
+        url: app.ajaxURL.POST,
+        iframePostMessage: app.isInternetExplorerBrowser() === 9,
         before: function() {
             $el.progress.show();
         },
@@ -76,6 +78,11 @@
             parent.$( 'body' ).trigger( 'feedback.response', e );
         }
     });
+
+    if( app.isInternetExplorerBrowser() === 9 ) {
+        $el.form.append( '<input type="hidden" name="use-post-message" value="1">' );
+        feedback.update();
+    }
 
     function _getTypeOfFile( file ) {
         type = file.name.split( '.' );

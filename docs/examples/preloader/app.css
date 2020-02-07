@@ -37,3 +37,15 @@ form.form--loading .preloader {
 .preloader__white {
     border-color: #fff;
 }
+
+.preloader__content--ie9 {
+    display: none;
+}
+
+.ie9 .preloader__content {
+    display: none;
+}
+
+.ie9 .preloader__content--ie9 {
+    display: block;
+}

@@ -1,9 +1,29 @@
+;(function() {
+    var app = window.app = window.app || {};
+
+    app.ajaxURL = {
+        GET: '//f-cka.com/other/response-server/get.php',
+        POST: '//f-cka.com/other/response-server/post.php'
+    };
+
+    app.isInternetExplorerBrowser = function() {
+        var userAgent = navigator.userAgent.toLowerCase();
+        return ( userAgent.indexOf( 'msie' ) != -1 ) ? parseInt( userAgent.split( 'msie' )[ 1 ] ) : false;
+    };
+})();
+
 $(function() {
+    var app = window.app = window.app || {};
     var $el = {
+        body: $( 'body' ),
         fileInput: $( 'input[type="file"]' ),
         materializecssFileInput: $( '.input-field input[type="file"]' ),
         materializecssInput: $( '.input-field input' ),
     };
+
+    if(app.isInternetExplorerBrowser() === 9) {
+        $el.body.addClass( 'ie9' );
+    }
 
     if( _cantUseFileAPI() ) {
         $el.materializecssFileInput.each(function() {

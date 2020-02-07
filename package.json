@@ -9,8 +9,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "webpack": "^3.8.1",
-    "validator": "^10.11.0"
+    "validator": "^10.11.0",
+    "webpack": "^3.8.1"
   },
   "scripts": {
     "webpack": "webpack"

@@ -3,11 +3,11 @@ var webpack = require( 'webpack' );
 
 module.exports = {
     watch: true,
-    devtool: 'source-map',
+    //devtool: 'source-map',
     entry: {
         'dist/feedback.js': './src/Feedback.js',
         'dist/feedback.min.js': './src/Feedback.js',
-        'test/dist/unit.js': './test/unit/unit.js',
+        'test/dist/app.js': './test/unit/app.js',
     },
     output: {
         path: path.resolve( __dirname, '' ),

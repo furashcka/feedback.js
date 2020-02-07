@@ -1,4 +1,5 @@
 (function() {
+    var app = window.app = window.app || {};
     var $el = {
         form: $( 'form' ).get( 0 ),
         errorEl: $( 'form .error' )
@@ -28,6 +29,7 @@
     });
 
     feedback.ajax({
+        url: app.ajaxURL.POST,
         success: function( e ) {
             parent.$( 'body' ).trigger( 'feedback.response', e );
         }

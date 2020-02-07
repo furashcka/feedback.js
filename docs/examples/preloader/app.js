@@ -1,10 +1,10 @@
 (function() {
     var $el = {
-        form: $( 'form' ).get( 0 ),
+        form: $( 'form' ),
         preloader: $( '.preloader' ),
         errorEl: $( 'form .error' )
     };
-    var feedback = new Feedback( $el.form );
+    var feedback = new Feedback( $el.form.get( 0 ) );
 
     feedback.schema({
         avatar: function() {
@@ -31,7 +31,9 @@
     });
 
     feedback.ajax({
+        url: app.ajaxURL.POST,
         loadingClass: 'form--loading',
+        iframePostMessage: app.isInternetExplorerBrowser() === 9,
         success: function( e ) {
             var res = null;
             var json = JSON.parse( e.xhr.responseText );
@@ -39,6 +41,11 @@
             parent.$( 'body' ).trigger( 'feedback.response', e );
         }
     });
+
+    if( app.isInternetExplorerBrowser() === 9 ) {
+        $el.form.append( '<input type="hidden" name="use-post-message" value="1">' );
+        feedback.update();
+    }
 
     function _getTypeOfFile( file ) {
         type = file.name.split( '.' );
