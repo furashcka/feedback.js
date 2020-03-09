@@ -668,7 +668,7 @@
         var fakeXDomainRequest = __webpack_require__(37);
         var isCantUseFormData = window.FormData === undefined;
         module.exports = {
-            serverURL: location.protocol + "//" + location.host + "/server/",
+            serverURL: _getServerURL(),
             form: __webpack_require__(38),
             forEach: __webpack_require__(35),
             fakeXDomainRequest: fakeXDomainRequest,
@@ -717,6 +717,17 @@
                 }
             }
         };
+        function _getServerURL() {
+            var breakPoints = [ "docs", "test" ];
+            var oldArr = location.href.split("/");
+            var newArr = [];
+            for (var i = 0; i < oldArr.length; i++) {
+                if (breakPoints.indexOf(oldArr[i]) !== -1) break;
+                newArr.push(oldArr[i]);
+            }
+            newArr.push("server/");
+            return newArr.join("/");
+        }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
         var ignoreInputTypesRegex = /^(?:submit|button|image|reset)$/i;

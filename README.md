@@ -1,2 +1,2 @@
-documentations and demos [here](https://furashcka.github.io/feedback.js/docs/index.html)
-tests [here](https://furashcka.github.io/feedback.js/test/index.html)
+documentations and demos [here](https://f-cka.com/projects/feedback.js/docs/)
+tests [here](https://f-cka.com/projects/feedback.js/test/)

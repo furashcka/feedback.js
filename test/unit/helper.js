@@ -2,7 +2,7 @@ var fakeXDomainRequest = require( 'helper.fakeXDomainRequest' );
 var isCantUseFormData = window.FormData === undefined;
 
 module.exports = {
-    serverURL: location.protocol + '//' + location.host + '/server/',
+    serverURL: _getServerURL(),
     form: require( 'helper.form' ),
     forEach: require( 'helper.forEach' ),
     fakeXDomainRequest: fakeXDomainRequest,
@@ -54,3 +54,20 @@ module.exports = {
         }
     }
 };
+
+//_getServerURL duplicated in docs/js/examples.js
+function _getServerURL() {
+    var breakPoints = ['docs', 'test'];
+    var oldArr = location.href.split('/');
+    var newArr = [];
+
+    for(var i = 0; i < oldArr.length; i++) {
+        if(breakPoints.indexOf(oldArr[i]) !== -1) break;
+
+        newArr.push(oldArr[i]);
+    }
+
+    newArr.push('server/');
+
+    return newArr.join('/');
+}

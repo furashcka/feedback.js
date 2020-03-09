@@ -1,12 +1,29 @@
 ;(function() {
     var app = window.app = window.app || {};
 
-    app.serverURL = location.protocol + '//' + location.host + '/server/';
+    app.serverURL = _getServerURL();
 
     app.isInternetExplorerBrowser = function() {
         var userAgent = navigator.userAgent.toLowerCase();
         return ( userAgent.indexOf( 'msie' ) != -1 ) ? parseInt( userAgent.split( 'msie' )[ 1 ] ) : false;
     };
+
+    //_getServerURL duplicated in test/unit/helper.js
+    function _getServerURL() {
+        var breakPoints = ['docs', 'test'];
+        var oldArr = location.href.split('/');
+        var newArr = [];
+
+        for(var i = 0; i < oldArr.length; i++) {
+            if(breakPoints.indexOf(oldArr[i]) !== -1) break;
+
+            newArr.push(oldArr[i]);
+        }
+
+        newArr.push('server/');
+
+        return newArr.join('/');
+    }
 })();
 
 $(function() {
