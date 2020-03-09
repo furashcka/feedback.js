@@ -37,10 +37,10 @@ module.exports = function() {
         var feedback = new Feedback( helper.form.el );
 
         feedback.ajax({
-            url: helper.fakeURL
+            url: helper.serverURL
         });
 
-        expect( feedback.options.ajax.url ).toBe( helper.fakeURL );
+        expect( feedback.options.ajax.url ).toBe( helper.serverURL );
 
         feedback = feedback.destroy();
     });
@@ -57,7 +57,7 @@ module.exports = function() {
 
         feedback.update();
         feedback.ajax({
-            url: helper.fakeURL,
+            url: helper.serverURL,
             method: 'GET',
             success: function() {
                 success();
@@ -69,7 +69,7 @@ module.exports = function() {
             'status': 200
         });
 
-        expect( helper.fakeAjax.getCurrentInstance().url ).toBe( helper.fakeURL + '?age=15' );
+        expect( helper.fakeAjax.getCurrentInstance().url ).toBe( helper.serverURL + '?age=15' );
 
         feedback = feedback.destroy();
     });

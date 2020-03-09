@@ -58,7 +58,7 @@
     });
 
     feedback.ajax({
-        url: app.ajaxURL.POST,
+        url: app.serverURL,
         iframePostMessage: app.isInternetExplorerBrowser() === 9,
         before: function() {
             $el.progress.show();
@@ -80,7 +80,7 @@
     });
 
     if( app.isInternetExplorerBrowser() === 9 ) {
-        $el.form.append( '<input type="hidden" name="use-post-message" value="1">' );
+        $el.form.append( '<input type="hidden" name="use_post_message" value="1">' );
         feedback.update();
     }
 

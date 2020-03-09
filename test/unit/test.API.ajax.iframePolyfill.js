@@ -14,7 +14,7 @@ module.exports = function() {
         var success = jasmine.createSpy( 'success' );
 
         feedback.ajax({
-            url: helper.fakeURL,
+            url: helper.serverURL,
             iframePolyfill: true,
             progress: function() {
                 success();
@@ -89,7 +89,7 @@ function _test( options, addInputsCallback ) {
     spyOn( console, 'warn' );
 
     feedback.ajax({
-        url: helper.fakeURL,
+        url: helper.serverURL,
         method: 'POST',
         success: function( e ) {
             ajaxType = e.type;

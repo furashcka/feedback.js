@@ -1,9 +1,0 @@
-ok
-<script>
-    if(window.location.search.indexOf('need_incorrect_data=1') > -1) {
-        parent.postMessage( {"test": "test"}, '*' );
-    }
-    else {
-        parent.postMessage( JSON.stringify( {"test": "test"} ), '*' );
-    }
-</script>

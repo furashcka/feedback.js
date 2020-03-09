@@ -1,10 +1,7 @@
 ;(function() {
     var app = window.app = window.app || {};
 
-    app.ajaxURL = {
-        GET: '//f-cka.com/other/response-server/get.php',
-        POST: '//f-cka.com/other/response-server/post.php'
-    };
+    app.serverURL = location.protocol + '//' + location.host + '/server/';
 
     app.isInternetExplorerBrowser = function() {
         var userAgent = navigator.userAgent.toLowerCase();

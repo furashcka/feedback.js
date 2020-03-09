@@ -43,7 +43,7 @@ module.exports = function() {
         var statusText = '';
 
         feedback.ajax({
-            url: helper.fakeURL,
+            url: helper.serverURL,
             iframePolyfill: true,
             iframeTimeout: 10,
             iframePostMessage: false,
@@ -66,14 +66,14 @@ module.exports = function() {
         var feedback = new Feedback( helper.form.el );
 
         feedback.ajax({
-            url: helper.fakeURL,
+            url: helper.serverURL + '?use_post_message=1',
             iframePolyfill: true,
             iframeTimeout: 60000,
             iframePostMessage: true,
             success: function( e ) {
                 done();
                 expect( e.xhr.status ).toBe( 200 );
-                expect( e.xhr.responseText ).toBe( '{"test":"test"}' );
+                expect( e.xhr.responseText ).toBe( '{"Request Method":"POST","args":{"phone":"7777-7777","age":""}}' );
             }
         });
         feedback.ajax();
@@ -92,7 +92,7 @@ module.exports = function() {
         });
 
         feedback.ajax({
-            url: helper.fakeURL + '?need_incorrect_data=1',
+            url: helper.serverURL + '?use_post_message=1&need_incorrect_data=1',
             iframePolyfill: true,
             iframeTimeout: 60000,
             iframePostMessage: true

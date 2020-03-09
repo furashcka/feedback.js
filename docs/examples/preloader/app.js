@@ -31,7 +31,7 @@
     });
 
     feedback.ajax({
-        url: app.ajaxURL.POST,
+        url: app.serverURL,
         loadingClass: 'form--loading',
         iframePostMessage: app.isInternetExplorerBrowser() === 9,
         success: function( e ) {
@@ -43,7 +43,7 @@
     });
 
     if( app.isInternetExplorerBrowser() === 9 ) {
-        $el.form.append( '<input type="hidden" name="use-post-message" value="1">' );
+        $el.form.append( '<input type="hidden" name="use_post_message" value="1">' );
         feedback.update();
     }
 

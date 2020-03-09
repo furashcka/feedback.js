@@ -2,8 +2,7 @@ var fakeXDomainRequest = require( 'helper.fakeXDomainRequest' );
 var isCantUseFormData = window.FormData === undefined;
 
 module.exports = {
-    fakeURL: './fake-url/',
-    postURL: '//f-cka.com/other/response-server/post.php',
+    serverURL: location.protocol + '//' + location.host + '/server/',
     form: require( 'helper.form' ),
     forEach: require( 'helper.forEach' ),
     fakeXDomainRequest: fakeXDomainRequest,

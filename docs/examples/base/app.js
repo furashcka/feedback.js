@@ -29,7 +29,7 @@
     });
 
     feedback.ajax({
-        url: app.ajaxURL.POST,
+        url: app.serverURL,
         success: function( e ) {
             parent.$( 'body' ).trigger( 'feedback.response', e );
         }

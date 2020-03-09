@@ -668,8 +668,7 @@
         var fakeXDomainRequest = __webpack_require__(37);
         var isCantUseFormData = window.FormData === undefined;
         module.exports = {
-            fakeURL: "./fake-url/",
-            postURL: "//f-cka.com/other/response-server/post.php",
+            serverURL: location.protocol + "//" + location.host + "/server/",
             form: __webpack_require__(38),
             forEach: __webpack_require__(35),
             fakeXDomainRequest: fakeXDomainRequest,
@@ -2245,9 +2244,9 @@
             it('test "url" option', function() {
                 var feedback = new Feedback(helper.form.el);
                 feedback.ajax({
-                    url: helper.fakeURL
+                    url: helper.serverURL
                 });
-                expect(feedback.options.ajax.url).toBe(helper.fakeURL);
+                expect(feedback.options.ajax.url).toBe(helper.serverURL);
                 feedback = feedback.destroy();
             });
             it('test "method" option', function() {
@@ -2260,7 +2259,7 @@
                 });
                 feedback.update();
                 feedback.ajax({
-                    url: helper.fakeURL,
+                    url: helper.serverURL,
                     method: "GET",
                     success: function() {
                         success();
@@ -2270,7 +2269,7 @@
                 helper.fakeAjax.respondWith({
                     status: 200
                 });
-                expect(helper.fakeAjax.getCurrentInstance().url).toBe(helper.fakeURL + "?age=15");
+                expect(helper.fakeAjax.getCurrentInstance().url).toBe(helper.serverURL + "?age=15");
                 feedback = feedback.destroy();
             });
             it('test "before", "after", "success", "error", "progress" events', function() {
@@ -2335,7 +2334,7 @@
                 var feedback = new Feedback(helper.form.el);
                 var success = jasmine.createSpy("success");
                 feedback.ajax({
-                    url: helper.fakeURL,
+                    url: helper.serverURL,
                     iframePolyfill: true,
                     progress: function() {
                         success();
@@ -2397,7 +2396,7 @@
             hasFile = _formHasInputWithFileType(helper.form.el);
             spyOn(console, "warn");
             feedback.ajax({
-                url: helper.fakeURL,
+                url: helper.serverURL,
                 method: "POST",
                 success: function(e) {
                     ajaxType = e.type;
@@ -2472,7 +2471,7 @@
                 var feedback = new Feedback(helper.form.el);
                 var statusText = "";
                 feedback.ajax({
-                    url: helper.fakeURL,
+                    url: helper.serverURL,
                     iframePolyfill: true,
                     iframeTimeout: 10,
                     iframePostMessage: false,
@@ -2490,14 +2489,14 @@
             it('test (window.postMessage) "iframePolyfill" = true; "iframeTimeout" = 60000; "iframePostMessage" = true;', function(done) {
                 var feedback = new Feedback(helper.form.el);
                 feedback.ajax({
-                    url: helper.fakeURL,
+                    url: helper.serverURL + "?use_post_message=1",
                     iframePolyfill: true,
                     iframeTimeout: 6e4,
                     iframePostMessage: true,
                     success: function(e) {
                         done();
                         expect(e.xhr.status).toBe(200);
-                        expect(e.xhr.responseText).toBe('{"test":"test"}');
+                        expect(e.xhr.responseText).toBe('{"Request Method":"POST","args":{"phone":"7777-7777","age":""}}');
                     }
                 });
                 feedback.ajax();
@@ -2511,7 +2510,7 @@
                     done();
                 });
                 feedback.ajax({
-                    url: helper.fakeURL + "?need_incorrect_data=1",
+                    url: helper.serverURL + "?use_post_message=1&need_incorrect_data=1",
                     iframePolyfill: true,
                     iframeTimeout: 6e4,
                     iframePostMessage: true
