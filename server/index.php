@@ -1,4 +1,6 @@
 <?php
+sleep(1);
+
 $res = array(
     'Request Method' => $_SERVER['REQUEST_METHOD'],
     'args' => array()
