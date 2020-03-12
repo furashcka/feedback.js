@@ -106,14 +106,19 @@ $(function() {
     app.modal = function( opts ) {
         $.fancybox.close();
         $.fancybox.open({
-            src: '<div>' + opts.html + '</div>',
+            src: [
+                '<div>',
+                '   <button type="button" data-fancybox-close="" class="fancybox-button fancybox-close-small" title="Close">',
+                '       <svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24">',
+                '           <path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path>',
+                '       </svg>',
+                '   </button>',
+                opts.html,
+                '</div>'
+            ].join( '' ),
             type: 'html',
-            smallBtn: false,
+            modal: true,
             autoFocus: false,
-            touch: {
-                vertical: false,
-                momentum: false
-            },
             afterShow: opts.after
         });
     };
