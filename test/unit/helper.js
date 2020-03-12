@@ -57,17 +57,17 @@ module.exports = {
 
 //_getServerURL duplicated in docs/js/examples.js
 function _getServerURL() {
-    var breakPoints = ['docs', 'test'];
-    var oldArr = location.href.split('/');
+    var breakPoints = [ 'docs', 'test' ];
+    var oldArr = location.href.split( '/' );
     var newArr = [];
 
-    for(var i = 0; i < oldArr.length; i++) {
-        if(breakPoints.indexOf(oldArr[i]) !== -1) break;
+    for( var i = 0; i < oldArr.length; i++ ) {
+        if( breakPoints.indexOf( oldArr[ i ] ) !== -1 ) break;
 
-        newArr.push(oldArr[i]);
+        newArr.push( oldArr[ i ] );
     }
 
-    newArr.push('server/');
+    newArr.push( 'server/' );
 
-    return newArr.join('/');
+    return newArr.join( '/' );
 }
