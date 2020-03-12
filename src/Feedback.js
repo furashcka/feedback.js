@@ -14,6 +14,7 @@ module.exports = function( form, options ) {
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
     self.submitFn = null;
+    self.progressTimeoutID = null;
     self.options = {
         focusIncorrectInput: true,
         fireSchemaByTurn: true,

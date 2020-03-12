@@ -35,6 +35,8 @@ module.exports = function( self ) {
     xhr.onreadystatechange = function() {
         if( xhr.readyState !== 4 ) return;
 
+        window.clearTimeout( self.progressTimeoutID );
+
         if( xhr.status === 200 ) {
             self.options.ajax.success({
                 type: 'ajax.' + version,
@@ -50,13 +52,19 @@ module.exports = function( self ) {
 
         helper.removeClass( self.form, self.options.ajax.loadingClass );
         self.options.ajax.after();
-        _fakeProgressEventForOldBrowser( self );
+        !helper.canUseProgressEvent() && self.options.ajax.progress.call( self.form, 100 );
         resetForm( self );
     };
 
     xhr.open( method, url );
     setRequestHeader && xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
     xhr.send( data );
+
+    if(!helper.canUseProgressEvent()) {
+        self.progressTimeoutID = window.setTimeout(function() {
+            self.options.ajax.progress.call( self.form, 30 );
+        }, 500);
+    }
 };
 
 function _onprogress( self, xhr ) {
@@ -67,8 +75,4 @@ function _onprogress( self, xhr ) {
 
         self.options.ajax.progress.call( self.form, percent );
     };
-}
-
-function _fakeProgressEventForOldBrowser( self ) {
-    !helper.canUseProgressEvent() && self.options.ajax.progress.call( self.form, 100 );
 }

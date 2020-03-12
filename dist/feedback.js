@@ -247,6 +247,7 @@
             self.iframe = null;
             self.inputsGroupedByName = {};
             self.submitFn = null;
+            self.progressTimeoutID = null;
             self.options = {
                 focusIncorrectInput: true,
                 fireSchemaByTurn: true,
@@ -831,6 +832,9 @@
                 }, self.options.ajax.iframeTimeout);
             }
             self.form.submit();
+            self.progressTimeoutID = window.setTimeout(function() {
+                self.options.ajax.progress.call(self.form, 30);
+            }, 500);
         };
         window.addEventListener("message", function(e) {
             var self = null;
@@ -884,6 +888,7 @@
             self.iframe = null;
         }
         function _end(self) {
+            clearTimeout(self.progressTimeoutID);
             self.options.ajax.progress.call(self.form, 100);
             helper.removeClass(self.form, self.options.ajax.loadingClass);
             self.options.ajax.after();
@@ -919,6 +924,7 @@
             _onprogress(self, xhr);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState !== 4) return;
+                window.clearTimeout(self.progressTimeoutID);
                 if (xhr.status === 200) {
                     self.options.ajax.success({
                         type: "ajax." + version,
@@ -932,12 +938,17 @@
                 }
                 helper.removeClass(self.form, self.options.ajax.loadingClass);
                 self.options.ajax.after();
-                _fakeProgressEventForOldBrowser(self);
+                !helper.canUseProgressEvent() && self.options.ajax.progress.call(self.form, 100);
                 resetForm(self);
             };
             xhr.open(method, url);
             setRequestHeader && xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(data);
+            if (!helper.canUseProgressEvent()) {
+                self.progressTimeoutID = window.setTimeout(function() {
+                    self.options.ajax.progress.call(self.form, 30);
+                }, 500);
+            }
         };
         function _onprogress(self, xhr) {
             if (!helper.canUseProgressEvent()) return;
@@ -945,9 +956,6 @@
                 var percent = Math.round(e.loaded / e.total * 100);
                 self.options.ajax.progress.call(self.form, percent);
             };
-        }
-        function _fakeProgressEventForOldBrowser(self) {
-            !helper.canUseProgressEvent() && self.options.ajax.progress.call(self.form, 100);
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
@@ -985,8 +993,12 @@
             };
             xdr.open(method, url);
             xdr.send(data);
+            self.progressTimeoutID = window.setTimeout(function() {
+                self.options.ajax.progress.call(self.form, 30);
+            }, 500);
         };
         function _end(self) {
+            window.clearTimeout(self.progressTimeoutID);
             helper.removeClass(self.form, self.options.ajax.loadingClass);
             self.options.ajax.after();
             self.options.ajax.progress.call(self.form, 100);

@@ -42,9 +42,14 @@ module.exports = function( self ) {
 
     xdr.open( method, url );
     xdr.send( data );
+
+    self.progressTimeoutID = window.setTimeout(function() {
+        self.options.ajax.progress.call( self.form, 30 );
+    }, 500);
 };
 
 function _end( self ) {
+    window.clearTimeout( self.progressTimeoutID );
     helper.removeClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.after();
     self.options.ajax.progress.call( self.form, 100 );

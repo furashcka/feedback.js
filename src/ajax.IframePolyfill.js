@@ -65,6 +65,10 @@ module.exports = function( self ) {
     }
 
     self.form.submit();
+
+    self.progressTimeoutID = window.setTimeout(function() {
+        self.options.ajax.progress.call( self.form, 30 );
+    }, 500);
 };
 
 window.addEventListener( 'message', function( e ) {
@@ -135,6 +139,7 @@ function _iframeAbort( self ) {
 }
 
 function _end( self ) {
+    clearTimeout( self.progressTimeoutID );
     self.options.ajax.progress.call( self.form, 100 );
     helper.removeClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.after();
