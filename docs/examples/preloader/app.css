@@ -1,6 +1,7 @@
 form {
     position: relative;
     padding: 15px;
+    padding-bottom: 0;
 }
 
 form.form--loading .preloader {

@@ -1,5 +1,6 @@
 form {
     padding: 15px;
+    padding-bottom: 0;
 }
 
 .error {

@@ -20,14 +20,17 @@ iframe {
     max-height: calc( 100vh - 130px );
 }
 
-
-
 .fancybox-content {
     padding: 15px;
 }
 
+.fancybox-content iframe {
+    margin-bottom: 0;
+}
+
 .fancybox-content pre[class*=language-] {
     max-height: calc( 100vh - 180px );
+    margin-bottom: 0;
 }
 
 .fancybox-content .demonstration-block {
@@ -61,8 +64,6 @@ iframe {
     transform: translate(0, 0);
 }
 
-
-
 #home ol {
     padding-left: 15px;
 }
@@ -71,13 +72,9 @@ iframe {
     margin-top: 30px;
 }
 
-
-
 .container h2 {
     color: #757575;
 }
-
-
 
 .demonstration-block__preloader {
     display: none;
@@ -91,8 +88,6 @@ iframe {
     margin-left: -15px;
     width: calc( 100% + 30px );
 }
-
-
 
 .btn-examples,
 .demonstration-block__btns {
