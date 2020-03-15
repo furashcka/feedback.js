@@ -5,18 +5,24 @@
         errorEl: $( 'form .error' )
     };
     var feedback = new Feedback( $el.form.get( 0 ) );
+    var maxSizeMB = 6;
 
     feedback.schema({
         avatar: function() {
             var file = this.get().files[ 0 ];
-            var type = file && _getTypeOfFile( this.get().files[ 0 ] );
+            var fileSizeMB = ( file.size / 1024 / 1024 ).toFixed( 2 );
+            var fileType = file && _getTypeOfFile( this.get().files[ 0 ] );
 
             if( !file ) {
                 return 'please, select file';
             }
 
-            if( type !== 'png' && type !== 'jpeg' && type !== 'jpg' ) {
+            if( fileType !== 'png' && fileType !== 'jpeg' && fileType !== 'jpg' ) {
                 return 'unsupported file format';
+            }
+
+            if( fileSizeMB > maxSizeMB ) {
+                return 'Max file size ' + maxSizeMB + 'Mb';
             }
         }
     });
@@ -35,9 +41,6 @@
         loadingClass: 'form--loading',
         iframePostMessage: app.isInternetExplorerBrowser() === 9,
         success: function( e ) {
-            var res = null;
-            var json = JSON.parse( e.xhr.responseText );
-
             parent.$( 'body' ).trigger( 'feedback.response', e );
         }
     });
