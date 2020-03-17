@@ -1,6 +1,6 @@
 {
   "name": "@furashcka/feedback.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "feedback.js it's simple library with beautiful API for validation and sending forms.",
   "main": "dist/feedback.min.js",
   "directories": {
