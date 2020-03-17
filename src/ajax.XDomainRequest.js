@@ -9,6 +9,9 @@ module.exports = function( self ) {
     var xdr = new XDomainRequest();
     var ajaxType = 'ajax.1.0';
 
+    helper.addClass( self.form, self.options.ajax.loadingClass );
+    self.options.ajax.before();
+
     if( method === 'GET' ) {
         url = helper.makeSerializationURL({
             url: self.options.ajax.url,
@@ -18,9 +21,6 @@ module.exports = function( self ) {
     else {
         data = serialize( self );
     }
-
-    helper.addClass( self.form, self.options.ajax.loadingClass );
-    self.options.ajax.before();
 
     xdr.onload = function() {
         self.options.ajax.success({

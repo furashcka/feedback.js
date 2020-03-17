@@ -10,6 +10,9 @@ module.exports = function( self ) {
     var setRequestHeader = false;
     var xhr = new XMLHttpRequest();
 
+    helper.addClass( self.form, self.options.ajax.loadingClass );
+    self.options.ajax.before();
+
     if( method === 'GET' ) {
         url = helper.makeSerializationURL({
             url: self.options.ajax.url,
@@ -26,9 +29,6 @@ module.exports = function( self ) {
             data = new FormData( self.form );
         }
     }
-
-    helper.addClass( self.form, self.options.ajax.loadingClass );
-    self.options.ajax.before();
 
     _onprogress( self, xhr );
 
