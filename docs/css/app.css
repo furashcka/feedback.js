@@ -20,6 +20,13 @@ iframe {
     max-height: calc( 100vh - 130px );
 }
 
+#cdn-script {
+    height: 66px;
+    background: #272822;
+    border-radius: 2px;
+    padding-top: 15px;
+}
+
 .fancybox-content {
     padding: 15px;
 }

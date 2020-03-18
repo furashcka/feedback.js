@@ -3,12 +3,17 @@ $(function() {
     var $el = {
         body: $( 'body' ),
         demonstrationBlock: $( '.demonstration-block' ),
-        exampleBtns: $( 'button[data-example]' )
+        exampleBtns: $( 'button[data-example]' ),
+        cdnScript: $( '#cdn-script' )
     };
 
     app.initSmoothScroll();
     app.initMobileMenu();
     app.initDemonstrationBlock( $el.demonstrationBlock, 'html' );
+
+    $el.cdnScript.on('click', function() {
+        app.selectText( this );
+    });
 
     $el.exampleBtns.on( 'click', function() {
         var partURL = $( this ).data( 'example' );
@@ -220,4 +225,23 @@ $(function() {
                  .replace( /'/g, '&#039;' );
         }
     };
+})();
+
+;(function() {
+    var app = window.app = window.app || {};
+
+    app.selectText = function( el ) {
+        var range = null;
+        if( document.selection ) { // IE
+            range = document.body.createTextRange();
+            range.moveToElementText( el );
+            range.select();
+        }
+        else if( window.getSelection ) {
+            range = document.createRange();
+            range.selectNode( el );
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange( range );
+        }
+    }
 })();
