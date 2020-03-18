@@ -51,6 +51,8 @@ var prototype = {
     }
 };
 
+_defineProperties( prototype );
+
 module.exports = function( array ) {
     var obj = Object.create( prototype );
     var i = 0;
@@ -61,3 +63,13 @@ module.exports = function( array ) {
 
     return obj;
 };
+
+function _defineProperties( obj ) {
+    helper.forEach( obj, function( val, key ) {
+        Object.defineProperty( obj, key, {
+            writable: false,
+            enumerable: false,
+            configurable: false
+        });
+    });
+}

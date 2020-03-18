@@ -1065,6 +1065,7 @@
                 return __webpack_require__(34).default(this.get().value, pattern, modifiers);
             }
         };
+        _defineProperties(prototype);
         module.exports = function(array) {
             var obj = Object.create(prototype);
             var i = 0;
@@ -1073,6 +1074,15 @@
             });
             return obj;
         };
+        function _defineProperties(obj) {
+            helper.forEach(obj, function(val, key) {
+                Object.defineProperty(obj, key, {
+                    writable: false,
+                    enumerable: false,
+                    configurable: false
+                });
+            });
+        }
     }, function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
