@@ -772,12 +772,11 @@
         function _isNeedUseXDomainRequest(self) {
             var a = document.createElement("A");
             var xhr = new XMLHttpRequest();
+            var hostname = null;
             a.href = self.options.ajax.url;
-            a.hostname = helper.hostnameFromStr(a.href);
-            if (a.hostname !== location.hostname && typeof xhr.withCredentials === "undefined" && typeof XDomainRequest !== "undefined") {
-                return true;
-            }
-            return false;
+            hostname = a.hostname = helper.hostnameFromStr(a.href);
+            a = null;
+            return hostname !== location.hostname && typeof xhr.withCredentials === "undefined" && typeof XDomainRequest !== "undefined";
         }
     }, function(module, exports, __webpack_require__) {
         var logger = __webpack_require__(5);

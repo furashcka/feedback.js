@@ -50,13 +50,11 @@ function _formHasInputWithFileType( self ) {
 function _isNeedUseXDomainRequest( self ) {
     var a = document.createElement( 'A' );
     var xhr = new XMLHttpRequest();
+    var hostname = null;
 
     a.href = self.options.ajax.url;
-    a.hostname = helper.hostnameFromStr( a.href ); //ie default return empty
+    hostname = a.hostname = helper.hostnameFromStr( a.href ); //ie default return empty
+    a = null;
 
-    if( a.hostname !== location.hostname && typeof xhr.withCredentials === 'undefined' && typeof XDomainRequest !== 'undefined' ) {
-        return true;
-    }
-
-    return false;
+    return hostname !== location.hostname && typeof xhr.withCredentials === 'undefined' && typeof XDomainRequest !== 'undefined';
 }
