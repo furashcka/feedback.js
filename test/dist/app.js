@@ -213,8 +213,7 @@
         }
     }, function(module, exports) {
         module.exports = function(self) {
-            if (!self.options.resetFormAfterAjax) return;
-            self.form.reset();
+            self.options.resetFormAfterAjax && self.form.reset();
         };
     }, function(module, exports, __webpack_require__) {
         "use strict";
@@ -303,6 +302,7 @@
                 return __webpack_require__(14).call(this);
             }
             this.options.ajax = helper.extend(this.options.ajax, ajax || {});
+            this.options.ajax.method = this.options.ajax.method.toUpperCase();
             _updateFormAttributes(this.form, this.options.ajax.url, this.options.ajax.method);
             return this;
         };
@@ -963,12 +963,14 @@
         var resetForm = __webpack_require__(2);
         var serialize = __webpack_require__(7);
         module.exports = function(self) {
-            var method = self.options.ajax.method.toUpperCase();
+            var method = self.options.ajax.method;
             var url = self.options.ajax.url;
             var data = null;
             var version = "1.0";
             var setRequestHeader = false;
             var xhr = new XMLHttpRequest();
+            helper.addClass(self.form, self.options.ajax.loadingClass);
+            self.options.ajax.before();
             if (method === "GET") {
                 url = helper.makeSerializationURL({
                     url: self.options.ajax.url,
@@ -983,8 +985,6 @@
                     data = new FormData(self.form);
                 }
             }
-            helper.addClass(self.form, self.options.ajax.loadingClass);
-            self.options.ajax.before();
             _onprogress(self, xhr);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState !== 4) return;
@@ -1026,11 +1026,13 @@
         var resetForm = __webpack_require__(2);
         var serialize = __webpack_require__(7);
         module.exports = function(self) {
-            var method = self.options.ajax.method.toUpperCase();
+            var method = self.options.ajax.method;
             var url = self.options.ajax.url;
             var data = null;
             var xdr = new XDomainRequest();
             var ajaxType = "ajax.1.0";
+            helper.addClass(self.form, self.options.ajax.loadingClass);
+            self.options.ajax.before();
             if (method === "GET") {
                 url = helper.makeSerializationURL({
                     url: self.options.ajax.url,
@@ -1039,8 +1041,6 @@
             } else {
                 data = serialize(self);
             }
-            helper.addClass(self.form, self.options.ajax.loadingClass);
-            self.options.ajax.before();
             xdr.onload = function() {
                 self.options.ajax.success({
                     type: ajaxType,

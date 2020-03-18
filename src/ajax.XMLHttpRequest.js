@@ -3,7 +3,7 @@ var resetForm = require( 'resetForm' );
 var serialize = require( 'serialize' );
 
 module.exports = function( self ) {
-    var method = self.options.ajax.method.toUpperCase();
+    var method = self.options.ajax.method;
     var url = self.options.ajax.url;
     var data = null;
     var version = '1.0';

@@ -81,6 +81,7 @@ module.exports.prototype.ajax = function( ajax ) {
     }
 
     this.options.ajax = helper.extend( this.options.ajax, ajax || {} );
+    this.options.ajax.method = this.options.ajax.method.toUpperCase();
 
     _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
 

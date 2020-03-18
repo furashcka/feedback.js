@@ -302,6 +302,7 @@
                 return __webpack_require__(14).call(this);
             }
             this.options.ajax = helper.extend(this.options.ajax, ajax || {});
+            this.options.ajax.method = this.options.ajax.method.toUpperCase();
             _updateFormAttributes(this.form, this.options.ajax.url, this.options.ajax.method);
             return this;
         };
@@ -898,7 +899,7 @@
         var resetForm = __webpack_require__(2);
         var serialize = __webpack_require__(7);
         module.exports = function(self) {
-            var method = self.options.ajax.method.toUpperCase();
+            var method = self.options.ajax.method;
             var url = self.options.ajax.url;
             var data = null;
             var version = "1.0";
@@ -961,7 +962,7 @@
         var resetForm = __webpack_require__(2);
         var serialize = __webpack_require__(7);
         module.exports = function(self) {
-            var method = self.options.ajax.method.toUpperCase();
+            var method = self.options.ajax.method;
             var url = self.options.ajax.url;
             var data = null;
             var xdr = new XDomainRequest();
