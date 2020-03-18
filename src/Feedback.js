@@ -111,6 +111,7 @@ module.exports.prototype.resetForm = function() {
 
 module.exports.prototype.destroy = function() {
     this.form.removeEventListener( 'submit', this.submitFn );
+    this.iframe && this.iframe.parentNode.removeChild( this.iframe );
 
     return null;
 };

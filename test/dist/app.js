@@ -322,6 +322,7 @@
         };
         module.exports.prototype.destroy = function() {
             this.form.removeEventListener("submit", this.submitFn);
+            this.iframe && this.iframe.parentNode.removeChild(this.iframe);
             return null;
         };
         function _updateFormAttributes(form, action, method) {
@@ -2505,8 +2506,8 @@
                 setTimeout(function() {
                     done();
                     expect(statusText).toBe("abort");
+                    feedback = feedback.destroy();
                 }, 11);
-                feedback = feedback.destroy();
             });
             it('test (window.postMessage) "iframePolyfill" = true; "iframeTimeout" = 60000; "iframePostMessage" = true;', function(done) {
                 var feedback = new Feedback(helper.form.el);
@@ -2519,10 +2520,10 @@
                         done();
                         expect(e.xhr.status).toBe(200);
                         expect(e.xhr.responseText).toBe('{"Request Method":"POST","args":{"phone":"7777-7777","age":""}}');
+                        feedback = feedback.destroy();
                     }
                 });
                 feedback.ajax();
-                feedback = feedback.destroy();
             });
             it('test (window.postMessage result type not a text, show error) "iframePolyfill" = true; "iframeTimeout" = 60000; "iframePostMessage" = true;', function(done) {
                 var feedback = new Feedback(helper.form.el);
@@ -2530,6 +2531,7 @@
                 window.addEventListener("message", function() {
                     expect(console.error).toHaveBeenCalledWith("You must return text in post message");
                     done();
+                    feedback = feedback.destroy();
                 });
                 feedback.ajax({
                     url: helper.serverURL + "?use_post_message=1&need_incorrect_data=1",
@@ -2538,7 +2540,6 @@
                     iframePostMessage: true
                 });
                 feedback.ajax();
-                feedback = feedback.destroy();
             });
         };
     }, function(module, exports, __webpack_require__) {

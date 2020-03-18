@@ -57,9 +57,9 @@ module.exports = function() {
         setTimeout(function() {
             done();
             expect( statusText ).toBe( 'abort' );
-        }, 11);
 
-        feedback = feedback.destroy();
+            feedback = feedback.destroy();
+        }, 11);
     });
 
     it( 'test (window.postMessage) "iframePolyfill" = true; "iframeTimeout" = 60000; "iframePostMessage" = true;', function( done ) {
@@ -74,11 +74,11 @@ module.exports = function() {
                 done();
                 expect( e.xhr.status ).toBe( 200 );
                 expect( e.xhr.responseText ).toBe( '{"Request Method":"POST","args":{"phone":"7777-7777","age":""}}' );
+
+                feedback = feedback.destroy();
             }
         });
         feedback.ajax();
-
-        feedback = feedback.destroy();
     });
 
     it( 'test (window.postMessage result type not a text, show error) "iframePolyfill" = true; "iframeTimeout" = 60000; "iframePostMessage" = true;', function( done ) {
@@ -89,6 +89,8 @@ module.exports = function() {
         window.addEventListener( 'message', function() {
             expect( console.error ).toHaveBeenCalledWith( 'You must return text in post message' );
             done();
+
+            feedback = feedback.destroy();
         });
 
         feedback.ajax({
@@ -98,7 +100,5 @@ module.exports = function() {
             iframePostMessage: true
         });
         feedback.ajax();
-
-        feedback = feedback.destroy();
     });
 };
