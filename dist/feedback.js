@@ -213,8 +213,7 @@
         }
     }, function(module, exports) {
         module.exports = function(self) {
-            if (!self.options.resetFormAfterAjax) return;
-            self.form.reset();
+            self.options.resetFormAfterAjax && self.form.reset();
         };
     }, function(module, exports, __webpack_require__) {
         "use strict";
@@ -905,6 +904,8 @@
             var version = "1.0";
             var setRequestHeader = false;
             var xhr = new XMLHttpRequest();
+            helper.addClass(self.form, self.options.ajax.loadingClass);
+            self.options.ajax.before();
             if (method === "GET") {
                 url = helper.makeSerializationURL({
                     url: self.options.ajax.url,
@@ -919,8 +920,6 @@
                     data = new FormData(self.form);
                 }
             }
-            helper.addClass(self.form, self.options.ajax.loadingClass);
-            self.options.ajax.before();
             _onprogress(self, xhr);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState !== 4) return;
@@ -967,6 +966,8 @@
             var data = null;
             var xdr = new XDomainRequest();
             var ajaxType = "ajax.1.0";
+            helper.addClass(self.form, self.options.ajax.loadingClass);
+            self.options.ajax.before();
             if (method === "GET") {
                 url = helper.makeSerializationURL({
                     url: self.options.ajax.url,
@@ -975,8 +976,6 @@
             } else {
                 data = serialize(self);
             }
-            helper.addClass(self.form, self.options.ajax.loadingClass);
-            self.options.ajax.before();
             xdr.onload = function() {
                 self.options.ajax.success({
                     type: ajaxType,

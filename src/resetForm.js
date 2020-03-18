@@ -1,4 +1,3 @@
 module.exports = function( self ) {
-    if( !self.options.resetFormAfterAjax ) return;
-    self.form.reset();
+    self.options.resetFormAfterAjax && self.form.reset();
 };
