@@ -99,6 +99,7 @@ module.exports.prototype.update = function() {
 
 module.exports.prototype.fireValidateError = function( message, element ) {
     this.options.validate.error.call( element || helper.getEmptyObj(), message );
+    this.options.focusIncorrectInput === true && element && element[0] && element[0].focus && element[0].focus();
 
     return this;
 };
