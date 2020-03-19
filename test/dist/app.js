@@ -2439,7 +2439,6 @@
                 feedback.ajax();
                 feedback.iframe.onload();
                 expect(success).toHaveBeenCalled();
-                feedback = feedback.destroy();
             });
             it('test "iframePolyfill" = auto', function() {
                 _test({
@@ -2526,7 +2525,6 @@
                     expect(console.warn).toHaveBeenCalledWith("Ignoring inputs with file type, because used XMLHttpRequest 1.0");
                 }
             }
-            feedback = feedback.destroy();
         }
         function _formHasInputWithFileType(form) {
             return form.querySelectorAll('input[type="file"]').length > 0;
@@ -2559,8 +2557,8 @@
                         done();
                         expect(console.warn).toHaveBeenCalledWith("You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/");
                         expect(console.error).toHaveBeenCalled();
+                        feedback = feedback.destroy();
                     });
-                    feedback = feedback.destroy();
                 });
             }
             it('test (iframe abort by timeout) "iframePolyfill" = true; "iframeTimeout" = 10; "iframePostMessage" = false;', function(done) {

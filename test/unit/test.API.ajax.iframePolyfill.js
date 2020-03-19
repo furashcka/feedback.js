@@ -24,8 +24,6 @@ module.exports = function() {
         feedback.iframe.onload();
 
         expect( success ).toHaveBeenCalled();
-
-        feedback = feedback.destroy();
     });
 
     it( 'test "iframePolyfill" = auto', function() {
@@ -131,8 +129,6 @@ function _test( options, addInputsCallback ) {
             expect( console.warn ).toHaveBeenCalledWith( 'Ignoring inputs with file type, because used XMLHttpRequest 1.0' );
         }
     }
-
-    feedback = feedback.destroy();
 }
 
 function _formHasInputWithFileType( form ) {

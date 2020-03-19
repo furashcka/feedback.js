@@ -32,9 +32,9 @@ module.exports = function() {
                 done();
                 expect( console.warn ).toHaveBeenCalledWith( 'You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/' );
                 expect( console.error ).toHaveBeenCalled();
-            });
 
-            feedback = feedback.destroy();
+                feedback = feedback.destroy();
+            });
         });
     }
 
