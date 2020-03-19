@@ -134,7 +134,7 @@ function _createIframe( self ) {
 }
 
 function _iframeAbort( self ) {
-    self.iframe && self.iframe.parentNode.removeChild( self.iframe );
+    self.iframe && self.iframe.parentNode && self.iframe.parentNode.removeChild( self.iframe );
     self.iframe = null;
 }
 

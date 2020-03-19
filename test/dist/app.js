@@ -512,6 +512,70 @@
             result.push(name + "=" + value);
         }
     }, function(module, exports, __webpack_require__) {
+        var fakeXDomainRequest = __webpack_require__(37);
+        var isCantUseFormData = window.FormData === undefined;
+        module.exports = {
+            serverURL: _getServerURL(),
+            form: __webpack_require__(38),
+            forEach: __webpack_require__(35),
+            fakeXDomainRequest: fakeXDomainRequest,
+            fakeAjax: {
+                getCurrentInstance: function() {
+                    return fakeXDomainRequest.getCurrentInstance() || jasmine.Ajax.requests.mostRecent();
+                },
+                respondWith: function(obj) {
+                    jasmine.Ajax.requests.mostRecent().respondWith(obj);
+                    fakeXDomainRequest.respondWith(obj);
+                },
+                install: function() {
+                    jasmine.Ajax.install();
+                    fakeXDomainRequest.install();
+                },
+                uninstall: function() {
+                    jasmine.Ajax.uninstall();
+                    fakeXDomainRequest.uninstall();
+                }
+            },
+            isProgressEventSupport: function() {
+                var xhr = new XMLHttpRequest();
+                var test = "upload" in xhr && "onprogress" in xhr.upload;
+                xhr = null;
+                return test;
+            },
+            isCantUseFormData: function() {
+                return isCantUseFormData;
+            },
+            isInternetExplorerBrowser: function() {
+                var userAgent = navigator.userAgent.toLowerCase();
+                return userAgent.indexOf("msie") != -1 ? parseInt(userAgent.split("msie")[1]) : false;
+            },
+            triggerEvent: function(el, eventName) {
+                var event;
+                if (document.createEvent) {
+                    event = document.createEvent("HTMLEvents");
+                    event.initEvent(eventName, true, true);
+                    event.eventName = eventName;
+                    el.dispatchEvent(event);
+                } else {
+                    event = document.createEventObject();
+                    event.eventName = eventName;
+                    event.eventType = eventName;
+                    el.fireEvent("on" + event.eventType, event);
+                }
+            }
+        };
+        function _getServerURL() {
+            var breakPoints = [ "docs", "test" ];
+            var oldArr = location.href.split("/");
+            var newArr = [];
+            for (var i = 0; i < oldArr.length; i++) {
+                if (breakPoints.indexOf(oldArr[i]) !== -1) break;
+                newArr.push(oldArr[i]);
+            }
+            newArr.push("server/");
+            return newArr.join("/");
+        }
+    }, function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
             value: true
@@ -667,70 +731,6 @@
         }
         module.exports = exports.default;
         module.exports.default = exports.default;
-    }, function(module, exports, __webpack_require__) {
-        var fakeXDomainRequest = __webpack_require__(37);
-        var isCantUseFormData = window.FormData === undefined;
-        module.exports = {
-            serverURL: _getServerURL(),
-            form: __webpack_require__(38),
-            forEach: __webpack_require__(35),
-            fakeXDomainRequest: fakeXDomainRequest,
-            fakeAjax: {
-                getCurrentInstance: function() {
-                    return fakeXDomainRequest.getCurrentInstance() || jasmine.Ajax.requests.mostRecent();
-                },
-                respondWith: function(obj) {
-                    jasmine.Ajax.requests.mostRecent().respondWith(obj);
-                    fakeXDomainRequest.respondWith(obj);
-                },
-                install: function() {
-                    jasmine.Ajax.install();
-                    fakeXDomainRequest.install();
-                },
-                uninstall: function() {
-                    jasmine.Ajax.uninstall();
-                    fakeXDomainRequest.uninstall();
-                }
-            },
-            isProgressEventSupport: function() {
-                var xhr = new XMLHttpRequest();
-                var test = "upload" in xhr && "onprogress" in xhr.upload;
-                xhr = null;
-                return test;
-            },
-            isCantUseFormData: function() {
-                return isCantUseFormData;
-            },
-            isInternetExplorerBrowser: function() {
-                var userAgent = navigator.userAgent.toLowerCase();
-                return userAgent.indexOf("msie") != -1 ? parseInt(userAgent.split("msie")[1]) : false;
-            },
-            triggerEvent: function(el, eventName) {
-                var event;
-                if (document.createEvent) {
-                    event = document.createEvent("HTMLEvents");
-                    event.initEvent(eventName, true, true);
-                    event.eventName = eventName;
-                    el.dispatchEvent(event);
-                } else {
-                    event = document.createEventObject();
-                    event.eventName = eventName;
-                    event.eventType = eventName;
-                    el.fireEvent("on" + event.eventType, event);
-                }
-            }
-        };
-        function _getServerURL() {
-            var breakPoints = [ "docs", "test" ];
-            var oldArr = location.href.split("/");
-            var newArr = [];
-            for (var i = 0; i < oldArr.length; i++) {
-                if (breakPoints.indexOf(oldArr[i]) !== -1) break;
-                newArr.push(oldArr[i]);
-            }
-            newArr.push("server/");
-            return newArr.join("/");
-        }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
         var ignoreInputTypesRegex = /^(?:submit|button|image|reset)$/i;
@@ -949,7 +949,7 @@
             return iframe;
         }
         function _iframeAbort(self) {
-            self.iframe && self.iframe.parentNode.removeChild(self.iframe);
+            self.iframe && self.iframe.parentNode && self.iframe.parentNode.removeChild(self.iframe);
             self.iframe = null;
         }
         function _end(self) {
@@ -1165,7 +1165,7 @@
         });
         exports.default = contains;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(8));
+        var _toString = _interopRequireDefault(__webpack_require__(9));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1294,8 +1294,8 @@
         var _assertString = _interopRequireDefault(__webpack_require__(0));
         var _merge = _interopRequireDefault(__webpack_require__(3));
         var _isByteLength = _interopRequireDefault(__webpack_require__(26));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
-        var _isIP = _interopRequireDefault(__webpack_require__(10));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(10));
+        var _isIP = _interopRequireDefault(__webpack_require__(11));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1478,7 +1478,7 @@
         });
         exports.default = isIn;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(8));
+        var _toString = _interopRequireDefault(__webpack_require__(9));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1692,8 +1692,8 @@
         });
         exports.default = isURL;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
-        var _isIP = _interopRequireDefault(__webpack_require__(10));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(10));
+        var _isIP = _interopRequireDefault(__webpack_require__(11));
         var _merge = _interopRequireDefault(__webpack_require__(3));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
@@ -1839,7 +1839,7 @@
             }
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         window.jasmine = window.jasmine || {};
         window.jasmine.isUnitTestingNow = true;
@@ -1872,19 +1872,19 @@
             __webpack_require__(41)();
         });
         describe("test Input API", function() {
-            __webpack_require__(46)();
-        });
-        describe('test API "ajax" - for this need more tests', function() {
             __webpack_require__(42)();
         });
-        describe('test API "ajax" "iframePolyfill" option - for this need more tests', function() {
+        describe('test API "ajax" - for this need more tests', function() {
             __webpack_require__(43)();
         });
-        describe('test API "ajax" "iframePolyfill", "iframeTimeout", "iframePostMessage" options together - for this need more tests', function() {
+        describe('test API "ajax" "iframePolyfill" option - for this need more tests', function() {
             __webpack_require__(44)();
         });
-        describe("test serialize", function() {
+        describe('test API "ajax" "iframePolyfill", "iframeTimeout", "iframePostMessage" options together - for this need more tests', function() {
             __webpack_require__(45)();
+        });
+        describe("test serialize", function() {
+            __webpack_require__(46)();
         });
     }, function(module, exports, __webpack_require__) {
         var forEach = __webpack_require__(35);
@@ -1992,7 +1992,7 @@
             return el;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             it("error test: new Feedback() first argument must be a form element", function() {
@@ -2019,7 +2019,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             beforeEach(function() {
@@ -2162,7 +2162,7 @@
             }
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             it('must have API "schema", "ajax", "update", "validate", "resetForm", "fireValidateError", "destroy"', function() {
@@ -2261,7 +2261,56 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
+        var Feedback = __webpack_require__(4);
+        module.exports = function() {
+            it('test "get"', function() {
+                var feedback = new Feedback(helper.form.el);
+                var inputVal = "";
+                feedback.schema({
+                    phone: function() {
+                        inputVal = this.get().value;
+                    }
+                });
+                feedback.validate();
+                expect(inputVal).toEqual("7777-7777");
+                feedback = feedback.destroy();
+            });
+            it('test "isAnyChecked"', function() {
+                var feedback = new Feedback(helper.form.el);
+                var isAnyChecked = null;
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "1"
+                });
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "2"
+                });
+                feedback.update();
+                feedback.schema({
+                    types: function() {
+                        isAnyChecked = this.isAnyChecked();
+                    }
+                });
+                feedback.validate();
+                expect(isAnyChecked).toEqual(false);
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    checked: true,
+                    value: "3"
+                });
+                feedback.update();
+                feedback.validate();
+                expect(isAnyChecked).toEqual(true);
+                feedback = feedback.destroy();
+            });
+        };
+    }, function(module, exports, __webpack_require__) {
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             beforeEach(function() {
@@ -2368,7 +2417,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             beforeEach(function() {
@@ -2483,7 +2532,7 @@
             return form.querySelectorAll('input[type="file"]').length > 0;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var Feedback = __webpack_require__(4);
         module.exports = function() {
             beforeEach(function() {
@@ -2567,7 +2616,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
+        var helper = __webpack_require__(8);
         var getInputsGroupedByName = __webpack_require__(12);
         var serialize = __webpack_require__(7);
         module.exports = function() {
@@ -2731,54 +2780,5 @@
                 }
             };
         }
-    }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(11);
-        var Feedback = __webpack_require__(4);
-        module.exports = function() {
-            it('test "get"', function() {
-                var feedback = new Feedback(helper.form.el);
-                var inputVal = "";
-                feedback.schema({
-                    phone: function() {
-                        inputVal = this.get().value;
-                    }
-                });
-                feedback.validate();
-                expect(inputVal).toEqual("7777-7777");
-                feedback = feedback.destroy();
-            });
-            it('test "isAnyChecked"', function() {
-                var feedback = new Feedback(helper.form.el);
-                var isAnyChecked = null;
-                helper.form.add.input({
-                    name: "types",
-                    type: "checkbox",
-                    value: "1"
-                });
-                helper.form.add.input({
-                    name: "types",
-                    type: "checkbox",
-                    value: "2"
-                });
-                feedback.update();
-                feedback.schema({
-                    types: function() {
-                        isAnyChecked = this.isAnyChecked();
-                    }
-                });
-                feedback.validate();
-                expect(isAnyChecked).toEqual(false);
-                helper.form.add.input({
-                    name: "types",
-                    type: "checkbox",
-                    checked: true,
-                    value: "3"
-                });
-                feedback.update();
-                feedback.validate();
-                expect(isAnyChecked).toEqual(true);
-                feedback = feedback.destroy();
-            });
-        };
     } ]);
 });
