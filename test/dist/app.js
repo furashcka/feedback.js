@@ -1085,6 +1085,16 @@
                 if (index === -1) return this[this.length - 1];
                 return this[index || 0];
             },
+            isAnyChecked: function() {
+                var isAnyChecked = false;
+                helper.forEach(this, function(input) {
+                    if (input.checked === true) {
+                        isAnyChecked = true;
+                        return false;
+                    }
+                });
+                return isAnyChecked;
+            },
             contains: function(seed) {
                 return __webpack_require__(20)(this.get().value, seed);
             },
@@ -1860,6 +1870,9 @@
         });
         describe("test API", function() {
             __webpack_require__(41)();
+        });
+        describe("test Input API", function() {
+            __webpack_require__(46)();
         });
         describe('test API "ajax" - for this need more tests', function() {
             __webpack_require__(42)();
@@ -2718,5 +2731,54 @@
                 }
             };
         }
+    }, function(module, exports, __webpack_require__) {
+        var helper = __webpack_require__(11);
+        var Feedback = __webpack_require__(4);
+        module.exports = function() {
+            it('test "get"', function() {
+                var feedback = new Feedback(helper.form.el);
+                var inputVal = "";
+                feedback.schema({
+                    phone: function() {
+                        inputVal = this.get().value;
+                    }
+                });
+                feedback.validate();
+                expect(inputVal).toEqual("7777-7777");
+                feedback = feedback.destroy();
+            });
+            it('test "isAnyChecked"', function() {
+                var feedback = new Feedback(helper.form.el);
+                var isAnyChecked = null;
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "1"
+                });
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "2"
+                });
+                feedback.update();
+                feedback.schema({
+                    types: function() {
+                        isAnyChecked = this.isAnyChecked();
+                    }
+                });
+                feedback.validate();
+                expect(isAnyChecked).toEqual(false);
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    checked: true,
+                    value: "3"
+                });
+                feedback.update();
+                feedback.validate();
+                expect(isAnyChecked).toEqual(true);
+                feedback = feedback.destroy();
+            });
+        };
     } ]);
 });

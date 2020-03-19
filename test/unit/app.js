@@ -40,6 +40,10 @@ describe( 'test API', function() {
     require( 'test.API' )();
 });
 
+describe( 'test Input API', function() {
+    require( 'test.schema.InputAPI' )();
+});
+
 describe( 'test API "ajax" - for this need more tests', function() {
     require( 'test.API.ajax' )();
 });

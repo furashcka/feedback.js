@@ -5,6 +5,19 @@ var prototype = {
 
         return this[ index || 0 ];
     },
+    isAnyChecked: function() {
+        var isAnyChecked = false;
+
+        helper.forEach( this, function( input ) {
+            if( input.checked === true ) {
+                isAnyChecked = true;
+
+                return false;
+            }
+        });
+
+        return isAnyChecked;
+    },
     contains: function( seed ) {
         return require( 'node_modules/validator/lib/contains' )( this.get().value, seed );
     },

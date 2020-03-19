@@ -1021,6 +1021,16 @@
                 if (index === -1) return this[this.length - 1];
                 return this[index || 0];
             },
+            isAnyChecked: function() {
+                var isAnyChecked = false;
+                helper.forEach(this, function(input) {
+                    if (input.checked === true) {
+                        isAnyChecked = true;
+                        return false;
+                    }
+                });
+                return isAnyChecked;
+            },
             contains: function(seed) {
                 return __webpack_require__(20)(this.get().value, seed);
             },
