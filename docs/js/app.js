@@ -4,8 +4,10 @@ $(function() {
         body: $( 'body' ),
         demonstrationBlock: $( '.demonstration-block' ),
         exampleBtns: $( 'button[data-example]' ),
-        cdnScript: $( '#cdn-script' )
+        cdnScript: $( '#cdn-script' ),
+        copiedToClipboard: $( '.copied-to-clipboard' )
     };
+    var timeoutID = null;
 
     app.initSmoothScroll();
     app.initMobileMenu();
@@ -13,6 +15,14 @@ $(function() {
 
     $el.cdnScript.on('click', function() {
         app.selectText( this );
+        if( document.execCommand && document.execCommand( 'copy' ) ) {
+            $el.copiedToClipboard.show();
+
+            clearTimeout( timeoutID );
+            timeoutID = setTimeout(function() {
+                $el.copiedToClipboard.fadeOut();
+            }, 1000);
+        }
     });
 
     $el.exampleBtns.on( 'click', function() {
