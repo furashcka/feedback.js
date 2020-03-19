@@ -129,8 +129,8 @@ var opts = {
     schema: {},
     ajax: {
         loadingClass: '--loading',
-        url: el.getAttribute( 'action' ) || location.href,
-        method: el.getAttribute( 'method' ) || 'POST',
+        url: el.action || location.href,
+        method: el.method || 'POST',
         iframePolyfill: 'auto',
         iframePostMessage: false,
         iframeTimeout: 0,

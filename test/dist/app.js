@@ -255,8 +255,8 @@
                 schema: {},
                 ajax: {
                     loadingClass: "--loading",
-                    url: form.getAttribute("action") || location.href,
-                    method: form.getAttribute("method") || "POST",
+                    url: form.action || location.href,
+                    method: form.method || "POST",
                     iframePolyfill: "auto",
                     iframePostMessage: false,
                     iframeTimeout: 0,
