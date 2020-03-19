@@ -60,7 +60,7 @@ module.exports = function( form, options ) {
 };
 
 module.exports.prototype.schema = function( schema ) {
-    this.options.schema = schema;
+    this.options.schema = schema || this.options.schema;
 
     return this;
 };

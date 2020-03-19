@@ -287,7 +287,7 @@
             }
         };
         module.exports.prototype.schema = function(schema) {
-            this.options.schema = schema;
+            this.options.schema = schema || this.options.schema;
             return this;
         };
         module.exports.prototype.validate = function(validate) {
