@@ -327,6 +327,7 @@
             return null;
         };
         function _updateFormAttributes(form, action, method) {
+            form.setAttribute("novalidate", "");
             form.setAttribute("action", action);
             form.setAttribute("method", method);
         }

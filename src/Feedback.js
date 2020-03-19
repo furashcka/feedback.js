@@ -124,6 +124,7 @@ module.exports.prototype.destroy = function() {
 */
 
 function _updateFormAttributes( form, action, method ) {
+    form.setAttribute( 'novalidate', '' );
     form.setAttribute( 'action', action );
     form.setAttribute( 'method', method );
 }
