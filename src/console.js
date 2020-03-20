@@ -12,21 +12,15 @@ module.exports = {
         }
     },
     showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill: function() {
-        _warn('You can\'t use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.');
+        console.warn('You can\'t use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.');
     },
     showWarningWhenIgnoringInputWithFileType: function() {
-        _warn( 'Ignoring inputs with file type, because used XMLHttpRequest 1.0' );
+        console.warn( 'Ignoring inputs with file type, because used XMLHttpRequest 1.0' );
     },
     youMustReturnTextInPostMessage: function() {
         throw 'You must return text in post message';
     },
     youNeedUsePostMessage: function() {
-        _warn( 'You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/' );
+        console.warn( 'You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/' );
     }
 };
-
-function _warn( text ) {
-    if( console.warn ) {
-        console.warn( text );
-    }
-}

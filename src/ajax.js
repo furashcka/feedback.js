@@ -1,4 +1,4 @@
-var logger = require( 'logger' );
+var consoleObj = require( 'console' );
 var helper = require( 'helper' );
 var ajaxFnList = {
     iframe: require( 'ajax.IframePolyfill' ),
@@ -19,14 +19,14 @@ function _detectAjaxFn( self ) {
     var isNeedUseXDomainRequest = _isNeedUseXDomainRequest( self );
 
     if( self.options.ajax.iframePolyfill === true || isAutoUsePolyfill ) {
-        isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
+        isAutoUsePolyfill && consoleObj.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
         return 'iframe';
     }
     if( isNeedUseXDomainRequest ) {
         return 'XDomainRequest';
     }
     if( helper.cantUseFormData() && hasFileType ) {
-        logger.showWarningWhenIgnoringInputWithFileType();
+        consoleObj.showWarningWhenIgnoringInputWithFileType();
     }
 
     return 'XMLHttpRequest';

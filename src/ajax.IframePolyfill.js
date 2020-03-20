@@ -1,4 +1,4 @@
-var logger = require( 'logger' );
+var consoleObj = require( 'console' );
 var helper = require( 'helper' );
 var resetForm = require( 'resetForm' );
 
@@ -20,7 +20,7 @@ module.exports = function( self ) {
                     responseText = String( innerDoc.body && innerDoc.body.innerHTML );
                 }
                 catch( e ) {
-                    logger.youNeedUsePostMessage();
+                    consoleObj.youNeedUsePostMessage();
 
                     if( helper.isUnitTestingNow() ) {
                         console.error( e );
@@ -89,7 +89,7 @@ window.addEventListener( 'message', function( e ) {
 
     if( isCantReadResponse ) {
         try {
-            logger.youMustReturnTextInPostMessage();
+            consoleObj.youMustReturnTextInPostMessage();
         }
         catch( e ) {
             if( helper.isUnitTestingNow() ) {

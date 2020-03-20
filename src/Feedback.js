@@ -1,10 +1,10 @@
-var logger = require( 'logger' );
+var consoleObj = require( 'console' );
 var getInputsGroupedByName = require( 'getInputsGroupedByName' );
 var helper = require( 'helper' );
 
 module.exports = function( form, options ) {
-    logger.firstArgumentMustBeFormElement( form );
-    logger.incorrectSubmitButtonName( form );
+    consoleObj.firstArgumentMustBeFormElement( form );
+    consoleObj.incorrectSubmitButtonName( form );
 
     var self = this;
 

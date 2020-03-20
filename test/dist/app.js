@@ -234,12 +234,12 @@
         module.exports = exports.default;
         module.exports.default = exports.default;
     }, function(module, exports, __webpack_require__) {
-        var logger = __webpack_require__(5);
+        var consoleObj = __webpack_require__(5);
         var getInputsGroupedByName = __webpack_require__(12);
         var helper = __webpack_require__(1);
         module.exports = function(form, options) {
-            logger.firstArgumentMustBeFormElement(form);
-            logger.incorrectSubmitButtonName(form);
+            consoleObj.firstArgumentMustBeFormElement(form);
+            consoleObj.incorrectSubmitButtonName(form);
             var self = this;
             helper.addFeedback2List(self);
             self.form = form;
@@ -345,23 +345,18 @@
                 }
             },
             showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill: function() {
-                _warn("You can't use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.");
+                console.warn("You can't use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.");
             },
             showWarningWhenIgnoringInputWithFileType: function() {
-                _warn("Ignoring inputs with file type, because used XMLHttpRequest 1.0");
+                console.warn("Ignoring inputs with file type, because used XMLHttpRequest 1.0");
             },
             youMustReturnTextInPostMessage: function() {
                 throw "You must return text in post message";
             },
             youNeedUsePostMessage: function() {
-                _warn("You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/");
+                console.warn("You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/");
             }
         };
-        function _warn(text) {
-            if (console.warn) {
-                console.warn(text);
-            }
-        }
     }, function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
@@ -796,7 +791,7 @@
             return arr;
         }
     }, function(module, exports, __webpack_require__) {
-        var logger = __webpack_require__(5);
+        var consoleObj = __webpack_require__(5);
         var helper = __webpack_require__(1);
         var ajaxFnList = {
             iframe: __webpack_require__(15),
@@ -813,14 +808,14 @@
             var isAutoUsePolyfill = hasFileType && self.options.ajax.iframePolyfill === "auto" && helper.cantUseFormData();
             var isNeedUseXDomainRequest = _isNeedUseXDomainRequest(self);
             if (self.options.ajax.iframePolyfill === true || isAutoUsePolyfill) {
-                isAutoUsePolyfill && logger.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
+                isAutoUsePolyfill && consoleObj.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
                 return "iframe";
             }
             if (isNeedUseXDomainRequest) {
                 return "XDomainRequest";
             }
             if (helper.cantUseFormData() && hasFileType) {
-                logger.showWarningWhenIgnoringInputWithFileType();
+                consoleObj.showWarningWhenIgnoringInputWithFileType();
             }
             return "XMLHttpRequest";
         }
@@ -846,7 +841,7 @@
             return hostname !== location.hostname && typeof xhr.withCredentials === "undefined" && typeof XDomainRequest !== "undefined";
         }
     }, function(module, exports, __webpack_require__) {
-        var logger = __webpack_require__(5);
+        var consoleObj = __webpack_require__(5);
         var helper = __webpack_require__(1);
         var resetForm = __webpack_require__(2);
         module.exports = function(self) {
@@ -862,7 +857,7 @@
                             innerDoc = self.iframe.contentDocument || self.iframe.contentWindow.document;
                             responseText = String(innerDoc.body && innerDoc.body.innerHTML);
                         } catch (e) {
-                            logger.youNeedUsePostMessage();
+                            consoleObj.youNeedUsePostMessage();
                             if (helper.isUnitTestingNow()) {
                                 console.error(e);
                                 return false;
@@ -916,7 +911,7 @@
             isCantReadResponse = helper.isObject(e.data) || e.data === "[object Object]";
             if (isCantReadResponse) {
                 try {
-                    logger.youMustReturnTextInPostMessage();
+                    consoleObj.youMustReturnTextInPostMessage();
                 } catch (e) {
                     if (helper.isUnitTestingNow()) {
                         console.error(e);
