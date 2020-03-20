@@ -290,13 +290,6 @@
             this.options.schema = schema || this.options.schema;
             return this;
         };
-        module.exports.prototype.validate = function(validate) {
-            if (typeof validate === "undefined" || helper.isArray(validate)) {
-                return __webpack_require__(13).call(this, validate);
-            }
-            this.options.validate = helper.extend(this.options.validate, validate || {});
-            return this;
-        };
         module.exports.prototype.ajax = function(ajax) {
             if (typeof ajax === "undefined") {
                 return __webpack_require__(14).call(this);
@@ -304,6 +297,13 @@
             this.options.ajax = helper.extend(this.options.ajax, ajax || {});
             this.options.ajax.method = this.options.ajax.method.toUpperCase();
             _updateFormAttributes(this.form, this.options.ajax.url, this.options.ajax.method);
+            return this;
+        };
+        module.exports.prototype.validate = function(validate) {
+            if (typeof validate === "undefined" || helper.isArray(validate)) {
+                return __webpack_require__(13).call(this, validate);
+            }
+            this.options.validate = helper.extend(this.options.validate, validate || {});
             return this;
         };
         module.exports.prototype.update = function() {
