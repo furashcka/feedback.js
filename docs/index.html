@@ -124,6 +124,7 @@ var el = document.querySelector( 'form' );
 var opts = {
     focusIncorrectInput: true,
     fireSchemaByTurn: true,
+    blockSubmitWhenFormSending: true,
     fireValidateAndAjaxWhenSubmit: true,
     resetFormAfterAjax: true,
     schema: {},
@@ -169,6 +170,17 @@ var feedback = new Feedback( el, opts );
                 <li class="collection-item">
                     <b>true</b>: if you want to show the first error found and stop validating<br>
                     <b>false</b>: if you want to show all errors at once
+                    <br><br>
+                    Type: boolean<br>
+                    Default: true
+                </li>
+
+                <li class="collection-header">
+                    <h4>blockSubmitWhenFormSending</h4>
+                </li>
+                <li class="collection-item">
+                    <b>true:</b> the next form sending is blocked while the previous one is sending<br>
+                    <b>false:</b> nothing happens, form send by default
                     <br><br>
                     Type: boolean<br>
                     Default: true

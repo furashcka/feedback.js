@@ -18,6 +18,7 @@ module.exports = function( form, options ) {
     self.options = {
         focusIncorrectInput: true,
         fireSchemaByTurn: true,
+        blockSubmitWhenFormSending: true,
         fireValidateAndAjaxWhenSubmit: true,
         resetFormAfterAjax: true,
         schema: {},
@@ -48,7 +49,13 @@ module.exports = function( form, options ) {
 
     if( self.options.fireValidateAndAjaxWhenSubmit === true ) {
         self.submitFn = function( e ) {
+            var isLoading = helper.hasClass( self.form, self.options.ajax.loadingClass );
+
             e.preventDefault();
+
+            if( self.options.blockSubmitWhenFormSending === true && isLoading ) {
+                return false;
+            }
 
             if( self.validate() === true ) {
                 self.ajax();

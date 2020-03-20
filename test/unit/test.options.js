@@ -39,6 +39,20 @@ module.exports = function() {
 
 
 
+    it( '"blockSubmitWhenFormSending" = true', function() {
+        _testBlockSubmitWhenFormSending({
+            blockSubmitWhenFormSending: true
+        });
+    });
+
+    it( '"blockSubmitWhenFormSending" = false', function() {
+        _testBlockSubmitWhenFormSending({
+            blockSubmitWhenFormSending: false
+        });
+    });
+
+
+
     it( '"validateAndAjaxWhenSubmit" = true', function() {
         _testValidateAndAjaxWhenSubmit({
             fireValidateAndAjaxWhenSubmit: true
@@ -160,6 +174,36 @@ function _testValidateAndAjaxWhenSubmit( options ) {
     else {
         expect( validateAfter ).not.toHaveBeenCalled();
         expect( ajaxAfter ).not.toHaveBeenCalled();
+    }
+
+    feedback = feedback.destroy();
+}
+
+
+
+
+function _testBlockSubmitWhenFormSending( options ) {
+    var feedback = new Feedback( helper.form.el, {
+        fireValidateAndAjaxWhenSubmit: options.blockSubmitWhenFormSending
+    });
+    var count = 0;
+
+    feedback.ajax({
+        before: function() {
+            count++;
+        }
+    });
+
+
+    helper.triggerEvent( helper.form.el, 'submit' );
+    helper.triggerEvent( helper.form.el, 'submit' );
+
+
+    if( options.blockSubmitWhenFormSending === true ) {
+        expect( count ).toBe( 1 );
+    }
+    else {
+        expect( 2 ).toBe( 2 );
     }
 
     feedback = feedback.destroy();

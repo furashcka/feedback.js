@@ -85,6 +85,7 @@
     }, function(module, exports) {
         var feedbackList = [];
         module.exports = {
+            hasClass: _hasClass,
             addClass: _addClass,
             removeClass: _removeClass,
             extend: _extend,
@@ -114,6 +115,11 @@
             var xhr = new XMLHttpRequest();
             return "upload" in xhr && "onprogress" in xhr.upload;
         }();
+        function _hasClass(el, className) {
+            var classAttr = el.getAttribute("class") || "";
+            var classNames = classAttr.split(" ");
+            return classNames.indexOf(className) !== -1;
+        }
         function _addClass(el, className) {
             var classAttr = el.getAttribute("class") || "";
             var classNames = classAttr.split(" ");
@@ -250,6 +256,7 @@
             self.options = {
                 focusIncorrectInput: true,
                 fireSchemaByTurn: true,
+                blockSubmitWhenFormSending: true,
                 fireValidateAndAjaxWhenSubmit: true,
                 resetFormAfterAjax: true,
                 schema: {},
@@ -278,7 +285,11 @@
             self.update();
             if (self.options.fireValidateAndAjaxWhenSubmit === true) {
                 self.submitFn = function(e) {
+                    var isLoading = helper.hasClass(self.form, self.options.ajax.loadingClass);
                     e.preventDefault();
+                    if (self.options.blockSubmitWhenFormSending === true && isLoading) {
+                        return false;
+                    }
                     if (self.validate() === true) {
                         self.ajax();
                     }
