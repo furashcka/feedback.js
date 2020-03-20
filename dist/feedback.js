@@ -313,7 +313,7 @@
             return this;
         };
         module.exports.prototype.fireValidateError = function(message, element) {
-            this.options.validate.error.call(element || helper.getEmptyObj(), message);
+            this.options.validate.error.call(helper.getEmptyObj(), message, element);
             this.options.focusIncorrectInput === true && element && element[0] && element[0].focus && element[0].focus();
             return this;
         };
