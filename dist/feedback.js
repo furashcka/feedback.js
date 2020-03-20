@@ -1032,6 +1032,9 @@
                 });
                 return isAnyChecked;
             },
+            forEach: function(fn) {
+                helper.forEach(this, fn);
+            },
             contains: function(seed) {
                 return __webpack_require__(20)(this.get().value, seed);
             },

@@ -18,6 +18,9 @@ var prototype = {
 
         return isAnyChecked;
     },
+    forEach: function( fn ) {
+        helper.forEach( this, fn );
+    },
     contains: function( seed ) {
         return require( 'node_modules/validator/lib/contains' )( this.get().value, seed );
     },

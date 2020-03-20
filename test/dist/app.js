@@ -1096,6 +1096,9 @@
                 });
                 return isAnyChecked;
             },
+            forEach: function(fn) {
+                helper.forEach(this, fn);
+            },
             contains: function(seed) {
                 return __webpack_require__(20)(this.get().value, seed);
             },
@@ -2307,6 +2310,31 @@
                 feedback.update();
                 feedback.validate();
                 expect(isAnyChecked).toEqual(true);
+                feedback = feedback.destroy();
+            });
+            it('test "forEach"', function() {
+                var feedback = new Feedback(helper.form.el);
+                var arr = [];
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "1"
+                });
+                helper.form.add.input({
+                    name: "types",
+                    type: "checkbox",
+                    value: "2"
+                });
+                feedback.update();
+                feedback.schema({
+                    types: function() {
+                        this.forEach(function(input) {
+                            arr.push(input.value);
+                        });
+                    }
+                });
+                feedback.validate();
+                expect(arr).toEqual([ "1", "2" ]);
                 feedback = feedback.destroy();
             });
         };

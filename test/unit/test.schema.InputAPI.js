@@ -58,4 +58,35 @@ module.exports = function() {
 
         feedback = feedback.destroy();
     });
+
+    it( 'test "forEach"', function() {
+        var feedback = new Feedback( helper.form.el );
+        var arr = [];
+
+        helper.form.add.input({
+            name: 'types',
+            type: 'checkbox',
+            value: '1'
+        });
+
+        helper.form.add.input({
+            name: 'types',
+            type: 'checkbox',
+            value: '2'
+        });
+
+        feedback.update();
+        feedback.schema({
+            types: function() {
+                this.forEach(function( input ) {
+                    arr.push( input.value );
+                });
+            }
+        });
+        feedback.validate();
+
+        expect( arr ).toEqual( ['1', '2'] );
+
+        feedback = feedback.destroy();
+    });
 };
