@@ -44,7 +44,7 @@ module.exports = function( form, options ) {
     };
     self.options = helper.extend( true, self.options, options || {} );
 
-    _updateFormAttributes( self.form, self.options.ajax.url, self.options.ajax.method );
+    _updateFormAttributes( this );
     self.update();
 
     if( self.options.fireValidateAndAjaxWhenSubmit === true ) {
@@ -80,7 +80,7 @@ module.exports.prototype.ajax = function( ajax ) {
     this.options.ajax = helper.extend( this.options.ajax, ajax || {} );
     this.options.ajax.method = this.options.ajax.method.toUpperCase();
 
-    _updateFormAttributes( this.form, this.options.ajax.url, this.options.ajax.method );
+    _updateFormAttributes( this );
 
     return this;
 };
@@ -130,8 +130,8 @@ module.exports.prototype.destroy = function() {
     feedback = feedback.destroy();
 */
 
-function _updateFormAttributes( form, action, method ) {
-    form.setAttribute( 'novalidate', '' );
-    form.setAttribute( 'action', action );
-    form.setAttribute( 'method', method );
+function _updateFormAttributes( self ) {
+    self.form.setAttribute( 'novalidate', '' );
+    self.form.setAttribute( 'action', self.options.ajax.url );
+    self.form.setAttribute( 'method', self.options.ajax.method );
 }
