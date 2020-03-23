@@ -262,8 +262,8 @@
                 schema: {},
                 ajax: {
                     loadingClass: "--loading",
-                    url: form.action || location.href,
-                    method: form.method || "POST",
+                    url: form.getAttribute("action") || location.href,
+                    method: form.getAttribute("method") || "POST",
                     iframePolyfill: "auto",
                     iframePostMessage: false,
                     iframeTimeout: 0,
@@ -303,7 +303,7 @@
         };
         module.exports.prototype.ajax = function(ajax) {
             if (typeof ajax === "undefined") {
-                return __webpack_require__(14).call(this);
+                return __webpack_require__(13).call(this);
             }
             this.options.ajax = helper.extend(this.options.ajax, ajax || {});
             this.options.ajax.method = this.options.ajax.method.toUpperCase();
@@ -312,7 +312,7 @@
         };
         module.exports.prototype.validate = function(validate) {
             if (typeof validate === "undefined" || helper.isArray(validate)) {
-                return __webpack_require__(13).call(this, validate);
+                return __webpack_require__(17).call(this, validate);
             }
             this.options.validate = helper.extend(this.options.validate, validate || {});
             return this;
@@ -757,57 +757,12 @@
             return groups;
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(1);
-        module.exports = function(validateOnlySchemaItems) {
-            var self = this;
-            var schema = _resolveSchema(self, self.options.schema, validateOnlySchemaItems);
-            var firstInvalidInput = null;
-            self.options.validate.before.call(helper.getEmptyObj());
-            helper.forEach(schema, function(item, key) {
-                if (!(key in self.inputsGroupedByName)) return;
-                var inputsGroup = self.inputsGroupedByName[key];
-                var inputsArr = _inputsGroup2Array(inputsGroup);
-                var errorMessage = item.call(inputsGroup);
-                if (typeof errorMessage !== "undefined") {
-                    if (firstInvalidInput === null) {
-                        firstInvalidInput = inputsGroup.get();
-                    }
-                    self.options.validate.error.call(helper.getEmptyObj(), errorMessage, inputsArr);
-                    return !self.options.fireSchemaByTurn;
-                }
-            });
-            if (firstInvalidInput !== null && self.options.focusIncorrectInput === true) {
-                firstInvalidInput.focus();
-            }
-            if (firstInvalidInput === null) {
-                self.options.validate.success.call(helper.getEmptyObj());
-            }
-            self.options.validate.after.call(helper.getEmptyObj());
-            return firstInvalidInput === null;
-        };
-        function _resolveSchema(self, schema, validateOnlySchemaItems) {
-            if (helper.isArray(validateOnlySchemaItems)) {
-                schema = {};
-                helper.forEach(validateOnlySchemaItems, function(key) {
-                    schema[key] = self.options.schema[key];
-                });
-            }
-            return schema;
-        }
-        function _inputsGroup2Array(inputsGroup) {
-            var arr = [];
-            helper.forEach(inputsGroup, function(input) {
-                arr.push(input);
-            });
-            return arr;
-        }
-    }, function(module, exports, __webpack_require__) {
         var consoleObj = __webpack_require__(5);
         var helper = __webpack_require__(1);
         var ajaxFnList = {
-            iframe: __webpack_require__(15),
-            XMLHttpRequest: __webpack_require__(16),
-            XDomainRequest: __webpack_require__(17)
+            iframe: __webpack_require__(14),
+            XMLHttpRequest: __webpack_require__(15),
+            XDomainRequest: __webpack_require__(16)
         };
         module.exports = function() {
             var self = this;
@@ -1075,6 +1030,51 @@
             self.options.ajax.after();
             self.options.ajax.progress.call(self.form, 100);
             resetForm(self);
+        }
+    }, function(module, exports, __webpack_require__) {
+        var helper = __webpack_require__(1);
+        module.exports = function(validateOnlySchemaItems) {
+            var self = this;
+            var schema = _resolveSchema(self, self.options.schema, validateOnlySchemaItems);
+            var firstInvalidInput = null;
+            self.options.validate.before.call(helper.getEmptyObj());
+            helper.forEach(schema, function(item, key) {
+                if (!(key in self.inputsGroupedByName)) return;
+                var inputsGroup = self.inputsGroupedByName[key];
+                var inputsArr = _inputsGroup2Array(inputsGroup);
+                var errorMessage = item.call(inputsGroup);
+                if (typeof errorMessage !== "undefined") {
+                    if (firstInvalidInput === null) {
+                        firstInvalidInput = inputsGroup.get();
+                    }
+                    self.options.validate.error.call(helper.getEmptyObj(), errorMessage, inputsArr);
+                    return !self.options.fireSchemaByTurn;
+                }
+            });
+            if (firstInvalidInput !== null && self.options.focusIncorrectInput === true) {
+                firstInvalidInput.focus();
+            }
+            if (firstInvalidInput === null) {
+                self.options.validate.success.call(helper.getEmptyObj());
+            }
+            self.options.validate.after.call(helper.getEmptyObj());
+            return firstInvalidInput === null;
+        };
+        function _resolveSchema(self, schema, validateOnlySchemaItems) {
+            if (helper.isArray(validateOnlySchemaItems)) {
+                schema = {};
+                helper.forEach(validateOnlySchemaItems, function(key) {
+                    schema[key] = self.options.schema[key];
+                });
+            }
+            return schema;
+        }
+        function _inputsGroup2Array(inputsGroup) {
+            var arr = [];
+            helper.forEach(inputsGroup, function(input) {
+                arr.push(input);
+            });
+            return arr;
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);

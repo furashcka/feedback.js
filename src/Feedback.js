@@ -24,8 +24,8 @@ module.exports = function( form, options ) {
         schema: {},
         ajax: {
             loadingClass: '--loading',
-            url: form.action || location.href,
-            method: form.method || 'POST',
+            url: form.getAttribute( 'action' ) || location.href,
+            method: form.getAttribute( 'method' ) || 'POST',
             iframePolyfill: 'auto',
             iframePostMessage: false,
             iframeTimeout: 0,
