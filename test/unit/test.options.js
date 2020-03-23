@@ -184,7 +184,7 @@ function _testValidateAndAjaxWhenSubmit( options ) {
 
 function _testBlockSubmitWhenFormSending( options ) {
     var feedback = new Feedback( helper.form.el, {
-        fireValidateAndAjaxWhenSubmit: options.blockSubmitWhenFormSending
+        blockSubmitWhenFormSending: options.blockSubmitWhenFormSending
     });
     var count = 0;
 
@@ -194,16 +194,14 @@ function _testBlockSubmitWhenFormSending( options ) {
         }
     });
 
-
     helper.triggerEvent( helper.form.el, 'submit' );
     helper.triggerEvent( helper.form.el, 'submit' );
-
 
     if( options.blockSubmitWhenFormSending === true ) {
         expect( count ).toBe( 1 );
     }
     else {
-        expect( 2 ).toBe( 2 );
+        expect( count ).toBe( 2 );
     }
 
     feedback = feedback.destroy();
