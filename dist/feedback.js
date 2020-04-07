@@ -90,9 +90,13 @@
             removeClass: _removeClass,
             extend: _extend,
             forEach: _forEach,
+            isString: _isString,
             isArray: _isArray,
             isBoolean: _isBoolean,
             isObject: _isObject,
+            isValidationStep: _isValidationStep,
+            isFunction: _isFunction,
+            getValidationStepIndex: _getValidationStepIndex,
             guid: _guid,
             getEmptyObj: _getEmptyObj,
             makeSerializationURL: _makeSerializationURL,
@@ -176,6 +180,9 @@
                 if (res === false) break;
             }
         }
+        function _isString(obj) {
+            return typeof obj === "string" || obj instanceof String;
+        }
         function _isArray(obj) {
             return Object.prototype.toString.call(obj) === "[object Array]";
         }
@@ -184,6 +191,16 @@
         }
         function _isObject(obj) {
             return Object.prototype.toString.call(obj) === "[object Object]";
+        }
+        function _isFunction(obj) {
+            return Object.prototype.toString.call(obj) === "[object Function]";
+        }
+        function _isValidationStep(str) {
+            var regex = /^step\-[0-9]+$/gm;
+            return regex.test(str);
+        }
+        function _getValidationStepIndex(str) {
+            return +str.replace("step-", "");
         }
         function _guid() {
             function s4() {
@@ -260,6 +277,7 @@
                 fireValidateAndAjaxWhenSubmit: true,
                 resetFormAfterAjax: true,
                 schema: {},
+                validationStep: 0,
                 ajax: {
                     loadingClass: "--loading",
                     url: form.getAttribute("action") || location.href,
@@ -281,6 +299,7 @@
                 }
             };
             self.options = helper.extend(true, self.options, options || {});
+            _prepareSchema(this);
             _updateFormAttributes(this);
             self.update();
             if (self.options.fireValidateAndAjaxWhenSubmit === true) {
@@ -297,9 +316,54 @@
                 self.form.addEventListener("submit", self.submitFn);
             }
         };
-        module.exports.prototype.schema = function(schema) {
+        module.exports.prototype.schema = function() {
+            var args = arguments;
+            var isFirstArgumentStep = helper.isString(args[0]) && helper.isValidationStep(args[0]);
+            var schema = {};
+            if (isFirstArgumentStep) {
+                schema[args[0]] = args[1];
+            } else {
+                schema = args[0];
+            }
             this.options.schema = schema || this.options.schema;
+            _prepareSchema(this);
             return this;
+        };
+        module.exports.prototype.step = function(controller, step) {
+            var self = this;
+            var res = undefined;
+            switch (controller) {
+              case "get":
+                res = self.options.validationStep;
+                break;
+
+              case "set":
+                res = false;
+                if (typeof step === "number") {
+                    res = true;
+                    self.options.validationStep = step;
+                }
+                break;
+
+              case "next":
+                res = true;
+                self.options.validationStep++;
+                break;
+
+              case "prev":
+                res = true;
+                self.options.validationStep--;
+                break;
+            }
+            if (self.options.validationStep < 0) {
+                res = false;
+                self.options.validationStep = 0;
+            }
+            if (self.options.validationStep > self.options.schema.length - 1) {
+                res = false;
+                self.options.validationStep = self.options.schema.length - 1;
+            }
+            return res;
         };
         module.exports.prototype.ajax = function(ajax) {
             if (typeof ajax === "undefined") {
@@ -341,6 +405,28 @@
             self.form.setAttribute("novalidate", "");
             self.form.setAttribute("action", self.options.ajax.url);
             self.form.setAttribute("method", self.options.ajax.method);
+        }
+        function _prepareSchema(self) {
+            var keys = Object.keys(self.options.schema);
+            var schema = [ {} ];
+            if (keys < 1) return;
+            helper.forEach(self.options.schema, function(val, key) {
+                var stepIndex = null;
+                var isStep = helper.isValidationStep(key);
+                var isFn = helper.isFunction(val);
+                if (isStep) {
+                    stepIndex = helper.getValidationStepIndex(key);
+                    schema[stepIndex] = val;
+                } else if (isFn) {
+                    schema[0][key] = val;
+                }
+            });
+            for (var i = 0; i < schema.length; i++) {
+                if (schema[i] === undefined) {
+                    schema[i] = {};
+                }
+            }
+            self.options.schema = schema;
         }
     }, function(module, exports) {
         module.exports = {
@@ -971,8 +1057,8 @@
         var helper = __webpack_require__(1);
         module.exports = function(validateOnlySchemaItems) {
             var self = this;
-            var schema = _resolveSchema(self, self.options.schema, validateOnlySchemaItems);
             var firstInvalidInput = null;
+            var schema = _resolveSchema(self, self.options.schema[self.options.validationStep] || {}, validateOnlySchemaItems);
             self.options.validate.before.call(helper.getEmptyObj());
             helper.forEach(schema, function(item, key) {
                 if (!(key in self.inputsGroupedByName)) return;
@@ -1000,7 +1086,7 @@
             if (helper.isArray(validateOnlySchemaItems)) {
                 schema = {};
                 helper.forEach(validateOnlySchemaItems, function(key) {
-                    schema[key] = self.options.schema[key];
+                    schema[key] = self.options.schema[self.options.validationStep][key];
                 });
             }
             return schema;
