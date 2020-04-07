@@ -10,7 +10,7 @@
     feedback.schema({
         avatar: function() {
             var file = this.get().files[ 0 ];
-            var fileSizeMB = ( file.size / 1024 / 1024 ).toFixed( 2 );
+            var fileSizeMB = file && ( file.size / 1024 / 1024 ).toFixed( 2 );
             var fileType = file && _getTypeOfFile( this.get().files[ 0 ] );
 
             if( !file ) {
