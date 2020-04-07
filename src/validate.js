@@ -2,8 +2,8 @@ var helper = require( 'helper' );
 
 module.exports = function( validateOnlySchemaItems ) {
     var self = this;
-    var schema = _resolveSchema( self, self.options.schema, validateOnlySchemaItems );
     var firstInvalidInput = null;
+    var schema = _resolveSchema( self, self.options.schema[ self.options.validationStep ] || {}, validateOnlySchemaItems );
 
     self.options.validate.before.call( helper.getEmptyObj() );
 
@@ -43,7 +43,7 @@ function _resolveSchema( self, schema, validateOnlySchemaItems ) {
         schema = {};
 
         helper.forEach( validateOnlySchemaItems, function( key ) {
-            schema[ key ] = self.options.schema[ key ];
+            schema[ key ] = self.options.schema[ self.options.validationStep ][ key ];
         });
     }
 

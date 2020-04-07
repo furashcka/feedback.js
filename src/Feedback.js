@@ -22,6 +22,7 @@ module.exports = function( form, options ) {
         fireValidateAndAjaxWhenSubmit: true,
         resetFormAfterAjax: true,
         schema: {},
+        validationStep: 0,
         ajax: {
             loadingClass: '--loading',
             url: form.getAttribute( 'action' ) || location.href,
@@ -44,6 +45,7 @@ module.exports = function( form, options ) {
     };
     self.options = helper.extend( true, self.options, options || {} );
 
+    _prepareSchema( this );
     _updateFormAttributes( this );
     self.update();
 
@@ -66,10 +68,65 @@ module.exports = function( form, options ) {
     }
 };
 
-module.exports.prototype.schema = function( schema ) {
+module.exports.prototype.schema = function() {
+    var args = arguments;
+    var isFirstArgumentStep = helper.isString( args[ 0 ] ) && helper.isValidationStep( args[ 0 ] );
+    var schema = {};
+
+    if( isFirstArgumentStep ) {
+        schema[ args[ 0 ] ] = args[ 1 ];
+    }
+    else {
+        schema = args[ 0 ];
+    }
+
     this.options.schema = schema || this.options.schema;
 
+    _prepareSchema( this );
+
     return this;
+};
+
+module.exports.prototype.step = function( controller, step ) {
+    var self = this;
+    var res = undefined;
+
+    switch( controller ) {
+        case 'get':
+            res = self.options.validationStep;
+            break;
+
+        case 'set':
+            res = false;
+
+            if( typeof step === 'number' ) {
+                res = true;
+                self.options.validationStep = step;
+            }
+            break;
+
+        case 'next':
+            res = true;
+            self.options.validationStep++;
+            break;
+
+        case 'prev':
+            res = true;
+            self.options.validationStep--;
+            break;
+    }
+
+    if( self.options.validationStep < 0 ) {
+        res = false;
+        self.options.validationStep = 0;
+    }
+
+    if( self.options.validationStep > self.options.schema.length - 1 ) {
+        res = false;
+        self.options.validationStep = self.options.schema.length - 1;
+    }
+
+    return res;
 };
 
 module.exports.prototype.ajax = function( ajax ) {
@@ -134,4 +191,33 @@ function _updateFormAttributes( self ) {
     self.form.setAttribute( 'novalidate', '' );
     self.form.setAttribute( 'action', self.options.ajax.url );
     self.form.setAttribute( 'method', self.options.ajax.method );
+}
+
+function _prepareSchema( self ) {
+    var keys = Object.keys( self.options.schema );
+    var schema = [{}];
+
+    if( keys < 1 ) return;
+
+    helper.forEach( self.options.schema, function( val, key ) {
+        var stepIndex = null;
+        var isStep = helper.isValidationStep( key );
+        var isFn = helper.isFunction( val );
+
+        if( isStep ) {
+            stepIndex = helper.getValidationStepIndex( key );
+            schema[stepIndex] = val;
+        }
+        else if( isFn ) {
+            schema[ 0 ][key] = val;
+        }
+    });
+
+    for( var i = 0; i < schema.length; i++ ) {
+        if( schema[ i ] === undefined ) {
+            schema[ i ] = {};
+        }
+    }
+
+    self.options.schema = schema;
 }

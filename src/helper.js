@@ -6,9 +6,13 @@ module.exports = {
     removeClass: _removeClass,
     extend: _extend,
     forEach: _forEach,
+    isString: _isString,
     isArray: _isArray,
     isBoolean: _isBoolean,
     isObject: _isObject,
+    isValidationStep: _isValidationStep,
+    isFunction: _isFunction,
+    getValidationStepIndex: _getValidationStepIndex,
     guid: _guid,
     getEmptyObj: _getEmptyObj,
     makeSerializationURL: _makeSerializationURL,
@@ -111,6 +115,10 @@ function _forEach( obj, fn ) {
     }
 }
 
+function _isString( obj ) {
+    return typeof obj === 'string' || obj instanceof String;
+}
+
 function _isArray( obj ) {
     return Object.prototype.toString.call( obj ) === '[object Array]';
 }
@@ -121,6 +129,20 @@ function _isBoolean( obj ) {
 
 function _isObject( obj ) {
     return Object.prototype.toString.call( obj ) === '[object Object]';
+}
+
+function _isFunction( obj ) {
+    return Object.prototype.toString.call( obj ) === '[object Function]';
+}
+
+function _isValidationStep( str ) {
+    var regex = /^step\-[0-9]+$/gm;
+
+    return regex.test( str );
+}
+
+function _getValidationStepIndex( str ) {
+    return +str.replace('step-', '');
 }
 
 function _guid() {

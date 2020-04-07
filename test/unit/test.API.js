@@ -20,13 +20,86 @@ module.exports = function() {
     it( 'test API "schema"', function() {
         var feedback = new Feedback( helper.form.el );
         var fn = jasmine.any( Function );
+        var callback = {
+            step_0: jasmine.createSpy( 'success' ),
+            step_1: jasmine.createSpy( 'success' )
+        };
 
         feedback.update();
         feedback.schema({
             age: function() {}
         });
 
-        expect( feedback.options.schema.age ).toEqual( fn );
+        expect( feedback.options.schema[ feedback.options.validationStep ].age ).toEqual( fn );
+
+        feedback.schema( 'step-0', {
+            phone: function() {
+                callback.step_0();
+            }
+        });
+        feedback.validate();
+
+        expect( callback.step_0 ).toHaveBeenCalled();
+
+        feedback.schema( 'step-1', {
+            age: function() {
+                callback.step_1();
+            }
+        });
+        feedback.step( 'set', 1 );
+        feedback.validate();
+
+        expect( callback.step_1 ).toHaveBeenCalled();
+
+        feedback = feedback.destroy();
+    });
+
+    it( 'test API "step"', function() {
+        var callback = null;
+        var feedback = null;
+
+        callback = {
+            step_0: jasmine.createSpy( 'success' ),
+            step_1: jasmine.createSpy( 'success' )
+        };
+        feedback = new Feedback( helper.form.el, {
+            schema: {
+                'step-0': {
+                    phone: function() {
+                        callback.step_0();
+                    }
+                },
+                'step-1': {
+                    age: function() {
+                        callback.step_1();
+                    }
+                }
+            }
+        });
+
+        expect( feedback.step( 'get' ) ).toEqual( 0 );
+        expect( feedback.step( 'next' ) ).toEqual( true );
+
+        feedback.step( 'next' );
+        feedback.step( 'next' );
+        feedback.step( 'next' );
+
+        expect( feedback.step( 'next' ) ).toEqual( false );
+        expect( feedback.step( 'get' ) ).toEqual( 1 );
+        expect( feedback.step( 'prev' ) ).toEqual( true );
+        expect( feedback.step( 'prev' ) ).toEqual( false );
+
+        feedback.step( 'prev' );
+        feedback.step( 'prev' );
+        feedback.step( 'prev' );
+
+        expect( feedback.step( 'get' ) ).toEqual( 0 );
+
+        feedback.step( 'set', 200 );
+
+        expect( feedback.step( 'get' ) ).toEqual( 1 );
+
+        expect( feedback.step( 'set', 'sdfsdf' ) ).toEqual( false );
 
         feedback = feedback.destroy();
     });
