@@ -213,7 +213,9 @@ var feedback = new Feedback( el, opts );
                     <h4>schema</h4>
                 </li>
                 <li class="collection-item">
-                    {key: value} - object with all logics for validations inputs, key it's name attribute <b>&lt;input name="email"&gt;</b> or other form element, value it's function, calls when fires <b><a href="#api-validate">validate</a></b> API
+                    {key: value} - object with all logics for validations inputs, key it's name attribute <b>&lt;input name="email"&gt;</b> or other form element, value it's function, calls when fires <b><a href="#api-validate">validate</a></b> API.<br>
+                    Also you can use steps, when need step by step validation.<br>
+                    When you set step index, you need set "step-{number}".
                     <pre><code class="language-javascript">
 var feedback = new Feedback( el, {
     schema: {
@@ -225,9 +227,47 @@ var feedback = new Feedback( el, {
     }
 });
 
+//with steps
+var feedback = new Feedback( el, {
+    schema: {
+        'step-0': {
+            name: function() {
+                if( !this.isEmpty() ) {
+                    return 'Please, enter your name.';
+                }
+            }
+        },
+        'step-1': {
+            email: function() {
+                if( !this.isEmail() ) {
+                    return 'Email is not correct!';
+                }
+            }
+        }
+    }
+});
+
+
 //is recommended use API:
 var feedback = new Feedback( el );
 feedback.schema({
+    email: function() {
+        if( !this.isEmail() ) {
+            return 'Email is not correct!';
+        }
+    }
+});
+
+//with steps
+feedback.schema('step-0', {
+    name: function() {
+        if( !this.isEmpty() ) {
+            return 'Please, enter your name.';
+        }
+    }
+});
+
+feedback.schema('step-1', {
     email: function() {
         if( !this.isEmail() ) {
             return 'Email is not correct!';

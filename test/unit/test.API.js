@@ -22,7 +22,7 @@ module.exports = function() {
         var fn = jasmine.any( Function );
         var callback = {
             step_0: jasmine.createSpy( 'success' ),
-            step_1: jasmine.createSpy( 'success' )
+            step_1: jasmine.createSpy( 'success' ),
         };
 
         feedback.update();

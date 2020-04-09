@@ -318,15 +318,14 @@
         };
         module.exports.prototype.schema = function() {
             var args = arguments;
+            var argsIndex = 0;
             var isFirstArgumentStep = helper.isString(args[0]) && helper.isValidationStep(args[0]);
-            var schema = {};
+            var stepIndex = 0;
             if (isFirstArgumentStep) {
-                schema[args[0]] = args[1];
-            } else {
-                schema = args[0];
+                stepIndex = helper.getValidationStepIndex(args[0]);
+                argsIndex = 1;
             }
-            this.options.schema = schema || this.options.schema;
-            _prepareSchema(this);
+            this.options.schema[stepIndex] = args[argsIndex];
             return this;
         };
         module.exports.prototype.step = function(controller, step) {
