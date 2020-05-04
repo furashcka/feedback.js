@@ -10,6 +10,7 @@ module.exports = function( form, options ) {
 
     helper.addFeedback2List( self );
 
+    self.version = '0.1.6';
     self.form = form;
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};

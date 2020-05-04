@@ -1,6 +1,7 @@
 /*!
  * license: MIT
- * https://furashcka.github.io/feedback.js/docs/
+ * feedback.js v0.1.6
+ * https://f-cka.com/projects/feedback.js/docs/
  */
 (function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === "object" && typeof module === "object") module.exports = factory(); else if (typeof define === "function" && define.amd) define([], factory); else if (typeof exports === "object") exports["Feedback"] = factory(); else root["Feedback"] = factory();
@@ -265,6 +266,7 @@
             consoleObj.incorrectSubmitButtonName(form);
             var self = this;
             helper.addFeedback2List(self);
+            self.version = "0.1.6";
             self.form = form;
             self.iframe = null;
             self.inputsGroupedByName = {};

@@ -34,7 +34,8 @@ module.exports = {
         }),
         new webpack.BannerPlugin([
             'license: MIT',
-            'https://furashcka.github.io/feedback.js/docs/'
+            'feedback.js v0.1.6',
+            'https://f-cka.com/projects/feedback.js/docs/'
         ].join( '\n' ))
     ]
 };
