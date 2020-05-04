@@ -277,7 +277,7 @@ feedback.schema('step-1', {
 });
                     </code></pre>
                     <b>Input API</b><br><br>
-                    <b>this</b> - it's array of inputs grouped by name with API from <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a><br><br>
+                    <b>this</b> - it's array of inputs grouped by name with API from <a href="https://github.com/chriso/validator.js" target="_blank">validator.js</a> if need validate input without <b>this</b> context, call like: <b>Instance.inputsGroupedByName.inputName.isEmpty()</b><br><br>
                     <b>get -</b> returns input element by index; if index empty returns first element; if index -1 returns last element<br>
                     <b>isAnyChecked -</b> returns true if any input checked, and return false if any not checked<br>
                     <b>forEach -</b> method calls a function once for each element in an array inputs<br>
