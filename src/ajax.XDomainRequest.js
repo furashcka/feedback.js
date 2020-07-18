@@ -1,5 +1,4 @@
 var helper = require( 'helper' );
-var resetForm = require( 'resetForm' );
 var serialize = require( 'serialize' );
 
 module.exports = function( self ) {
@@ -53,5 +52,5 @@ function _end( self ) {
     helper.removeClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.after();
     self.options.ajax.progress.call( self.form, 100 );
-    resetForm( self );
+    self.options.resetFormAfterAjax && self.form.reset();
 }

@@ -1,6 +1,5 @@
 var consoleObj = require( 'console' );
 var helper = require( 'helper' );
-var resetForm = require( 'resetForm' );
 
 module.exports = function( self ) {
     helper.addClass( self.form, self.options.ajax.loadingClass );
@@ -143,5 +142,5 @@ function _end( self ) {
     self.options.ajax.progress.call( self.form, 100 );
     helper.removeClass( self.form, self.options.ajax.loadingClass );
     self.options.ajax.after();
-    resetForm( self );
+    self.options.resetFormAfterAjax && self.form.reset();
 }
