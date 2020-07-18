@@ -18,7 +18,7 @@ module.exports = function() {
     });
 
     it( 'test API "schema"', function() {
-        var feedback = new Feedback( helper.form.el, );
+        var feedback = new Feedback( helper.form.el );
         var fn = jasmine.any( Function );
         var callback = {
             step_0: jasmine.createSpy( 'success' ),

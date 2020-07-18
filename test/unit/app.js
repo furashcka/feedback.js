@@ -1,5 +1,4 @@
 var helper = require( './helper' );
-var Feedback = require( 'Feedback' );
 
 //need for async test, checks in Feedback library
 window.jasmine = window.jasmine || {};
