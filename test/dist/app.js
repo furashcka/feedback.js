@@ -1,6 +1,6 @@
 /*!
  * license: MIT
- * feedback.js v0.1.6
+ * feedback.js v0.1.7
  * https://f-cka.com/projects/feedback.js/docs/
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -45,7 +45,7 @@
             return Object.prototype.hasOwnProperty.call(object, property);
         };
         __webpack_require__.p = "";
-        return __webpack_require__(__webpack_require__.s = 36);
+        return __webpack_require__(__webpack_require__.s = 35);
     }([ function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
@@ -235,10 +235,6 @@
             hostname = hostname.split("?")[0];
             return hostname;
         }
-    }, function(module, exports) {
-        module.exports = function(self) {
-            self.options.resetFormAfterAjax && self.form.reset();
-        };
     }, function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
@@ -258,15 +254,15 @@
         module.exports = exports.default;
         module.exports.default = exports.default;
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(5);
-        var getInputsGroupedByName = __webpack_require__(12);
+        var consoleObj = __webpack_require__(4);
+        var getInputsGroupedByName = __webpack_require__(11);
         var helper = __webpack_require__(1);
         module.exports = function(form, options) {
             consoleObj.firstArgumentMustBeFormElement(form);
             consoleObj.incorrectSubmitButtonName(form);
             var self = this;
             helper.addFeedback2List(self);
-            self.version = "0.1.6";
+            self.version = "0.1.7";
             self.form = form;
             self.iframe = null;
             self.inputsGroupedByName = {};
@@ -368,7 +364,7 @@
         };
         module.exports.prototype.ajax = function(ajax) {
             if (typeof ajax === "undefined") {
-                return __webpack_require__(13).call(this);
+                return __webpack_require__(12).call(this);
             }
             this.options.ajax = helper.extend(this.options.ajax, ajax || {});
             this.options.ajax.method = this.options.ajax.method.toUpperCase();
@@ -377,13 +373,13 @@
         };
         module.exports.prototype.validate = function(validate) {
             if (typeof validate === "undefined" || helper.isArray(validate)) {
-                return __webpack_require__(17).call(this, validate);
+                return __webpack_require__(16).call(this, validate);
             }
             this.options.validate = helper.extend(this.options.validate, validate || {});
             return this;
         };
         module.exports.prototype.update = function() {
-            var addValidateApi = __webpack_require__(18);
+            var addValidateApi = __webpack_require__(17);
             this.inputsGroupedByName = getInputsGroupedByName(this.form);
             this.inputsGroupedByName = addValidateApi(this.inputsGroupedByName);
             return this;
@@ -394,7 +390,7 @@
             return this;
         };
         module.exports.prototype.resetForm = function() {
-            __webpack_require__(2)(this);
+            this.form.reset();
             return this;
         };
         module.exports.prototype.destroy = function() {
@@ -606,12 +602,12 @@
             result.push(name + "=" + value);
         }
     }, function(module, exports, __webpack_require__) {
-        var fakeXDomainRequest = __webpack_require__(37);
+        var fakeXDomainRequest = __webpack_require__(36);
         var isCantUseFormData = window.FormData === undefined;
         module.exports = {
             serverURL: _getServerURL(),
-            form: __webpack_require__(38),
-            forEach: __webpack_require__(35),
+            form: __webpack_require__(37),
+            forEach: __webpack_require__(34),
             fakeXDomainRequest: fakeXDomainRequest,
             fakeAjax: {
                 getCurrentInstance: function() {
@@ -708,7 +704,7 @@
         });
         exports.default = isFQDN;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _merge = _interopRequireDefault(__webpack_require__(3));
+        var _merge = _interopRequireDefault(__webpack_require__(2));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -844,12 +840,12 @@
             return groups;
         };
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(5);
+        var consoleObj = __webpack_require__(4);
         var helper = __webpack_require__(1);
         var ajaxFnList = {
-            iframe: __webpack_require__(14),
-            XMLHttpRequest: __webpack_require__(15),
-            XDomainRequest: __webpack_require__(16)
+            iframe: __webpack_require__(13),
+            XMLHttpRequest: __webpack_require__(14),
+            XDomainRequest: __webpack_require__(15)
         };
         module.exports = function() {
             var self = this;
@@ -894,9 +890,8 @@
             return hostname !== location.hostname && typeof xhr.withCredentials === "undefined" && typeof XDomainRequest !== "undefined";
         }
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(5);
+        var consoleObj = __webpack_require__(4);
         var helper = __webpack_require__(1);
-        var resetForm = __webpack_require__(2);
         module.exports = function(self) {
             helper.addClass(self.form, self.options.ajax.loadingClass);
             self.options.ajax.before();
@@ -1006,12 +1001,11 @@
             self.options.ajax.progress.call(self.form, 100);
             helper.removeClass(self.form, self.options.ajax.loadingClass);
             self.options.ajax.after();
-            resetForm(self);
+            self.options.resetFormAfterAjax && self.form.reset();
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
-        var resetForm = __webpack_require__(2);
-        var serialize = __webpack_require__(7);
+        var serialize = __webpack_require__(6);
         module.exports = function(self) {
             var method = self.options.ajax.method;
             var url = self.options.ajax.url;
@@ -1053,7 +1047,7 @@
                 helper.removeClass(self.form, self.options.ajax.loadingClass);
                 self.options.ajax.after();
                 !helper.canUseProgressEvent() && self.options.ajax.progress.call(self.form, 100);
-                resetForm(self);
+                self.options.resetFormAfterAjax && self.form.reset();
             };
             xhr.open(method, url);
             setRequestHeader && xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -1073,8 +1067,7 @@
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
-        var resetForm = __webpack_require__(2);
-        var serialize = __webpack_require__(7);
+        var serialize = __webpack_require__(6);
         module.exports = function(self) {
             var method = self.options.ajax.method;
             var url = self.options.ajax.url;
@@ -1116,7 +1109,7 @@
             helper.removeClass(self.form, self.options.ajax.loadingClass);
             self.options.ajax.after();
             self.options.ajax.progress.call(self.form, 100);
-            resetForm(self);
+            self.options.resetFormAfterAjax && self.form.reset();
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
@@ -1165,7 +1158,7 @@
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
-        var createValidateObject = __webpack_require__(19);
+        var createValidateObject = __webpack_require__(18);
         module.exports = function(inputsGroupedByName) {
             helper.forEach(inputsGroupedByName, function(inputsGroup, key) {
                 inputsGroupedByName[key] = createValidateObject(inputsGroup);
@@ -1193,48 +1186,48 @@
                 helper.forEach(this, fn);
             },
             contains: function(seed) {
-                return __webpack_require__(20)(this.get().value, seed);
+                return __webpack_require__(19)(this.get().value, seed);
             },
             equals: function(comparison) {
-                return __webpack_require__(21)(this.get().value, comparison);
+                return __webpack_require__(20)(this.get().value, comparison);
             },
             isAlpha: function(locale) {
-                return __webpack_require__(22).default(this.get().value, locale);
+                return __webpack_require__(21).default(this.get().value, locale);
             },
             isAlphanumeric: function(locale) {
-                return __webpack_require__(23).default(this.get().value, locale);
+                return __webpack_require__(22).default(this.get().value, locale);
             },
             isCreditCard: function() {
-                return __webpack_require__(24)(this.get().value);
+                return __webpack_require__(23)(this.get().value);
             },
             isEmail: function(options) {
-                return __webpack_require__(25)(this.get().value, options);
+                return __webpack_require__(24)(this.get().value, options);
             },
             isEmpty: function() {
-                return __webpack_require__(27)(this.get().value, {
+                return __webpack_require__(26)(this.get().value, {
                     ignore_whitespace: true
                 });
             },
             isFloat: function() {
-                return __webpack_require__(28).default(this.get().value);
+                return __webpack_require__(27).default(this.get().value);
             },
             isIn: function(values) {
-                return __webpack_require__(29).default(this.get().value, values);
+                return __webpack_require__(28).default(this.get().value, values);
             },
             isInt: function(options) {
-                return __webpack_require__(30).default(this.get().value, options);
+                return __webpack_require__(29).default(this.get().value, options);
             },
             isMobilePhone: function(options) {
-                return __webpack_require__(31).default(this.get().value, options);
+                return __webpack_require__(30).default(this.get().value, options);
             },
             isNumeric: function(options) {
-                return __webpack_require__(32).default(this.get().value, options);
+                return __webpack_require__(31).default(this.get().value, options);
             },
             isURL: function(options) {
-                return __webpack_require__(33).default(this.get().value, options);
+                return __webpack_require__(32).default(this.get().value, options);
             },
             matches: function(pattern, modifiers) {
-                return __webpack_require__(34).default(this.get().value, pattern, modifiers);
+                return __webpack_require__(33).default(this.get().value, pattern, modifiers);
             }
         };
         _defineProperties(prototype);
@@ -1262,7 +1255,7 @@
         });
         exports.default = contains;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(9));
+        var _toString = _interopRequireDefault(__webpack_require__(8));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1300,7 +1293,7 @@
         exports.default = isAlpha;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(6);
+        var _alpha = __webpack_require__(5);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1324,7 +1317,7 @@
         exports.default = isAlphanumeric;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(6);
+        var _alpha = __webpack_require__(5);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1389,10 +1382,10 @@
         });
         exports.default = isEmail;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _merge = _interopRequireDefault(__webpack_require__(3));
-        var _isByteLength = _interopRequireDefault(__webpack_require__(26));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(10));
-        var _isIP = _interopRequireDefault(__webpack_require__(11));
+        var _merge = _interopRequireDefault(__webpack_require__(2));
+        var _isByteLength = _interopRequireDefault(__webpack_require__(25));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
+        var _isIP = _interopRequireDefault(__webpack_require__(10));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1526,7 +1519,7 @@
         });
         exports.default = isEmpty;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _merge = _interopRequireDefault(__webpack_require__(3));
+        var _merge = _interopRequireDefault(__webpack_require__(2));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1550,7 +1543,7 @@
         exports.default = isFloat;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(6);
+        var _alpha = __webpack_require__(5);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1575,7 +1568,7 @@
         });
         exports.default = isIn;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(9));
+        var _toString = _interopRequireDefault(__webpack_require__(8));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1789,9 +1782,9 @@
         });
         exports.default = isURL;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(10));
-        var _isIP = _interopRequireDefault(__webpack_require__(11));
-        var _merge = _interopRequireDefault(__webpack_require__(3));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
+        var _isIP = _interopRequireDefault(__webpack_require__(10));
+        var _merge = _interopRequireDefault(__webpack_require__(2));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1936,7 +1929,7 @@
             }
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
+        var helper = __webpack_require__(7);
         window.jasmine = window.jasmine || {};
         window.jasmine.isUnitTestingNow = true;
         helper.form.setEventListener("afterInit", function() {
@@ -1959,31 +1952,31 @@
             helper.form.reinit();
         });
         describe("test initialize", function() {
-            __webpack_require__(39)();
+            __webpack_require__(38)();
         });
         describe("test options", function() {
-            __webpack_require__(40)();
+            __webpack_require__(39)();
         });
         describe("test API", function() {
-            __webpack_require__(41)();
+            __webpack_require__(40)();
         });
         describe("test Input API", function() {
-            __webpack_require__(42)();
+            __webpack_require__(41)();
         });
         describe('test API "ajax" - for this need more tests', function() {
-            __webpack_require__(43)();
+            __webpack_require__(42)();
         });
         describe('test API "ajax" "iframePolyfill" option - for this need more tests', function() {
-            __webpack_require__(44)();
+            __webpack_require__(43)();
         });
         describe('test API "ajax" "iframePolyfill", "iframeTimeout", "iframePostMessage" options together - for this need more tests', function() {
-            __webpack_require__(45)();
+            __webpack_require__(44)();
         });
         describe("test serialize", function() {
-            __webpack_require__(46)();
+            __webpack_require__(45)();
         });
     }, function(module, exports, __webpack_require__) {
-        var forEach = __webpack_require__(35);
+        var forEach = __webpack_require__(34);
         var nativeXDomainRequest = window.XDomainRequest;
         var instance = null;
         var fakeXDomainRequest = function() {
@@ -2022,7 +2015,7 @@
             }
         };
     }, function(module, exports, __webpack_require__) {
-        var forEach = __webpack_require__(35);
+        var forEach = __webpack_require__(34);
         var form = module.exports = {
             el: null,
             events: {
@@ -2088,8 +2081,8 @@
             return el;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             it("error test: new Feedback() first argument must be a form element", function() {
                 expect(function() {
@@ -2115,8 +2108,8 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
                 helper.fakeAjax.install();
@@ -2287,8 +2280,8 @@
             }
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             it('must have API "schema", "ajax", "update", "validate", "resetForm", "fireValidateError", "destroy"', function() {
                 var feedback = new Feedback(helper.form.el);
@@ -2453,8 +2446,8 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             it('test "get"', function() {
                 var feedback = new Feedback(helper.form.el);
@@ -2527,8 +2520,8 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
                 helper.fakeAjax.install();
@@ -2634,8 +2627,8 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
                 helper.fakeAjax.install();
@@ -2747,8 +2740,8 @@
             return form.querySelectorAll('input[type="file"]').length > 0;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var Feedback = __webpack_require__(4);
+        var helper = __webpack_require__(7);
+        var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
                 helper.fakeAjax.install();
@@ -2831,9 +2824,9 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(8);
-        var getInputsGroupedByName = __webpack_require__(12);
-        var serialize = __webpack_require__(7);
+        var helper = __webpack_require__(7);
+        var getInputsGroupedByName = __webpack_require__(11);
+        var serialize = __webpack_require__(6);
         module.exports = function() {
             _test(function(form) {
                 form.add.input({

@@ -1,5 +1,4 @@
 var helper = require( 'helper' );
-var resetForm = require( 'resetForm' );
 var serialize = require( 'serialize' );
 
 module.exports = function( self ) {
@@ -53,7 +52,7 @@ module.exports = function( self ) {
         helper.removeClass( self.form, self.options.ajax.loadingClass );
         self.options.ajax.after();
         !helper.canUseProgressEvent() && self.options.ajax.progress.call( self.form, 100 );
-        resetForm( self );
+        self.options.resetFormAfterAjax && self.form.reset();
     };
 
     xhr.open( method, url );

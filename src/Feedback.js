@@ -10,7 +10,7 @@ module.exports = function( form, options ) {
 
     helper.addFeedback2List( self );
 
-    self.version = '0.1.6';
+    self.version = '0.1.7';
     self.form = form;
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
@@ -167,7 +167,7 @@ module.exports.prototype.fireValidateError = function( message, element ) {
 };
 
 module.exports.prototype.resetForm = function() {
-    require( 'resetForm' )( this );
+    this.form.reset();
 
     return this;
 };
