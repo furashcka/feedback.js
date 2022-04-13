@@ -1,53 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Demo - PRELOADER feedback.js</title>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-    <link rel="stylesheet" href="../../css/examples.css">
-    <link rel="stylesheet" href="app.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="../../css/examples.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+
+  <body>
     <form method="post" id="msg-form">
-        <div class="preloader">
-            <div class="preloader__content">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-green-only preloader__white">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
+      <div class="preloader">
+        <div class="preloader__content">
+          <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-green-only preloader__white">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
             </div>
-            <img src="ie9-preloader.gif" alt="" class="preloader__content preloader__content--ie9">
+          </div>
         </div>
 
-        <div class="error"></div>
+        <img
+          src="ie9-preloader.gif"
+          alt=""
+          class="preloader__content preloader__content--ie9"
+        />
+      </div>
 
-        <div class="file-field input-field">
-            <div class="btn">
-                <span>File</span>
-                <label for="avatar"></label>
-                <input type="file" name="avatar" id="avatar">
-            </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload your avatar (.jpeg, .png)">
-            </div>
+      <div class="error"></div>
+
+      <div class="file-field input-field">
+        <div class="btn">
+          <span>File</span>
+          <label for="avatar"></label>
+          <input type="file" name="avatar" id="avatar" />
         </div>
 
-        <button class="waves-effect waves-light btn-small">Submit</button>
+        <div class="file-path-wrapper">
+          <input
+            class="file-path validate"
+            type="text"
+            placeholder="Upload your avatar (.jpeg, .png)"
+          />
+        </div>
+      </div>
+
+      <button class="waves-effect waves-light btn-small">Submit</button>
     </form>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="../../../dist/feedback.js"></script>
     <script src="../../js/examples.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
