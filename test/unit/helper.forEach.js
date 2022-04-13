@@ -1,6 +1,6 @@
 module.exports = function( obj, fn ) {
     var keys = Object.keys( obj );
-    var len = 'length' in obj ? obj.length : keys.length;
+    var len = keys.length;
 
     for( var i = 0; i < len; i++ ) {
         var key = keys[ i ];
