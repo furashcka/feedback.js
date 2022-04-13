@@ -274,7 +274,7 @@ var feedback = new Feedback(el, opts);
 var feedback = new Feedback(el, {
   schema: {
     email: function() {
-      if(!this.isEmail()) return "Email is not correct!";
+      if (!this.isEmail()) return "Email is not correct!";
     }
   }
 });
@@ -284,12 +284,12 @@ var feedback = new Feedback(el, {
   schema: {
     "step-0": {
       name: function() {
-        if(!this.isEmpty()) return "Please, enter your name.";
+        if (!this.isEmpty()) return "Please, enter your name.";
       }
     },
     "step-1": {
       email: function() {
-        if(!this.isEmail()) return "Email is not correct!";
+        if (!this.isEmail()) return "Email is not correct!";
       }
     }
   }
@@ -300,20 +300,20 @@ var feedback = new Feedback(el, {
 var feedback = new Feedback(el);
 feedback.schema({
   email: function() {
-    if(!this.isEmail()) return "Email is not correct!";
+    if (!this.isEmail()) return "Email is not correct!";
   }
 });
 
 // with steps
 feedback.schema("step-0", {
   name: function() {
-    if(!this.isEmpty()) return "Please, enter your name.";
+    if (!this.isEmpty()) return "Please, enter your name.";
   }
 });
 
 feedback.schema("step-1", {
   email: function() {
-    if(!this.isEmail()) return "Email is not correct!";
+    if (!this.isEmail()) return "Email is not correct!";
   }
 });
                     </code></pre>
@@ -651,16 +651,16 @@ feedback.validate({
         <pre><code class="language-javascript">
 // you can do:
 feedback
-  .schema(/* ... */)
-  .validate(/* ... */)
-  .ajax(/* ... */)
+  .schema( /* ... */ )
+  .validate( /* ... */ )
+  .ajax( /* ... */ )
   /* ... other API */;
 
 // or
 
-feedback.schema(/* ... */);
-feedback.validate(/* ... */);
-feedback.ajax(/* ... */);
+feedback.schema( /* ... */ );
+feedback.validate( /* ... */ );
+feedback.ajax( /* ... */ );
             </code></pre>
 
         <ul class="collection with-header">
@@ -723,7 +723,7 @@ feedback.validate({ /* ... */ });
                     </code></pre>
             validating:
             <pre><code class="language-javascript">
-if(feedback.validate() === true) { /* ... */ }
+if (feedback.validate() === true) { /* ... */ }
                     </code></pre>
           </li>
 
