@@ -8,14 +8,10 @@
 
   feedback.schema({
     name: function () {
-      if (this.isEmpty()) {
-        return "Please, write your name.";
-      }
+      if (this.isEmpty()) return "Please, write your name.";
     },
     email: function () {
-      if (!this.isEmail()) {
-        return "Email is not correct!";
-      }
+      if (!this.isEmail()) return "Email is not correct!";
     },
   });
 
