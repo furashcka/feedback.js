@@ -684,10 +684,12 @@ feedback.schema("step-1", { /* ... */ });
           </li>
           <li class="collection-item">
             function for updating
-            <a href="#options-events">options.validationStep</a>; return number
-            or boolean
+            <a href="#options-events">options.validationStep</a>;<br />
+            <b>get</b> return current step;<br />
+            <b>set</b>, <b>next</b>, <b>prev</b> check not to go beyond the
+            array, return boolean
             <pre><code class="language-javascript">
-feedback.step("get"); // return options.validationStep
+feedback.step("get"); // return options.validationStep;
 feedback.step("set", 1); // options.validationStep = 1;
 feedback.step("next"); // options.validationStep++;
 feedback.step("prev"); // options.validationStep--;
