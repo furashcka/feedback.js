@@ -32,14 +32,14 @@ yarn add @furashcka/feedback.js
 # Quick start
 
 ```html
-  <form method="post">
-      <div class="error" style="display: none;"></div>
+<form method="post">
+  <div class="error" style="display: none;"></div>
 
-      <input type="text" name="name" placeholder="Your name" />
-      <input type="text" name="email" placeholder="Your E-mail" />
+  <input type="text" name="name" placeholder="Your name" />
+  <input type="text" name="email" placeholder="Your E-mail" />
 
-      <button">Submit</button>
-    </form>
+  <button>Submit</button>
+</form>
 ```
 
 ```javascript
