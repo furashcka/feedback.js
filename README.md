@@ -4,11 +4,11 @@ feedback.js it's simple library with beautiful API for validation and sending fo
 
 ## Why use feedback.js?
 
-1\. You don't need thinking about browser supporting, supports ie9+
-2\. You can sending data with files, if browser not supports FormData feedback.js sends form to iframe
-3\. Very simple API
-4\. Convenient validation
-5\. Your code becomes more understandable and takes up less space
+1\. You don't need thinking about browser supporting, supports ie9+\
+2\. You can sending data with files, if browser not supports FormData feedback.js sends form to iframe\
+3\. Very simple API\
+4\. Convenient validation\
+5\. Your code becomes more understandable and takes up less space\
 6\. Without dependencies
 
 # Installation
@@ -106,40 +106,40 @@ var feedback = new Feedback(el, opts);
 
 ## focusIncorrectInput
 
-**true**: set focus in incorrect input
+**true**: set focus in incorrect input\
 **false**: nothing happens
 
-Type: boolean
+Type: boolean\
 Default: true
 
 ## fireSchemaByTurn
 
-**true**: if you want to show the first error found and stop validating
+**true**: if you want to show the first error found and stop validating\
 **false**: if you want to show all errors at once
 
-Type: boolean
+Type: boolean\
 Default: true
 
 ## fireValidateAndAjaxWhenSubmit
 
-**true**: when form sending, checks all errors and send form by AJAX
+**true**: when form sending, checks all errors and send form by AJAX\
 **false**: nothing happens, form send by default
 
-Type: boolean
+Type: boolean\
 Default: true
 
 ## resetFormAfterAjax
 
-**true**: calls form.reset(); after successful send
+**true**: calls form.reset(); after successful send\
 **false**: nothing happens
 
-Type: boolean
+Type: boolean\
 Default: true
 
 ## schema
 
-{key: value} - object with all logics for validations inputs, key it's name attribute **<input name="email">** or other form element, value it's function, calls when fires **[validate](#api-validate)** API.
-Also you can use steps, when need step by step validation.
+{key: value} - object with all logics for validations inputs, key it's name attribute **<input name="email">** or other form element, value it's function, calls when fires **[validate](#api-validate)** API.\
+Also you can use steps, when need step by step validation.\
 When you set step index, you need set "step-{number}"
 
 ```javascript
@@ -192,24 +192,24 @@ feedback.schema("step-1", {
 **Input API**
 **this** - it's array of inputs grouped by name with API from [validator.js](https://github.com/chriso/validator.js) if need validate input without **this** context, call like: **Instance.inputsGroupedByName.inputName.isEmpty()**
 
-**get** - returns input element by index; if index empty returns first element; if index -1 returns last element
-**isAnyChecked** - returns true if any input checked, and return false if any not checked
-**forEach** - method calls a function once for each element in an array inputs
-**equals** - check if the string matches the comparison
-**isAlpha** - check if the string contains only letters (a-zA-Z)
-**isAlphanumeric** - check if the string contains only letters and numbers
-**isCreditCard** - check if the string is a credit card
-**isEmail** - check if the string is an email
-**isEmpty** - check if the string has a length of zero
-**isFloat** - check if the string is a float
-**isIn** - check if the string is in a array of allowed values
-**isInt** - check if the string is an integer
-**isMobilePhone** - check if the string is a mobile phone number
-**isNumeric** - check if the string contains only numbers
-**isURL** - check if the string is an URL
+**get** - returns input element by index; if index empty returns first element; if index -1 returns last element\
+**isAnyChecked** - returns true if any input checked, and return false if any not checked\
+**forEach** - method calls a function once for each element in an array inputs\
+**equals** - check if the string matches the comparison\
+**isAlpha** - check if the string contains only letters (a-zA-Z)\
+**isAlphanumeric** - check if the string contains only letters and numbers\
+**isCreditCard** - check if the string is a credit card\
+**isEmail** - check if the string is an email\
+**isEmpty** - check if the string has a length of zero\
+**isFloat** - check if the string is a float\
+**isIn** - check if the string is in a array of allowed values\
+**isInt** - check if the string is an integer\
+**isMobilePhone** - check if the string is a mobile phone number\
+**isNumeric** - check if the string contains only numbers\
+**isURL** - check if the string is an URL\
 **matches** - check if string matches the pattern
 
 read more about each can be [here](https://github.com/chriso/validator.js)
 
-Type: Object
+Type: Object\
 Default: empty object
