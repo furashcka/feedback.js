@@ -425,7 +425,7 @@ feedback.validate({
     var el = inputsArr[0];
 
     el.insertAdjacentHTML("beforebegin", err);
-    //or with jQuery
+    // or with jQuery
     $(el).before(err);
   },
 });
