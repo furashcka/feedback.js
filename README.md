@@ -268,6 +268,8 @@ Default: **action** attribute from form element or location.href (if empty **act
 
 ## ajax.method
 
+HTTP request method: GET | POST | PUT | PATCH | DELETE
+
 Type: string\
 Default: **method** attribute from form element or 'POST' (if empty **method** attribute)
 
