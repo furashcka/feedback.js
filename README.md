@@ -146,7 +146,7 @@ Default: true
 
 ## schema
 
-{key: value} - object with all logics for validations inputs, key it's name attribute `<input name="email">` or other form element, value it's function, calls when fires **[validate](#api-validate)** API.\
+{key: value} - object with all logics for validations inputs, key it's name attribute `<input name="email">` or other form element, value it's function, calls when fires **[validate](#validate)** API.\
 Also you can use steps, when need step by step validation.\
 When you set step index, you need set "step-{number}"
 
@@ -450,7 +450,7 @@ feedback.ajax(/* ... */);
 
 ## schema
 
-function for updating [options.schema](#options-events)
+function for updating [options.schema](#options-and-events)
 
 ```javascript
 feedback.schema({
@@ -468,7 +468,7 @@ feedback.schema("step-1", {
 
 ## step
 
-function for updating [options.validationStep](#options-events); return number or boolean
+function for updating [options.validationStep](#options-and-events); return number or boolean
 
 ```javascript
 feedback.step("get"); // return options.validationStep
@@ -479,7 +479,7 @@ feedback.step("prev"); // options.validationStep--;
 
 ## ajax
 
-function for updating [options.ajax](#options-events) and sending\
+function for updating [options.ajax](#options-and-events) and sending\
 updating:
 
 ```javascript
@@ -496,7 +496,7 @@ feedback.ajax();
 
 ## validate
 
-function for updating [options.validate](#options-events) and validating; returns boolean\
+function for updating [options.validate](#options-and-events) and validating; returns boolean\
 updating:
 
 ```javascript
@@ -523,7 +523,7 @@ feedback.update();
 
 ## fireValidateError
 
-call [validate.error](#validate-error) event
+call [validate.error](#validateerror) event
 
 ```javascript
 var el = form.querySelector('input[name="email"]');
