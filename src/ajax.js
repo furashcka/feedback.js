@@ -1,4 +1,3 @@
-var consoleObj = require( 'console' );
 var helper = require( 'helper' );
 var ajaxFnList = {
     iframe: require( 'ajax.IframePolyfill' ),
@@ -19,14 +18,17 @@ function _detectAjaxFn( self ) {
     var isNeedUseXDomainRequest = _isNeedUseXDomainRequest( self );
 
     if( self.options.ajax.iframePolyfill === true || isAutoUsePolyfill ) {
-        isAutoUsePolyfill && consoleObj.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
+        if ( isAutoUsePolyfill ) {
+            console.warn( 'You can\'t use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.' );
+        }
+
         return 'iframe';
     }
     if( isNeedUseXDomainRequest ) {
         return 'XDomainRequest';
     }
     if( helper.cantUseFormData() && hasFileType ) {
-        consoleObj.showWarningWhenIgnoringInputWithFileType();
+        console.warn( 'Ignoring inputs with file type, because used XMLHttpRequest 1.0' );
     }
 
     return 'XMLHttpRequest';

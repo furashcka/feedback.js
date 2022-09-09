@@ -1,4 +1,3 @@
-var consoleObj = require( 'console' );
 var helper = require( 'helper' );
 
 module.exports = function( self ) {
@@ -19,7 +18,7 @@ module.exports = function( self ) {
                     responseText = String( innerDoc.body && innerDoc.body.innerHTML );
                 }
                 catch( e ) {
-                    consoleObj.youNeedUsePostMessage();
+                    console.warn( 'You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/' );
 
                     if( helper.isUnitTestingNow() ) {
                         console.error( e );
@@ -88,7 +87,7 @@ window.addEventListener( 'message', function( e ) {
 
     if( isCantReadResponse ) {
         try {
-            consoleObj.youMustReturnTextInPostMessage();
+            throw 'You must return text in post message';
         }
         catch( e ) {
             if( helper.isUnitTestingNow() ) {

@@ -1,10 +1,14 @@
-var consoleObj = require( 'console' );
-var getInputsGroupedByName = require( 'getInputsGroupedByName' );
 var helper = require( 'helper' );
+var inspector = require( 'inspector' );
+var getInputsGroupedByName = require( 'getInputsGroupedByName' );
 
 module.exports = function( form, options ) {
-    consoleObj.firstArgumentMustBeFormElement( form );
-    consoleObj.incorrectSubmitButtonName( form );
+    if (
+      !inspector.checkFirstArgument( form ) ||
+      !inspector.checkSubmitButton( form )
+    ) {
+      return;
+    }
 
     var self = this;
 
