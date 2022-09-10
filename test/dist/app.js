@@ -1,6 +1,6 @@
 /*!
  * license: MIT
- * feedback.js v0.1.7
+ * feedback.js v0.1.8
  * https://f-cka.com/projects/feedback.js/docs/
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -254,15 +254,16 @@
         module.exports = exports.default;
         module.exports.default = exports.default;
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(4);
-        var getInputsGroupedByName = __webpack_require__(11);
         var helper = __webpack_require__(1);
+        var inspector = __webpack_require__(11);
+        var getInputsGroupedByName = __webpack_require__(10);
         module.exports = function(form, options) {
-            consoleObj.firstArgumentMustBeFormElement(form);
-            consoleObj.incorrectSubmitButtonName(form);
+            if (!inspector.checkFirstArgument(form) || !inspector.checkSubmitButton(form)) {
+                return;
+            }
             var self = this;
             helper.addFeedback2List(self);
-            self.version = "0.1.7";
+            self.version = "0.1.8";
             self.form = form;
             self.iframe = null;
             self.inputsGroupedByName = {};
@@ -362,20 +363,20 @@
             }
             return res;
         };
-        module.exports.prototype.ajax = function(ajax) {
-            if (typeof ajax === "undefined") {
-                return __webpack_require__(12).call(this);
+        module.exports.prototype.ajax = function(args) {
+            if (typeof args === "undefined" || helper.isArray(args)) {
+                return __webpack_require__(12).call(this, args);
             }
-            this.options.ajax = helper.extend(this.options.ajax, ajax || {});
+            this.options.ajax = helper.extend(this.options.ajax, args || {});
             this.options.ajax.method = this.options.ajax.method.toUpperCase();
             _updateFormAttributes(this);
             return this;
         };
-        module.exports.prototype.validate = function(validate) {
-            if (typeof validate === "undefined" || helper.isArray(validate)) {
-                return __webpack_require__(16).call(this, validate);
+        module.exports.prototype.validate = function(args) {
+            if (typeof args === "undefined" || helper.isArray(args)) {
+                return __webpack_require__(16).call(this, args);
             }
-            this.options.validate = helper.extend(this.options.validate, validate || {});
+            this.options.validate = helper.extend(this.options.validate, args || {});
             return this;
         };
         module.exports.prototype.update = function() {
@@ -425,32 +426,6 @@
             }
             self.options.schema = schema;
         }
-    }, function(module, exports) {
-        module.exports = {
-            firstArgumentMustBeFormElement: function(el) {
-                if (!el || !el.nodeName || el.nodeName !== "FORM") {
-                    throw "First argument must be a form element!";
-                }
-            },
-            incorrectSubmitButtonName: function(el) {
-                var hasElementWithSubmitName = el.querySelector('[name="submit"]');
-                if (hasElementWithSubmitName) {
-                    throw "Element with attribute name = submit not allowed";
-                }
-            },
-            showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill: function() {
-                console.warn("You can't use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.");
-            },
-            showWarningWhenIgnoringInputWithFileType: function() {
-                console.warn("Ignoring inputs with file type, because used XMLHttpRequest 1.0");
-            },
-            youMustReturnTextInPostMessage: function() {
-                throw "You must return text in post message";
-            },
-            youNeedUsePostMessage: function() {
-                console.warn("You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/");
-            }
-        };
     }, function(module, exports, __webpack_require__) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
@@ -839,32 +814,55 @@
             });
             return groups;
         };
+    }, function(module, exports) {
+        module.exports = {
+            checkFirstArgument: function(el) {
+                if (!el || !el.nodeName || el.nodeName !== "FORM") {
+                    console.error("First argument must be a form element!");
+                    return false;
+                }
+                return true;
+            },
+            checkSubmitButton: function(el) {
+                var hasElementWithSubmitName = el.querySelector('[name="submit"]');
+                if (hasElementWithSubmitName) {
+                    console.error("Element with attribute name = submit not allowed");
+                    return false;
+                }
+                return true;
+            }
+        };
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(4);
         var helper = __webpack_require__(1);
         var ajaxFnList = {
             iframe: __webpack_require__(13),
             XMLHttpRequest: __webpack_require__(14),
             XDomainRequest: __webpack_require__(15)
         };
-        module.exports = function() {
+        module.exports = function(submitInputs) {
             var self = this;
             var ajaxFn = _detectAjaxFn(self);
-            ajaxFnList[ajaxFn](self);
+            if (helper.isArray(submitInputs)) {
+                _ajaxSubmitInputs(self, ajaxFnList[ajaxFn], submitInputs);
+            } else {
+                ajaxFnList[ajaxFn](self);
+            }
         };
         function _detectAjaxFn(self) {
             var hasFileType = _formHasInputWithFileType(self);
             var isAutoUsePolyfill = hasFileType && self.options.ajax.iframePolyfill === "auto" && helper.cantUseFormData();
             var isNeedUseXDomainRequest = _isNeedUseXDomainRequest(self);
             if (self.options.ajax.iframePolyfill === true || isAutoUsePolyfill) {
-                isAutoUsePolyfill && consoleObj.showWarningWhenFormHasInputWithFileTypeAndNeedAjaxPolyfill();
+                if (isAutoUsePolyfill) {
+                    console.warn("You can't use XMLHttpRequest 2.0 because browser not support it. Used polyfill ajax iframe.");
+                }
                 return "iframe";
             }
             if (isNeedUseXDomainRequest) {
                 return "XDomainRequest";
             }
             if (helper.cantUseFormData() && hasFileType) {
-                consoleObj.showWarningWhenIgnoringInputWithFileType();
+                console.warn("Ignoring inputs with file type, because used XMLHttpRequest 1.0");
             }
             return "XMLHttpRequest";
         }
@@ -889,8 +887,20 @@
             a = null;
             return hostname !== location.hostname && typeof xhr.withCredentials === "undefined" && typeof XDomainRequest !== "undefined";
         }
+        function _ajaxSubmitInputs(self, ajaxFn, submitInputs) {
+            var inputs = self.form.querySelectorAll("[name]");
+            helper.forEach(inputs, function(input) {
+                if (submitInputs.indexOf(input.name) !== -1) return;
+                input.disabledCache = input.disabled;
+                input.setAttribute("disabled", "true");
+            });
+            ajaxFn(self);
+            helper.forEach(inputs, function(input) {
+                if (input.disabledCache) return;
+                input.removeAttribute("disabled");
+            });
+        }
     }, function(module, exports, __webpack_require__) {
-        var consoleObj = __webpack_require__(4);
         var helper = __webpack_require__(1);
         module.exports = function(self) {
             helper.addClass(self.form, self.options.ajax.loadingClass);
@@ -905,7 +915,7 @@
                             innerDoc = self.iframe.contentDocument || self.iframe.contentWindow.document;
                             responseText = String(innerDoc.body && innerDoc.body.innerHTML);
                         } catch (e) {
-                            consoleObj.youNeedUsePostMessage();
+                            console.warn("You need use postMessage, read more - https://furashcka.github.io/feedback.js/docs/");
                             if (helper.isUnitTestingNow()) {
                                 console.error(e);
                                 return false;
@@ -959,7 +969,7 @@
             isCantReadResponse = helper.isObject(e.data) || e.data === "[object Object]";
             if (isCantReadResponse) {
                 try {
-                    consoleObj.youMustReturnTextInPostMessage();
+                    throw "You must return text in post message";
                 } catch (e) {
                     if (helper.isUnitTestingNow()) {
                         console.error(e);
@@ -1005,7 +1015,7 @@
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
-        var serialize = __webpack_require__(6);
+        var serialize = __webpack_require__(5);
         module.exports = function(self) {
             var method = self.options.ajax.method;
             var url = self.options.ajax.url;
@@ -1067,7 +1077,7 @@
         }
     }, function(module, exports, __webpack_require__) {
         var helper = __webpack_require__(1);
-        var serialize = __webpack_require__(6);
+        var serialize = __webpack_require__(5);
         module.exports = function(self) {
             var method = self.options.ajax.method;
             var url = self.options.ajax.url;
@@ -1255,7 +1265,7 @@
         });
         exports.default = contains;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(8));
+        var _toString = _interopRequireDefault(__webpack_require__(7));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1293,7 +1303,7 @@
         exports.default = isAlpha;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(5);
+        var _alpha = __webpack_require__(4);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1317,7 +1327,7 @@
         exports.default = isAlphanumeric;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(5);
+        var _alpha = __webpack_require__(4);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1384,8 +1394,8 @@
         var _assertString = _interopRequireDefault(__webpack_require__(0));
         var _merge = _interopRequireDefault(__webpack_require__(2));
         var _isByteLength = _interopRequireDefault(__webpack_require__(25));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
-        var _isIP = _interopRequireDefault(__webpack_require__(10));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(8));
+        var _isIP = _interopRequireDefault(__webpack_require__(9));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1543,7 +1553,7 @@
         exports.default = isFloat;
         exports.locales = void 0;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _alpha = __webpack_require__(5);
+        var _alpha = __webpack_require__(4);
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1568,7 +1578,7 @@
         });
         exports.default = isIn;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _toString = _interopRequireDefault(__webpack_require__(8));
+        var _toString = _interopRequireDefault(__webpack_require__(7));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
                 default: obj
@@ -1782,8 +1792,8 @@
         });
         exports.default = isURL;
         var _assertString = _interopRequireDefault(__webpack_require__(0));
-        var _isFQDN = _interopRequireDefault(__webpack_require__(9));
-        var _isIP = _interopRequireDefault(__webpack_require__(10));
+        var _isFQDN = _interopRequireDefault(__webpack_require__(8));
+        var _isIP = _interopRequireDefault(__webpack_require__(9));
         var _merge = _interopRequireDefault(__webpack_require__(2));
         function _interopRequireDefault(obj) {
             return obj && obj.__esModule ? obj : {
@@ -1929,7 +1939,7 @@
             }
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         window.jasmine = window.jasmine || {};
         window.jasmine.isUnitTestingNow = true;
         helper.form.setEventListener("afterInit", function() {
@@ -2081,24 +2091,34 @@
             return el;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             it("error test: new Feedback() first argument must be a form element", function() {
-                expect(function() {
-                    new Feedback();
-                }).toThrow();
+                var tmp = console.error;
+                var message = "";
+                console.error = function(msg) {
+                    message = msg;
+                };
+                new Feedback();
+                console.error = tmp;
+                expect(message).toEqual("First argument must be a form element!");
             });
             it("error test: new Feedback() element with attribute name = submit not allowed", function() {
+                var tmp = console.error;
+                var message = "";
+                console.error = function(msg) {
+                    message = msg;
+                };
                 helper.form.reinit();
                 helper.form.clear();
                 helper.form.add.input({
                     name: "submit",
                     type: "submit"
                 });
-                expect(function() {
-                    new Feedback(helper.form.el);
-                }).toThrow();
+                new Feedback(helper.form.el);
+                console.error = tmp;
+                expect(message).toEqual("Element with attribute name = submit not allowed");
             });
             it("new Feedback() must return object", function() {
                 var obj = jasmine.any(Object);
@@ -2108,7 +2128,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
@@ -2280,7 +2300,7 @@
             }
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             it('must have API "schema", "ajax", "update", "validate", "resetForm", "fireValidateError", "destroy"', function() {
@@ -2446,7 +2466,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             it('test "get"', function() {
@@ -2520,7 +2540,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
@@ -2528,6 +2548,29 @@
             });
             afterEach(function() {
                 helper.fakeAjax.uninstall();
+            });
+            it("send only one input", function() {
+                var feedback = new Feedback(helper.form.el);
+                helper.form.clear();
+                helper.form.add.input({
+                    name: "login",
+                    value: "f-cka"
+                });
+                helper.form.add.input({
+                    name: "age",
+                    value: "18"
+                });
+                feedback.update();
+                feedback.ajax({
+                    method: "GET",
+                    url: helper.serverURL
+                });
+                feedback.ajax([ "login" ]);
+                helper.fakeAjax.respondWith({
+                    status: 200
+                });
+                expect(helper.fakeAjax.getCurrentInstance().url).toBe(helper.serverURL + "?login=f-cka");
+                feedback = feedback.destroy();
             });
             it('test "loadingClass" option', function() {
                 var feedback = new Feedback(helper.form.el);
@@ -2627,7 +2670,7 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
@@ -2740,7 +2783,7 @@
             return form.querySelectorAll('input[type="file"]').length > 0;
         }
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
+        var helper = __webpack_require__(6);
         var Feedback = __webpack_require__(3);
         module.exports = function() {
             beforeEach(function() {
@@ -2824,9 +2867,9 @@
             });
         };
     }, function(module, exports, __webpack_require__) {
-        var helper = __webpack_require__(7);
-        var getInputsGroupedByName = __webpack_require__(11);
-        var serialize = __webpack_require__(6);
+        var helper = __webpack_require__(6);
+        var getInputsGroupedByName = __webpack_require__(10);
+        var serialize = __webpack_require__(5);
         module.exports = function() {
             _test(function(form) {
                 form.add.input({
