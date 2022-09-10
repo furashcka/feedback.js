@@ -560,3 +560,4 @@ console.log(feedback); // null
 [BASIC](https://f-cka.com/projects/feedback.js/docs/#demos)
 [PRELOADER](https://f-cka.com/projects/feedback.js/docs/#demos)
 [PROGRESS](https://f-cka.com/projects/feedback.js/docs/#demos)
+[STEPS](https://f-cka.com/projects/feedback.js/docs/#demos)

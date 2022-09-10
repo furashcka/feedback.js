@@ -1,0 +1,38 @@
+form {
+  position: relative;
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.error {
+  display: none;
+  color: #f44336;
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.steps {
+  font-size: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.steps__container {
+  transition: all 0.3s;
+}
+
+.steps__container,
+.steps__container > div {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 14px;
+  min-width: 100%;
+}
+
+#recaptcha {
+  margin-bottom: 15px;
+}
