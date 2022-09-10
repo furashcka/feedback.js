@@ -112,7 +112,7 @@
         </p>
         <div class="copied-to-clipboard">copied to clipboard</div>
         <div id="cdn-script">
-          <pre><code class="language-markup">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.7/dist/feedback.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+          <pre><code class="language-markup">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.8/dist/feedback.min.js&quot;&gt;&lt;/script&gt;</code></pre>
         </div>
         <p>Install via NPM</p>
         <pre><code class="language-markup">
@@ -707,9 +707,13 @@ feedback.step("prev"); // options.validationStep--;
             <pre><code class="language-javascript">
 feedback.ajax({ /* ... */ });
                     </code></pre>
-            sending:
+            sending form:
             <pre><code class="language-javascript">
 feedback.ajax();
+                    </code></pre>
+            sending selected inputs:
+            <pre><code class="language-javascript">
+feedback.ajax(["name", "age"]);
                     </code></pre>
           </li>
 

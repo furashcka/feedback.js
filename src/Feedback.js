@@ -14,7 +14,7 @@ module.exports = function( form, options ) {
 
     helper.addFeedback2List( self );
 
-    self.version = '0.1.7';
+    self.version = '0.1.8';
     self.form = form;
     self.iframe = null; //for polifill ajax
     self.inputsGroupedByName = {};
@@ -131,12 +131,12 @@ module.exports.prototype.step = function( controller, step ) {
     return res;
 };
 
-module.exports.prototype.ajax = function( ajax ) {
-    if( typeof ajax === 'undefined' ) {
-        return require( 'ajax' ).call( this );
+module.exports.prototype.ajax = function( args ) {
+    if( typeof args === 'undefined' || helper.isArray( args ) ) {
+        return require( 'ajax' ).call( this, args );
     }
 
-    this.options.ajax = helper.extend( this.options.ajax, ajax || {} );
+    this.options.ajax = helper.extend( this.options.ajax, args || {} );
     this.options.ajax.method = this.options.ajax.method.toUpperCase();
 
     _updateFormAttributes( this );
@@ -144,12 +144,12 @@ module.exports.prototype.ajax = function( ajax ) {
     return this;
 };
 
-module.exports.prototype.validate = function( validate ) {
-    if( typeof validate === 'undefined' || helper.isArray( validate ) ) {
-        return require( 'validate' ).call( this, validate );
+module.exports.prototype.validate = function( args ) {
+    if( typeof args === 'undefined' || helper.isArray( args ) ) {
+        return require( 'validate' ).call( this, args );
     }
 
-    this.options.validate = helper.extend( this.options.validate, validate || {} );
+    this.options.validate = helper.extend( this.options.validate, args || {} );
 
     return this;
 };

@@ -9,6 +9,34 @@ module.exports = function() {
         helper.fakeAjax.uninstall();
     });
 
+    it( 'send only one input', function() {
+        var feedback = new Feedback( helper.form.el );
+
+        helper.form.clear();
+        helper.form.add.input({
+            name: 'login',
+            value: 'f-cka'
+        });
+        helper.form.add.input({
+            name: 'age',
+            value: '18'
+        });
+
+        feedback.update();
+        feedback.ajax({
+            method: 'GET',
+            url: helper.serverURL
+        });
+        feedback.ajax([ 'login' ]);
+        helper.fakeAjax.respondWith({
+            'status': 200
+        });
+
+        expect( helper.fakeAjax.getCurrentInstance().url ).toBe( helper.serverURL + '?login=f-cka' );
+
+        feedback = feedback.destroy();
+    });
+
     it( 'test "loadingClass" option', function() {
         var feedback = new Feedback( helper.form.el );
         var success = jasmine.createSpy( 'success' );

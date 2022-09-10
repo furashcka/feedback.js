@@ -5,11 +5,15 @@ var ajaxFnList = {
     XDomainRequest: require( 'ajax.XDomainRequest' )
 };
 
-module.exports = function() {
+module.exports = function( submitInputs ) {
     var self = this;
     var ajaxFn = _detectAjaxFn( self );
 
-    ajaxFnList[ ajaxFn ]( self );
+    if ( helper.isArray( submitInputs ) ) {
+        _ajaxSubmitInputs( self, ajaxFnList[ ajaxFn ], submitInputs );
+    } else {
+        ajaxFnList[ ajaxFn ]( self );
+    }
 };
 
 function _detectAjaxFn( self ) {
@@ -55,8 +59,28 @@ function _isNeedUseXDomainRequest( self ) {
     var hostname = null;
 
     a.href = self.options.ajax.url;
-    hostname = a.hostname = helper.hostnameFromStr( a.href ); //ie default return empty
+    hostname = a.hostname = helper.hostnameFromStr( a.href ); // ie default return empty
     a = null;
 
     return hostname !== location.hostname && typeof xhr.withCredentials === 'undefined' && typeof XDomainRequest !== 'undefined';
+}
+
+// submit only selected inputs
+function _ajaxSubmitInputs( self, ajaxFn, submitInputs ) {
+    var inputs = self.form.querySelectorAll( '[name]' );
+
+    helper.forEach( inputs, function ( input ) {
+        if ( submitInputs.indexOf( input.name ) !== -1 ) return;
+
+        input.disabledCache = input.disabled;
+        input.setAttribute( 'disabled', 'true' );
+    });
+
+    ajaxFn( self );
+
+    helper.forEach( inputs, function ( input ) {
+        if ( input.disabledCache ) return;
+
+        input.removeAttribute( 'disabled' );
+    });
 }
