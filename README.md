@@ -14,7 +14,7 @@ feedback.js it's simple library with beautiful API for validation and sending fo
 # Installation
 
 ```javascript
-<script src="https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.7/dist/feedback.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.8/dist/feedback.min.js"></script>
 ```
 
 Install via NPM
@@ -490,10 +490,16 @@ feedback.ajax({
 });
 ```
 
-sending:
+sending form:
 
 ```javascript
 feedback.ajax();
+```
+
+sending selected inputs:
+
+```javascript
+feedback.ajax(["name", "age"]);
 ```
 
 ## validate
