@@ -14,7 +14,7 @@ feedback.js it's simple library with beautiful API for validation and sending fo
 # Installation
 
 ```javascript
-<script src="https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.8/dist/feedback.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.9/dist/feedback.min.js"></script>
 ```
 
 Install via NPM
