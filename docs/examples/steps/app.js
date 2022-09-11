@@ -6,9 +6,7 @@
     stepsContainer: $("form .steps__container"),
     recaptcha: $("form #recaptcha"),
   };
-  var feedback = new Feedback($el.form.get(0), {
-    fireValidateAndAjaxWhenSubmit: false,
-  });
+  var feedback = new Feedback($el.form.get(0));
 
   feedback.schema("step-0", {
     name: function () {
@@ -20,6 +18,18 @@
     email: function () {
       if (!this.isEmail()) return "Email is not correct!";
     },
+  });
+
+  feedback.schema("step-2", {
+    "g-recaptcha-response": function () {
+      if (this.isEmpty()) return "Please confirm you are not a robot.";
+    },
+  });
+
+  feedback.step("changed", function (currentStep) {
+    var css = "transform: translate(-" + 100 * currentStep + "%, 0);";
+
+    $el.stepsContainer.attr("style", css);
   });
 
   feedback.validate({
@@ -39,22 +49,23 @@
     },
   });
 
+  // alternative element.focus({ preventScroll: true });
+  $el.form.find("input").on("focus", function () {
+    $el.stepsContainer.parent().scrollLeft(0);
+  });
+
   $el.nextBtn.on("click", function () {
     if (feedback.validate()) {
       feedback.step("next");
     }
-
-    var currentStep = feedback.step("get");
-    var css = "transform: translate(-" + 100 * currentStep + "%, 0);";
-
-    $el.stepsContainer.attr("style", css);
   });
 
   window.onRecaptchaReady = function () {
     grecaptcha.render($el.recaptcha.get(0), {
       sitekey: "6LfRuuohAAAAACHCOrjvQIWosPJQuzxCrA0AeKaU",
       callback: function () {
-        feedback.ajax();
+        // you can also send form after recaptcha validate, without click submit button
+        // feedback.ajax();
       },
     });
 

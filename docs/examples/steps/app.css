@@ -22,6 +22,7 @@ form {
 }
 
 .steps__container {
+  font-size: 0 !important;
   transition: all 0.3s;
 }
 
