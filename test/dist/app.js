@@ -1,6 +1,6 @@
 /*!
  * license: MIT
- * feedback.js v0.1.9
+ * feedback.js v0.1.10
  * https://f-cka.com/projects/feedback.js/docs/
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -263,7 +263,7 @@
             }
             var self = this;
             helper.addFeedback2List(self);
-            self.version = "0.1.9";
+            self.version = "0.1.10";
             self.form = form;
             self.iframe = null;
             self.inputsGroupedByName = {};
