@@ -24,6 +24,7 @@ module.exports = function() {
             step_0: jasmine.createSpy( 'success' ),
             step_1: jasmine.createSpy( 'success' ),
         };
+        var changed = jasmine.createSpy( 'success' );
 
         //test without steps
         feedback.update();
@@ -46,11 +47,13 @@ module.exports = function() {
             }
         });
 
+        feedback.step('changed', changed);
         feedback.step('set', 1);
         feedback.validate();
 
         expect( callback.step_0 ).not.toHaveBeenCalled();
         expect( callback.step_1 ).toHaveBeenCalled();
+        expect( changed ).toHaveBeenCalled();
 
         feedback = feedback.destroy();
     });

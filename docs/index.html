@@ -112,7 +112,7 @@
         </p>
         <div class="copied-to-clipboard">copied to clipboard</div>
         <div id="cdn-script">
-          <pre><code class="language-markup">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.8/dist/feedback.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+          <pre><code class="language-markup">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/furashcka/feedback.js@0.1.9/dist/feedback.min.js&quot;&gt;&lt;/script&gt;</code></pre>
         </div>
         <p>Install via NPM</p>
         <pre><code class="language-markup">
@@ -180,6 +180,7 @@ var opts = {
   resetFormAfterAjax: true,
   schema: {},
   validationStep: 0,
+  validationStepChanged: function() {},
   ajax: {
     loadingClass: "--loading",
     url: el.action || location.href,
@@ -363,6 +364,15 @@ feedback.schema("step-1", {
             <br /><br />
             Type: number<br />
             Default: 0
+          </li>
+
+          <li class="collection-header">
+            <h4>validationStepChanged</h4>
+          </li>
+          <li class="collection-item">
+            calls after <b>validationStep</b> changes <br /><br />
+            Type: function<br />
+            Default: empty function
           </li>
 
           <li class="collection-header">
@@ -675,8 +685,13 @@ feedback.ajax( /* ... */ );
 feedback.schema({ /* ... */ });
 
 // with steps
-feedback.schema("step-0", { /* ... */ });
-feedback.schema("step-1", { /* ... */ });
+feedback.schema("step-0", {
+  /* ... */
+});
+
+feedback.schema("step-1", {
+  /* ... */
+});
                     </code></pre>
           </li>
 
@@ -685,15 +700,17 @@ feedback.schema("step-1", { /* ... */ });
           </li>
           <li class="collection-item">
             function for updating
-            <a href="#options-events">options.validationStep</a>;<br />
+            <a href="#options-events">options.validationStep</a>; and
+            <a href="#options-events">options.validationStepChanged</a>;<br />
             <b>get</b> return current step;<br />
-            <b>set</b>, <b>next</b>, <b>prev</b> check not to go beyond the
-            array, return boolean
+            <b>set</b>, <b>next</b>, <b>prev</b> update current step;<br />
+            <b>changed</b> init change event.<br />
             <pre><code class="language-javascript">
 feedback.step("get"); // return options.validationStep;
 feedback.step("set", 1); // options.validationStep = 1;
 feedback.step("next"); // options.validationStep++;
 feedback.step("prev"); // options.validationStep--;
+feedback.step("changed", function () {}); // options.validationStepChanged = function () {};
                     </code></pre>
           </li>
 

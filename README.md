@@ -80,6 +80,7 @@ var opts = {
   resetFormAfterAjax: true,
   schema: {},
   validationStep: 0,
+  validationStepChanged: function () {},
   ajax: {
     loadingClass: "--loading",
     url: el.action || location.href,
@@ -228,6 +229,13 @@ needs for step by step validation
 
 Type: number\
 Default: 0
+
+## validationStepChanged
+
+calls after **validationStep** changes
+
+Type: function\
+Default: empty function
 
 ## ajax
 
@@ -463,6 +471,7 @@ feedback.schema({
 feedback.schema("step-0", {
   /* ... */
 });
+
 feedback.schema("step-1", {
   /* ... */
 });
@@ -470,13 +479,17 @@ feedback.schema("step-1", {
 
 ## step
 
-function for updating [options.validationStep](#options-and-events); return number or boolean
+function for updating [options.validationStep](#options-and-events); and [options.validationStepChanged](#options-and-events);\
+**get** return current step;\
+**set**, **next**, **prev** update current step;\
+**changed** init change event.
 
 ```javascript
 feedback.step("get"); // return options.validationStep
 feedback.step("set", 1); // options.validationStep = 1;
 feedback.step("next"); // options.validationStep++;
 feedback.step("prev"); // options.validationStep--;
+feedback.step("changed", function () {}); // options.validationStepChanged = function () {};
 ```
 
 ## ajax
