@@ -1,6 +1,6 @@
 /*!
  * license: MIT
- * feedback.js v0.1.8
+ * feedback.js v0.1.9
  * https://f-cka.com/projects/feedback.js/docs/
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -263,7 +263,7 @@
             }
             var self = this;
             helper.addFeedback2List(self);
-            self.version = "0.1.8";
+            self.version = "0.1.9";
             self.form = form;
             self.iframe = null;
             self.inputsGroupedByName = {};
@@ -277,6 +277,7 @@
                 resetFormAfterAjax: true,
                 schema: {},
                 validationStep: 0,
+                validationStepChanged: function() {},
                 ajax: {
                     loadingClass: "--loading",
                     url: form.getAttribute("action") || location.href,
@@ -308,7 +309,8 @@
                     if (self.options.blockSubmitWhenFormSending === true && isLoading) {
                         return false;
                     }
-                    if (self.validate() === true) {
+                    var isValid = _validateSchemaSteps(self);
+                    if (isValid) {
                         self.ajax();
                     }
                 };
@@ -327,19 +329,18 @@
             this.options.schema[stepIndex] = args[argsIndex];
             return this;
         };
-        module.exports.prototype.step = function(controller, step) {
+        module.exports.prototype.step = function(controller, payload) {
             var self = this;
             var res = undefined;
             switch (controller) {
               case "get":
-                res = self.options.validationStep;
-                break;
+                return self.options.validationStep;
 
               case "set":
                 res = false;
-                if (typeof step === "number") {
+                if (typeof payload === "number") {
                     res = true;
-                    self.options.validationStep = step;
+                    self.options.validationStep = payload;
                 }
                 break;
 
@@ -352,14 +353,24 @@
                 res = true;
                 self.options.validationStep--;
                 break;
+
+              case "changed":
+                if (helper.isFunction(payload)) {
+                    self.options.validationStepChanged = payload;
+                }
+                return;
             }
+            var stepsSize = Object.keys(self.options.schema).length - 1;
             if (self.options.validationStep < 0) {
                 res = false;
                 self.options.validationStep = 0;
             }
-            if (self.options.validationStep > self.options.schema.length - 1) {
+            if (self.options.validationStep > stepsSize) {
                 res = false;
-                self.options.validationStep = self.options.schema.length - 1;
+                self.options.validationStep = stepsSize;
+            }
+            if (helper.isFunction(self.options.validationStepChanged)) {
+                self.options.validationStepChanged(self.options.validationStep);
             }
             return res;
         };
@@ -425,6 +436,18 @@
                 }
             }
             self.options.schema = schema;
+        }
+        function _validateSchemaSteps(self) {
+            var stepsSize = Object.keys(self.options.schema).length;
+            var isValid = true;
+            for (var i = 0; i < stepsSize; i++) {
+                if (!self.validate()) {
+                    isValid = false;
+                    break;
+                }
+                self.step("next");
+            }
+            return isValid;
         }
     }, function(module, exports, __webpack_require__) {
         "use strict";
